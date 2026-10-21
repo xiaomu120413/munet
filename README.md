@@ -34,6 +34,8 @@ HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口�
 - ❌ 流量统计：`GET_NETWORK_STATS` 真机实测 `denied`（system_basic），
   普通应用不可用，已放弃。
 - ❌ `/proc/net/tcp` 本机监听表：应用沙箱 `denied`，改走 connect 扫描近似。
+- ✅ **单元测试**：ohosTest（hypium）覆盖 `Subnet` 与 `HistoryExportFormat`，
+  MateBook 实测 6/6 通过。
 
 ## 目录
 
@@ -74,6 +76,14 @@ bash tools/sign-local.sh nettools/entry/build/default/outputs/default/entry-defa
 # 3) 安装 + 启动
 MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r nettools/entry-default-signed.hap
 MSYS_NO_PATHCONV=1 hdc -t <UDID> shell "aa start -a EntryAbility -b com.mu.nettools -m entry"
+
+# 4) 单元测试（ohosTest / hypium）
+./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
+bash tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
+    entry-ohosTest-signed.hap <UDID> com.mu.nettools
+MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-ohosTest-signed.hap
+MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
+    "aa test -b com.mu.nettools -m entry_test -s unittest OpenHarmonyTestRunner -s timeout 60000"
 ```
 
 ## 注意事项（踩过的坑）

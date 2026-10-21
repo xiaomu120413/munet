@@ -254,7 +254,8 @@ IP              状态   端口              主机名
 - VM 构造函数注入 Repository，默认参数创建真实实现：
   `constructor(repo: LocalNetRepository = new LocalNetRepository())`。
 - ohosTest 用 Fake Repository 实例化 VM，断言状态迁移，不需要真机网络；
-  测试命名 `XxxViewModel.test.ets`。
+  测试命名 `XxxViewModel.test.ets`。当前已覆盖纯模块
+  （`Subnet` / `HistoryExportFormat`，6 个用例），VM fake 用例待补。
 - Repository 方法即 mock 边界。
 
 #### 4.1.7 导航与页面装配
@@ -329,7 +330,8 @@ nettools/                          ← thirty/nettools/，嵌套独立 git 仓�
 │   │   ├── napi_init.cpp          # probeTcp / listInterfaces / version（§4.4）
 │   │   └── types/libnettools/     # d.ts + oh-package（ArkTS 类型解析）
 │   ├── module.json5               # 权限：INTERNET + GET_NETWORK_INFO + GET_WIFI_INFO
-│   └── resources/
+│   ├── resources/
+│   └── ohosTest/                  # hypium 单元测试（Subnet / 导出序列化）
 └── hvigor 配置
 ```
 
@@ -685,6 +687,18 @@ CREATE TABLE discovered_host (
      （可选 `--ps netprobe.sweep.ports 80,443`）
    - 历史查询：`aa start ... --ps netprobe.history 1`
    - 读取：`hilog -x | grep 'headless'`（tag `NetTools`）
+7. **单元测试（ohosTest / hypium）**：
+
+   ```bash
+   ./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
+   bash tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
+       entry-ohosTest-signed.hap <UDID> com.mu.nettools
+   hdc -t <UDID> install -r entry-ohosTest-signed.hap
+   hdc -t <UDID> shell "aa test -b com.mu.nettools -m entry_test \
+       -s unittest OpenHarmonyTestRunner -s timeout 60000"
+   ```
+
+   结果看 `OHOS_REPORT_RESULT: Tests run: N, Failure: 0, Error: 0`。
 4. **验证（优先 MCP，比手搓 hdc 快）**：
    - `build_app` / `install_app` / `run_app` / `screenshot` / `get_ui_tree` /
      `click` / `swipe` / `input_text` / `logs_query`。
