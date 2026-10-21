@@ -60,10 +60,17 @@ async function doInitialize(context: common.Context): Promise<void> {
 }
 
 export async function initialize(context: common.Context): Promise<void> {
+  if (store !== undefined) {
+    return;
+  }
   if (initPromise !== undefined) {
     return initPromise;
   }
-  initPromise = doInitialize(context);
+  initPromise = doInitialize(context).catch((err: Error) => {
+    // Allow a later call to retry after a transient failure.
+    initPromise = undefined;
+    throw err;
+  });
   return initPromise;
 }
 

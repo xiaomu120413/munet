@@ -1,3 +1,4 @@
+import { hilog } from '@kit.PerformanceAnalysisKit';
 import { ScanKind, ScanStatus } from '../model/HistoryInfo';
 import { PingRecord, PingStats, PortResult } from '../model/ScanInfo';
 import { HistoryRepository } from '../repository/HistoryRepository';
@@ -137,7 +138,8 @@ export class PingViewModel {
           target: host,
           status: status,
           summary: summary
-        }).catch(() => {
+        }).catch((err: Error) => {
+          hilog.error(0x0000, 'NetTools', 'ping history write failed: %{public}s', err.message);
         });
       }
     }

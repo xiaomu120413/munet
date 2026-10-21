@@ -1,4 +1,5 @@
 import { common } from '@kit.AbilityKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 import { ScanKind, ScanStatus } from '../model/HistoryInfo';
 import { HostResult } from '../model/ScanInfo';
 import { DiscoveryRepository } from '../repository/DiscoveryRepository';
@@ -134,9 +135,13 @@ export class LanDiscoveryViewModel {
         target: cidr,
         status: status,
         summary: summary
-      }).catch(() => {
+      }).catch((err: Error) => {
+        hilog.error(0x0000, 'NetTools', 'discovery history write failed: %{public}s',
+          err.message);
       });
-      this.historyRepo.upsertHosts(online, this.names).catch(() => {
+      this.historyRepo.upsertHosts(online, this.names).catch((err: Error) => {
+        hilog.error(0x0000, 'NetTools', 'host archive upsert failed: %{public}s',
+          err.message);
       });
     } catch (err) {
       if (context !== undefined) {
