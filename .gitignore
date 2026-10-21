@@ -1,0 +1,15 @@
+# NetTools build outputs and IDE state
+/build
+/.hvigor
+/.idea
+/.cxx
+/oh_modules
+/entry/build
+/entry/.preview
+/entry/oh_modules
+*.hap
+local.properties
+
+# Verification screenshots
+/shots/
+/entry/.cxx

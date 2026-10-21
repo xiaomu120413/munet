@@ -1,0 +1,2 @@
+# Obfuscation rules (release builds). Disabled for now; keep the file so the
+# build profile stays valid when obfuscation is enabled later.
