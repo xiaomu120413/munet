@@ -14,7 +14,7 @@ export struct HistoryView {
   onRescan: (kind: ScanKind, target: string) => void = () => {
   };
 
-  @State vm: HistoryViewModel = new HistoryViewModel();
+  @ObjectLink vm: HistoryViewModel;
 
   aboutToAppear(): void {
     this.vm.load();

@@ -14,7 +14,7 @@ export struct LanDiscoveryView {
   /** CIDR injected by the shell when re-scanning from history. */
   pendingCidr: string = '';
 
-  @State vm: LanDiscoveryViewModel = new LanDiscoveryViewModel();
+  @ObjectLink vm: LanDiscoveryViewModel;
 
   aboutToAppear(): void {
     this.vm.setContext(getContext(this) as common.Context);

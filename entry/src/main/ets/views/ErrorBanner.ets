@@ -1,28 +1,17 @@
-/**
- * Inline error banner shared by all pages: renders a message with a dismiss
- * action. The caller decides visibility (render only when a message is set).
- */
+import { UiTheme } from './UiTheme';
+
 @Component
 export struct ErrorBanner {
-  message: string = '';
-  onClose: () => void = () => {
-  };
+  @Prop message: string = '';
+  onClose: () => void = () => {};
 
   build() {
-    Row() {
-      Text(this.message).fontSize(13).fontColor('#B3261E')
-      Blank()
-      Text('✕')
-        .fontSize(13)
-        .fontColor('#B3261E')
-        .onClick(() => {
-          this.onClose();
-        })
-    }
-    .width('100%')
-    .padding({ left: 12, right: 12, top: 8, bottom: 8 })
-    .backgroundColor('#FCEEEE')
-    .borderRadius(8)
-    .margin({ left: 20, right: 20, top: 8 })
+    Row({ space: 8 }) {
+      Text(this.message).fontSize(14).fontColor(UiTheme.danger).layoutWeight(1)
+      Button('关闭', { type: ButtonType.Normal, stateEffect: true })
+        .fontSize(14).fontColor(UiTheme.danger).backgroundColor(Color.Transparent)
+        .constraintSize({ minWidth: 44, minHeight: 44 }).borderRadius(22)
+        .accessibilityText('关闭错误提示').onClick(() => { this.onClose(); })
+    }.width('100%').padding({ left: 16, right: 8 }).backgroundColor(UiTheme.errorSurface)
   }
 }

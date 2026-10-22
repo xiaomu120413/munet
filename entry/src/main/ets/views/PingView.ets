@@ -11,7 +11,7 @@ export struct PingView {
   /** Target injected by the shell when re-scanning from history. */
   pendingTarget: string = '';
 
-  @State vm: PingViewModel = new PingViewModel();
+  @ObjectLink vm: PingViewModel;
 
   aboutToAppear(): void {
     if (this.pendingTarget.length > 0) {

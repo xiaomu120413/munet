@@ -13,7 +13,7 @@ export struct PortScanView {
   /** Target injected by the shell when re-scanning from history. */
   pendingTarget: string = '';
 
-  @State vm: PortScanViewModel = new PortScanViewModel();
+  @ObjectLink vm: PortScanViewModel;
 
   aboutToAppear(): void {
     if (this.pendingTarget === '本机') {

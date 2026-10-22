@@ -1,0 +1,44 @@
+{
+  "color": [
+    {
+      "name": "ui_background",
+      "value": "#111418"
+    },
+    {
+      "name": "ui_surface",
+      "value": "#1C2026"
+    },
+    {
+      "name": "ui_text",
+      "value": "#EDF0F5"
+    },
+    {
+      "name": "ui_secondary",
+      "value": "#B5BFCD"
+    },
+    {
+      "name": "ui_accent",
+      "value": "#88B4FF"
+    },
+    {
+      "name": "ui_selected",
+      "value": "#233752"
+    },
+    {
+      "name": "ui_divider",
+      "value": "#39414D"
+    },
+    {
+      "name": "ui_success",
+      "value": "#89D69A"
+    },
+    {
+      "name": "ui_danger",
+      "value": "#FFAAA4"
+    },
+    {
+      "name": "ui_error_surface",
+      "value": "#452B2E"
+    }
+  ]
+}

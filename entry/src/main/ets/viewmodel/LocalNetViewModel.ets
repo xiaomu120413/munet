@@ -11,6 +11,8 @@ import { LocalNetRepository } from '../repository/LocalNetRepository';
 @Observed
 export class LocalNetViewModel {
   isLoading: boolean = true;
+  hasLoaded: boolean = false;
+  private refreshing: boolean = false;
   nics: NicInfo[] = [];
   wifi: WifiInfo | null = null;
   ifaces: IfaceInfo[] = [];
@@ -31,6 +33,8 @@ export class LocalNetViewModel {
   }
 
   async load(): Promise<void> {
+    if (this.refreshing) { return; }
+    this.refreshing = true;
     this.isLoading = true;
     this.error = '';
     try {
@@ -53,14 +57,18 @@ export class LocalNetViewModel {
         this.statusTitle = bearer + ' · ' + defaultNic.interfaceName;
         this.statusDetail = this.primaryAddress(defaultNic);
         this.statusNote = defaultNic.gateway.length > 0 ? '网关 ' + defaultNic.gateway : '';
-        this.wifi = defaultNic.bearerTypes.includes('Wi-Fi')
-          ? await this.repo.fetchWifiInfo()
-          : null;
+        this.wifi = null;
+        if (defaultNic.bearerTypes.includes('Wi-Fi')) {
+          try { this.wifi = await this.repo.fetchWifiInfo(); }
+          catch (err) { this.error = 'Wi-Fi 信息暂不可用，其他网络信息仍可查看'; }
+        }
       }
     } catch (err) {
       this.error = '读取网络信息失败，请稍后重试';
     }
+    this.hasLoaded = true;
     this.isLoading = false;
+    this.refreshing = false;
   }
 
   dismissError(): void {
