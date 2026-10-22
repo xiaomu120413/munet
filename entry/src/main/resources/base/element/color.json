@@ -43,6 +43,10 @@
     {
       "name": "ui_error_surface",
       "value": "#FFF0F0"
+    },
+    {
+      "name": "ui_on_accent",
+      "value": "#FFFFFF"
     }
   ]
 }

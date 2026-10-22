@@ -83,15 +83,22 @@ export class PingViewModel {
     this.resolvedAddress = '';
     this.resetStats();
 
+    this.isRunning = true;
+    const runId: number = ++this.runId;
+
     try {
-      this.resolvedAddress = this.isIpLiteral(host) ? host : await this.netRepo.resolveAddress(host);
+      const address: string = this.isIpLiteral(host) ? host : await this.netRepo.resolveAddress(host);
+      if (runId !== this.runId || !this.isRunning) { return; }
+      this.resolvedAddress = address;
     } catch (err) {
-      this.error = '无法解析域名，请检查目标或网络';
+      if (runId === this.runId && this.isRunning) {
+        this.error = '无法解析域名，请检查目标或网络';
+        this.isRunning = false;
+      }
       return;
     }
 
-    this.isRunning = true;
-    const runId: number = ++this.runId;
+    if (runId !== this.runId || !this.isRunning) { return; }
     const ports: number[] = this.smartFallback ? FALLBACK_PORTS : [this.selectedPort];
     let seq: number = 0;
 
