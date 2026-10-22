@@ -53,11 +53,13 @@ export struct LanDiscoveryView {
       Scroll() {
         Column({ space: 16 }) {
           Column({ space: 16 }) {
-            Row({ space: 12 }) {
-              Text('网段').fontSize(16).fontColor(UiTheme.text).width(64)
+            Flex({ direction: this.contentWidth < 320 ? FlexDirection.Column : FlexDirection.Row }) {
+              Text('网段').fontSize(16).fontColor(UiTheme.text).width(this.contentWidth < 320 ? '100%' : 76)
+                .margin({ bottom: this.contentWidth < 320 ? 8 : 0 })
               TextInput({ text: this.vm.cidr, placeholder: '192.168.1.0/24' }).fontSize(16).fontColor(UiTheme.text)
                 .id('lan-cidr')
-                .backgroundColor(UiTheme.background).constraintSize({ minHeight: 44 }).layoutWeight(1)
+                .backgroundColor(UiTheme.background).constraintSize({ minHeight: 44 })
+                .flexGrow(this.contentWidth < 320 ? 0 : 1).width(this.contentWidth < 320 ? '100%' : 0).flexBasis(this.contentWidth < 320 ? 'auto' : 0)
                 .enabled(!this.vm.isRunning).accessibilityText('发现网段，CIDR格式')
                 .onChange((value: string) => { this.vm.setCidr(value); }).onSubmit(() => { this.start(); })
             }.width('100%')

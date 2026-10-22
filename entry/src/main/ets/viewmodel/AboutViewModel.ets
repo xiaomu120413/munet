@@ -2,8 +2,7 @@ import BuildProfile from 'BuildProfile';
 import { SystemRepository } from '../repository/SystemRepository';
 
 /**
- * ViewModel for the About view: build/version information, privacy policy
- * placeholder and the usage disclaimer (compliance, see DESIGN §12).
+ * ViewModel for the About view: build/version information and usage disclaimer.
  */
 export class AboutViewModel {
   private readonly systemRepo: SystemRepository;
@@ -22,10 +21,6 @@ export class AboutViewModel {
 
   bundleName(): string {
     return BuildProfile.BUNDLE_NAME;
-  }
-
-  privacyPolicyNote(): string {
-    return '上架版本将在此展示隐私政策链接（由 AGC 隐私托管生成，零数据收集声明）。';
   }
 
   disclaimer(): string {

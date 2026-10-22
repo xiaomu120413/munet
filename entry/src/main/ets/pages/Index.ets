@@ -189,6 +189,8 @@ struct Index {
           }
           Column() { this.Content() }.width('100%').layoutWeight(1)
         }.layoutWeight(1).width(this.sideNavigation() ? 'auto' : '100%')
+          // The system caption buttons remain visible when window decor is hidden.
+          .padding({ top: this.desktop ? 40 : 0 })
       }.width('100%').layoutWeight(1)
       if (this.narrowNavigation()) { this.BottomNav() }
     }.id('app-shell').width('100%').height('100%').backgroundColor(UiTheme.background)

@@ -1,0 +1,229 @@
+> hvigor UP-TO-DATE :entry:default@PreBuild...
+> hvigor Finished :entry:default@CreateModuleInfo... after 1 ms
+> hvigor UP-TO-DATE :entry:default@GenerateMetadata...
+> hvigor Finished :entry:default@ConfigureCmake... after 35 ms
+> hvigor UP-TO-DATE :entry:default@MergeProfile...
+> hvigor UP-TO-DATE :entry:default@CreateBuildProfile...
+> hvigor Finished :entry:default@PreCheckSyscap... after 1 ms
+> hvigor Finished :entry:default@GeneratePkgContextInfo... after 4 ms
+> hvigor UP-TO-DATE :entry:default@GeneratePkgSdkInfo...
+> hvigor Finished :entry:default@ProcessIntegratedHsp... after 1 ms
+> hvigor Finished :entry:default@BuildNativeWithCmake... after 20 ms
+> hvigor UP-TO-DATE :entry:default@MakePackInfo...
+> hvigor Finished :entry:default@SyscapTransform... after 2 ms
+> hvigor UP-TO-DATE :entry:default@ProcessProfile...
+> hvigor UP-TO-DATE :entry:default@ProcessRouterMap...
+> hvigor UP-TO-DATE :entry:default@ProcessShareConfig...
+> hvigor Finished :entry:default@ProcessStartupConfig... after 2 ms
+> hvigor UP-TO-DATE :entry:default@ProcessResource...
+> hvigor UP-TO-DATE :entry:default@GenerateLoaderJson...
+> hvigor UP-TO-DATE :entry:default@CompileResource...
+> hvigor Finished :entry:default@BuildJS... after 4 ms
+> hvigor Finished :entry:default@BuildNativeWithNinja... after 39 ms
+> hvigor UP-TO-DATE :entry:default@ProcessLibs...
+> hvigor UP-TO-DATE :entry:default@DoNativeStrip...
+> hvigor UP-TO-DATE :entry:default@CacheNativeLibs...
+node.exe : > hvigor WARN: WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/e
+ts/services/HistoryExporter.ets:29:28
+所在位置 行:5 字符: 1
++ & 'C:/Program Files/Huawei/DevEco Studio/tools/node/node.exe' 'C:/Pro ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (> hvigor W...orter.ets:29:28:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/services/HistoryExporter.ets
+:32:8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/services/HistoryExporter.ets
+:36:8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:41:63
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:42:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:50:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:51:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:52:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:93:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:94:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:104:5
+8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:108:2
+0
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:110:2
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:110:3
+9
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:111:2
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:111:3
+9
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:112:3
+2
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:112:5
+2
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:113:2
+5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:113:4
+5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:114:3
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:114:5
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:115:2
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:115:4
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:118:1
+3
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:141:5
+9
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:143:1
+4
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:154:1
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:163:1
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:173:5
+8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:176:2
+0
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:177:4
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:177:6
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:189:2
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:189:4
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:190:2
+8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:190:4
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:191:2
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:191:4
+5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:192:2
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:192:4
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:196:1
+3
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:205:1
+3
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:206:1
+3
+> hvigor Finished :entry:default@CompileArkTS... after 859 ms
+> hvigor UP-TO-DATE :entry:default@GeneratePkgModuleJson...
+> hvigor Finished :entry:default@ProcessCompiledResources... after 1 ms
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/net/LocalNetInfo.ets:24:57
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/net/LocalNetInfo.ets:127:54
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/net/LocalNetInfo.ets:128:52
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/views/HistoryView.ets:32:45
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/views/HistoryView.ets:185:10
+ 'onScroll' has been deprecated.
+
+
+> hvigor Finished :entry:default@PackageHap... after 339 ms
+> hvigor Finished :entry:default@PackingCheck... after 3 ms
+> hvigor WARN: Will skip sign 'hos_hap'. No signingConfigs profile is configured in current project.
+             If needed, configure the signingConfigs in C:\Users\mu\Desktop\code\nettools\build-profile.json5.
+> hvigor Finished :entry:default@SignHap... after 1 ms
+> hvigor Finished :entry:default@CollectDebugSymbol... after 1 ms
+> hvigor Finished :entry:assembleHap... after 1 ms
+> hvigor BUILD SUCCESSFUL in 1 s 497 ms
+
+33 tasks in total: 17 executed, 16 up-to-date

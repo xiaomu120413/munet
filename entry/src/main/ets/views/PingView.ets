@@ -13,31 +13,36 @@ export struct PingView {
   private counts: number[] = [1, 4, 10];
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
+  private stacked(): boolean { return this.contentWidth < 320; }
   aboutToDisappear(): void { this.vm.leave(); }
 
   @Builder
   Parameters() {
     Column({ space: 16 }) {
       Text('TCP 连通性探测').fontSize(14).fontColor(UiTheme.secondary).width('100%')
-      Row({ space: 12 }) {
-        Text('目标').fontSize(16).fontColor(UiTheme.text).width(64)
+      Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+        Text('目标').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
+          .margin({ bottom: this.stacked() ? 8 : 0 })
         TextInput({ text: this.vm.target, placeholder: 'IP 或域名' })
           .id('ping-target')
           .fontSize(16).fontColor(UiTheme.text).backgroundColor(UiTheme.background)
-          .constraintSize({ minHeight: 44 }).layoutWeight(1).borderRadius(12)
+          .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
+          .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).borderRadius(12)
           .enabled(!this.vm.isRunning).accessibilityText('探测目标，IP或域名')
           .onChange((value: string) => { this.vm.setTarget(value); })
           .onSubmit(() => { this.vm.start(); })
       }.width('100%')
       Flex({ direction: this.wide() ? FlexDirection.Row : FlexDirection.Column }) {
         Column({ space: 12 }) {
-          Row({ space: 12 }) {
-            Text('端口').fontSize(16).fontColor(UiTheme.text).width(64)
+          Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+            Text('端口').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
+              .margin({ bottom: this.stacked() ? 8 : 0 })
             Select([{ value: '80' }, { value: '443' }, { value: '22' }, { value: '3389' }, { value: '8080' }])
               .value(this.vm.smartFallback ? '自动回退' : String(this.vm.selectedPort))
               .selected(this.ports.indexOf(this.vm.selectedPort)).font({ size: 16 })
               .enabled(!this.vm.isRunning && !this.vm.smartFallback)
-              .constraintSize({ minHeight: 44 }).layoutWeight(1).accessibilityText('探测端口')
+              .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
+              .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).accessibilityText('探测端口')
               .onSelect((index: number) => { this.vm.selectPort(this.ports[index]); })
           }.width('100%')
           Row() {
@@ -52,13 +57,15 @@ export struct PingView {
             .fontSize(14).fontColor(UiTheme.secondary).width('100%')
         }.width(this.wide() ? '50%' : '100%').padding({ right: this.wide() ? 24 : 0, bottom: 16 })
         Column({ space: 12 }) {
-          Row({ space: 12 }) {
-            Text('次数').fontSize(16).fontColor(UiTheme.text).width(64)
+          Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+            Text('次数').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
+              .margin({ bottom: this.stacked() ? 8 : 0 })
             Select([{ value: '1 次' }, { value: '4 次' }, { value: '10 次' }])
               .value(this.vm.continuous ? '持续探测' : this.vm.count + ' 次')
               .selected(this.counts.indexOf(this.vm.count)).font({ size: 16 })
               .enabled(!this.vm.isRunning && !this.vm.continuous)
-              .constraintSize({ minHeight: 44 }).layoutWeight(1).accessibilityText('探测次数')
+              .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
+              .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).accessibilityText('探测次数')
               .onSelect((index: number) => { this.vm.setCount(this.counts[index]); })
           }.width('100%')
           Row() {

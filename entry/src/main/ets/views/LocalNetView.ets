@@ -29,6 +29,13 @@ export struct LocalNetView {
 
   @Builder
   InfoRow(label: string, value: string) {
+    if (this.contentWidth < 320) {
+      Column({ space: 8 }) {
+        Text(label).fontSize(14).fontColor(UiTheme.secondary).width('100%')
+        Text(value).fontSize(16).fontColor(UiTheme.text).width('100%')
+          .wordBreak(WordBreak.BREAK_ALL).copyOption(CopyOptions.LocalDevice)
+      }.width('100%').padding({ top: 10, bottom: 10 })
+    } else {
     Row({ space: 12 }) {
       Text(label).fontSize(14).fontColor(UiTheme.secondary)
         .width(UiTheme.labelWidth(76, this.getUIContext().getHostContext() as common.Context))
@@ -36,17 +43,29 @@ export struct LocalNetView {
         .wordBreak(WordBreak.BREAK_ALL).copyOption(CopyOptions.LocalDevice)
     }.width('100%').constraintSize({ minHeight: 44 }).alignItems(VerticalAlign.Top)
       .padding({ top: 10, bottom: 10 })
+    }
     Divider().color(UiTheme.divider)
   }
 
   @Builder
   AddressRow(addr: LinkAddr) {
+    if (this.contentWidth < 320) {
+      Column({ space: 8 }) {
+        Row() {
+          Text(addr.family === 'v4' ? 'IPv4' : 'IPv6').fontSize(14).fontColor(UiTheme.secondary).layoutWeight(1)
+          UiAction({ label: '复制', onAction: (): void => { this.copy(addr.address); } })
+        }.width('100%')
+        Text(addr.address + '/' + addr.prefixLength).fontSize(16).fontColor(UiTheme.text)
+          .width('100%').wordBreak(WordBreak.BREAK_ALL).copyOption(CopyOptions.LocalDevice)
+      }.width('100%').padding({ top: 8, bottom: 8 })
+    } else {
     Row({ space: 8 }) {
       Text(addr.family === 'v4' ? 'IPv4' : 'IPv6').fontSize(14).fontColor(UiTheme.secondary).width(76)
       Text(addr.address + '/' + addr.prefixLength).fontSize(16).fontColor(UiTheme.text)
         .layoutWeight(1).wordBreak(WordBreak.BREAK_ALL).copyOption(CopyOptions.LocalDevice)
       UiAction({ label: '复制', onAction: (): void => { this.copy(addr.address); } })
     }.width('100%').padding({ top: 8, bottom: 8 }).alignItems(VerticalAlign.Top)
+    }
     Divider().color(UiTheme.divider)
   }
 

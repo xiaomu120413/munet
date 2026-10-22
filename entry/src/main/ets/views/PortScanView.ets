@@ -18,6 +18,7 @@ export struct PortScanView {
   private timeouts: number[] = [800, 1500, 3000];
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
+  private stacked(): boolean { return this.contentWidth < 320; }
   aboutToDisappear(): void { this.vm.leave(); }
   private start(): void {
     if (this.vm.isRunning || this.confirming) { return; }
@@ -32,18 +33,22 @@ export struct PortScanView {
   @Builder
   Settings() {
     Flex({ direction: this.wide() ? FlexDirection.Row : FlexDirection.Column }) {
-      Row({ space: 12 }) {
-        Text('并发').fontSize(16).fontColor(UiTheme.text).width(72)
+      Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+        Text('并发').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 84)
+          .margin({ bottom: this.stacked() ? 8 : 0 })
         Select([{ value: '32' }, { value: '64' }, { value: '128' }, { value: '256' }])
           .selected(this.concurrency.indexOf(this.vm.concurrency)).value(String(this.vm.concurrency))
-          .font({ size: 16 }).layoutWeight(1).constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning)
+          .font({ size: 16 }).flexGrow(this.stacked() ? 0 : 1).width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0)
+          .constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning)
           .accessibilityText('扫描并发数').onSelect((index: number) => { this.vm.setConcurrency(this.concurrency[index]); })
       }.width(this.wide() ? '50%' : '100%').padding({ right: this.wide() ? 24 : 0, bottom: 12 })
-      Row({ space: 12 }) {
-        Text('超时').fontSize(16).fontColor(UiTheme.text).width(72)
+      Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+        Text('超时').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 84)
+          .margin({ bottom: this.stacked() ? 8 : 0 })
         Select([{ value: '800 ms' }, { value: '1500 ms' }, { value: '3000 ms' }])
           .selected(this.timeouts.indexOf(this.vm.timeoutMs)).value(this.vm.timeoutMs + ' ms')
-          .font({ size: 16 }).layoutWeight(1).constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning)
+          .font({ size: 16 }).flexGrow(this.stacked() ? 0 : 1).width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0)
+          .constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning)
           .accessibilityText('扫描超时').onSelect((index: number) => { this.vm.setTimeoutMs(this.timeouts[index]); })
       }.width(this.wide() ? '50%' : '100%')
     }.width('100%')
@@ -52,14 +57,17 @@ export struct PortScanView {
   Parameters() {
     Column({ space: 16 }) {
       Text('TCP connect 扫描').fontSize(14).fontColor(UiTheme.secondary).width('100%')
-      Row({ space: 12 }) {
-        Text('目标').fontSize(16).fontColor(UiTheme.text).width(72)
+      Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+        Text('目标').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 84)
+          .margin({ bottom: this.stacked() ? 8 : 0 })
         if (this.vm.scanLocalHost) {
-          Text('本机地址').fontSize(16).fontColor(UiTheme.secondary).layoutWeight(1)
+          Text('本机地址').fontSize(16).fontColor(UiTheme.secondary).flexGrow(this.stacked() ? 0 : 1)
+            .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0)
         } else {
           TextInput({ text: this.vm.target, placeholder: 'IP 或域名' }).fontSize(16).fontColor(UiTheme.text)
             .id('port-target')
-            .backgroundColor(UiTheme.background).layoutWeight(1).constraintSize({ minHeight: 44 })
+            .backgroundColor(UiTheme.background).flexGrow(this.stacked() ? 0 : 1)
+            .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).constraintSize({ minHeight: 44 })
             .enabled(!this.vm.isRunning).accessibilityText('扫描目标')
             .onChange((value: string) => { this.vm.setTarget(value); }).onSubmit(() => { this.start(); })
         }
@@ -72,13 +80,15 @@ export struct PortScanView {
       }.width('100%').constraintSize({ minHeight: 44 })
       Text('本机模式探测 127.0.0.1、::1 和本机 IPv4 地址，不等同于系统完整监听表。')
         .fontSize(14).fontColor(UiTheme.secondary).width('100%')
-      Row({ space: 12 }) {
+      Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
         Text('端口范围').fontSize(16).fontColor(UiTheme.text)
-          .width(UiTheme.labelWidth(72, this.getUIContext().getHostContext() as common.Context))
+          .width(this.stacked() ? '100%' : UiTheme.labelWidth(72, this.getUIContext().getHostContext() as common.Context) + 12)
+          .margin({ bottom: this.stacked() ? 8 : 0 })
         Select([{ value: '常用' }, { value: 'Web' }, { value: '1–1024' }, { value: '自定义' }])
           .id('port-mode')
           .selected(this.modes.indexOf(this.vm.mode)).value(this.modeLabels[this.modes.indexOf(this.vm.mode)])
-          .font({ size: 16 }).constraintSize({ minHeight: 44 }).layoutWeight(1).enabled(!this.vm.isRunning)
+          .font({ size: 16 }).constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
+          .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).enabled(!this.vm.isRunning)
           .accessibilityText('端口范围').onSelect((index: number) => { this.vm.selectMode(this.modes[index]); })
       }.width('100%')
       if (this.vm.mode === PortScanMode.CUSTOM) {
@@ -90,8 +100,11 @@ export struct PortScanView {
       }
       Text(this.vm.portCount() + ' 个端口').fontSize(14).fontColor(UiTheme.secondary).width('100%')
       if (!this.wide()) {
-        Button((this.expanded ? '收起设置' : '扫描设置') + ' · 并发 ' + this.vm.concurrency + ' · ' + this.vm.timeoutMs + ' ms',
-          { type: ButtonType.Normal, stateEffect: true }).fontSize(14).fontColor(UiTheme.accent)
+        Button({ type: ButtonType.Normal, stateEffect: true }) {
+          Text((this.expanded ? '收起设置' : '扫描设置') + ' · 并发 ' + this.vm.concurrency + ' · ' + this.vm.timeoutMs + ' ms')
+            .fontSize(14).fontColor(UiTheme.accent).textAlign(TextAlign.Center)
+            .width('100%').padding({ left: 12, right: 12, top: 12, bottom: 12 })
+        }
           .width('100%').constraintSize({ minHeight: 44 }).backgroundColor(UiTheme.selected).borderRadius(12)
           .onClick(() => { this.expanded = !this.expanded; })
       }

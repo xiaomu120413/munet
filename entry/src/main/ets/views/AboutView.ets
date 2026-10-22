@@ -37,11 +37,6 @@ export struct AboutView {
             this.Detail('应用标识', this.vm.bundleName())
           }.width('100%')
           Column({ space: 12 }) {
-            Text('隐私说明').fontSize(18).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
-            Text('扫描记录和设备档案保存在本机。扫描记录可导出；两类数据均可在记录页清空。正式隐私政策链接将在上架前补充。')
-              .fontSize(16).fontColor(UiTheme.secondary).lineHeight(25)
-          }.width('100%').alignItems(HorizontalAlign.Start)
-          Column({ space: 12 }) {
             Text('使用说明').fontSize(18).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
             Text(this.vm.disclaimer()).fontSize(16).fontColor(UiTheme.secondary).lineHeight(25)
           }.width('100%').alignItems(HorizontalAlign.Start)
