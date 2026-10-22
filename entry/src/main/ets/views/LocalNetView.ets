@@ -9,6 +9,7 @@ import { ErrorBanner } from './ErrorBanner';
  */
 @Component
 export struct LocalNetView {
+  @State twoColumns: boolean = false;
   @State vm: LocalNetViewModel = new LocalNetViewModel();
 
   aboutToAppear(): void {
@@ -46,7 +47,7 @@ export struct LocalNetView {
           Text(this.vm.statusDetail).fontSize(20).fontWeight(FontWeight.Bold).margin({ top: 4 })
         }
         if (this.vm.statusNote.length > 0) {
-          Text(this.vm.statusNote).fontSize(12).fontColor('#666666').margin({ top: 2 })
+          Text(this.vm.statusNote).fontSize(13).fontColor('#59616B').margin({ top: 2 })
         }
       }
       .alignItems(HorizontalAlign.Start)
@@ -54,8 +55,9 @@ export struct LocalNetView {
     }
     .width('100%')
     .padding(16)
-    .backgroundColor(this.vm.isConnected ? '#F1F8F1' : '#F5F5F5')
-    .borderRadius(12)
+    .backgroundColor(Color.White)
+    .borderRadius(6)
+    .border({ width: 1, color: '#DDE1E6' })
   }
 
   @Builder
@@ -63,16 +65,17 @@ export struct LocalNetView {
     Row() {
       Text(addr.family === 'v4' ? 'v4' : 'v6')
         .fontSize(10)
-        .fontColor('#5B7DB1')
+        .fontColor('#45617E')
         .backgroundColor('#EAF2FC')
         .padding({ left: 5, right: 5, top: 1, bottom: 1 })
         .borderRadius(3)
         .margin({ right: 8 })
       Text(addr.address + '/' + addr.prefixLength).fontSize(15).fontWeight(FontWeight.Medium)
-      Blank()
+        .layoutWeight(1).wordBreak(WordBreak.BREAK_ALL)
       Text('复制')
-        .fontSize(12)
-        .fontColor('#0A59F7')
+        .fontSize(13)
+        .fontColor('#2159A6')
+        .padding({ left: 10, top: 6, bottom: 6 })
         .onClick(() => {
           this.onCopy(addr.address);
         })
@@ -84,8 +87,9 @@ export struct LocalNetView {
   @Builder
   InfoRow(label: string, value: string) {
     Row() {
-      Text(label).fontSize(12).fontColor('#888888').width(72)
-      Text(value).fontSize(13).fontColor('#333333').layoutWeight(1)
+      Text(label).fontSize(13).fontColor('#59616B').width(72)
+      Text(value).fontSize(14).fontColor('#24292F').layoutWeight(1)
+        .wordBreak(WordBreak.BREAK_ALL)
     }
     .width('100%')
     .margin({ top: 6 })
@@ -103,7 +107,7 @@ export struct LocalNetView {
         if (nic.bearerTypes.length > 0) {
           Text(nic.bearerTypes.join(' · '))
             .fontSize(11)
-            .fontColor('#5B7DB1')
+            .fontColor('#45617E')
             .backgroundColor('#EAF2FC')
             .padding({ left: 6, right: 6, top: 2, bottom: 2 })
             .borderRadius(4)
@@ -119,7 +123,6 @@ export struct LocalNetView {
             .margin({ left: 6 })
         }
         Blank()
-        Text('net ' + nic.netId).fontSize(10).fontColor('#AAAAAA')
       }
       .width('100%')
 
@@ -130,7 +133,7 @@ export struct LocalNetView {
       }, (addr: LinkAddr) => addr.address)
 
       if (nic.linkAddresses.length === 0) {
-        Text('无地址').fontSize(13).fontColor('#999999').margin({ top: 4 })
+        Text('无地址').fontSize(13).fontColor('#59616B').margin({ top: 4 })
       }
 
       if (nic.gateway.length > 0) {
@@ -145,7 +148,7 @@ export struct LocalNetView {
       }
       if (nic.ipv4Valid !== undefined || nic.ipv6Valid !== undefined) {
         Row() {
-          Text('协议').fontSize(12).fontColor('#888888').width(72)
+          Text('协议').fontSize(13).fontColor('#59616B').width(72)
           if (nic.ipv4Valid !== undefined) {
             Text('IPv4 ' + (nic.ipv4Valid === true ? '可用' : '不可用'))
               .fontSize(12)
@@ -165,8 +168,8 @@ export struct LocalNetView {
     .width('100%')
     .padding(16)
     .backgroundColor(Color.White)
-    .borderRadius(12)
-    .border({ width: 1, color: '#ECECEC' })
+    .borderRadius(6)
+    .border({ width: 1, color: '#DDE1E6' })
     .margin({ top: 10 })
   }
 
@@ -174,9 +177,10 @@ export struct LocalNetView {
   WifiCard(wifi: WifiInfo) {
     Column() {
       Row() {
-        Text('WiFi 连接').fontSize(16).fontWeight(FontWeight.Medium)
+        Text('Wi-Fi 连接').fontSize(16).fontWeight(FontWeight.Medium)
         Blank()
-        Text(wifi.ssid).fontSize(13).fontColor('#555555')
+        Text(wifi.ssid).fontSize(13).fontColor('#444C56').layoutWeight(1)
+          .textAlign(TextAlign.End).margin({ left: 12 })
       }
       .width('100%')
 
@@ -189,8 +193,8 @@ export struct LocalNetView {
     .width('100%')
     .padding(16)
     .backgroundColor(Color.White)
-    .borderRadius(12)
-    .border({ width: 1, color: '#ECECEC' })
+    .borderRadius(6)
+    .border({ width: 1, color: '#DDE1E6' })
     .margin({ top: 10 })
   }
 
@@ -200,7 +204,6 @@ export struct LocalNetView {
       Row() {
         Text('全部网卡').fontSize(16).fontWeight(FontWeight.Medium)
         Blank()
-        Text('getifaddrs').fontSize(10).fontColor('#AAAAAA')
       }
       .width('100%')
 
@@ -211,17 +214,18 @@ export struct LocalNetView {
           Text(iface.name).fontSize(13).fontWeight(FontWeight.Medium).width(72)
           Text(iface.family === 'v4' ? 'v4' : 'v6')
             .fontSize(10)
-            .fontColor('#5B7DB1')
+            .fontColor('#45617E')
             .backgroundColor('#EAF2FC')
             .padding({ left: 5, right: 5, top: 1, bottom: 1 })
             .borderRadius(3)
             .margin({ right: 8 })
           Text(iface.address + '/' + iface.prefixLength).fontSize(13).layoutWeight(1)
+            .wordBreak(WordBreak.BREAK_ALL)
           if (iface.loopback) {
-            Text('回环').fontSize(10).fontColor('#888888').margin({ left: 6 })
+            Text('回环').fontSize(12).fontColor('#59616B').margin({ left: 6 })
           }
           if (!iface.up) {
-            Text('down').fontSize(10).fontColor('#B3261E').margin({ left: 6 })
+            Text('未启用').fontSize(12).fontColor('#B3261E').margin({ left: 6 })
           }
         }
         .width('100%')
@@ -231,17 +235,34 @@ export struct LocalNetView {
     .width('100%')
     .padding(16)
     .backgroundColor(Color.White)
-    .borderRadius(12)
-    .border({ width: 1, color: '#ECECEC' })
+    .borderRadius(6)
+    .border({ width: 1, color: '#DDE1E6' })
     .margin({ top: 10 })
+  }
+
+  @Builder
+  NetworkCards() {
+    ForEach(this.vm.nics, (nic: NicInfo) => {
+      this.NicCard(nic)
+    }, (nic: NicInfo) => String(nic.netId))
+  }
+
+  @Builder
+  ConnectionCards() {
+    if (this.vm.wifi !== null) {
+      this.WifiCard(this.vm.wifi as WifiInfo)
+    }
+    if (this.vm.ifaces.length > 0) {
+      this.IfaceCard()
+    }
   }
 
   build() {
     Column() {
       Row() {
         Column() {
-          Text('本机网络').fontSize(24).fontWeight(FontWeight.Bold)
-          Text('网卡 · IP · 网关 · DNS').fontSize(12).fontColor('#888888').margin({ top: 2 })
+          Text('本机网络').fontSize(22).fontWeight(FontWeight.Medium)
+          Text('查看当前连接与网络接口').fontSize(13).fontColor('#59616B').margin({ top: 2 })
         }
         .alignItems(HorizontalAlign.Start)
 
@@ -249,7 +270,10 @@ export struct LocalNetView {
 
         Button('刷新')
           .fontSize(13)
-          .height(32)
+          .height(34)
+          .borderRadius(6)
+          .backgroundColor('#EFF2F6')
+          .fontColor('#2159A6')
           .onClick(() => {
           this.onRefresh();
           })
@@ -271,26 +295,35 @@ export struct LocalNetView {
           if (this.vm.isLoading) {
             Column() {
               LoadingProgress().width(36).height(36).color('#0A59F7')
-              Text('正在读取网络信息…').fontSize(12).fontColor('#888888').margin({ top: 8 })
+              Text('正在读取网络信息…').fontSize(13).fontColor('#59616B').margin({ top: 8 })
             }
             .width('100%')
             .padding({ top: 60 })
             .alignItems(HorizontalAlign.Center)
           } else {
             this.StatusCard()
-            ForEach(this.vm.nics, (nic: NicInfo) => {
-              this.NicCard(nic)
-            }, (nic: NicInfo) => String(nic.netId))
-            if (this.vm.wifi !== null) {
-              this.WifiCard(this.vm.wifi as WifiInfo)
-            }
-            if (this.vm.ifaces.length > 0) {
-              this.IfaceCard()
+            if (this.twoColumns && this.vm.nics.length > 0 &&
+              (this.vm.wifi !== null || this.vm.ifaces.length > 0)) {
+              Row({ space: 16 }) {
+                Column() {
+                  this.NetworkCards()
+                }
+                .layoutWeight(1)
+                Column() {
+                  this.ConnectionCards()
+                }
+                .layoutWeight(1)
+              }
+              .width('100%')
+              .alignItems(VerticalAlign.Top)
+            } else {
+              this.NetworkCards()
+              this.ConnectionCards()
             }
             if (this.vm.nics.length === 0) {
               Text('未发现可用网络')
                 .fontSize(13)
-                .fontColor('#999999')
+                .fontColor('#59616B')
                 .margin({ top: 40 })
                 .width('100%')
                 .textAlign(TextAlign.Center)
@@ -307,6 +340,9 @@ export struct LocalNetView {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#FAFAFA')
+    .backgroundColor('#F7F8FA')
+    .onAreaChange((oldArea: Area, newArea: Area) => {
+      this.twoColumns = Number(newArea.width) >= 760;
+    })
   }
 }

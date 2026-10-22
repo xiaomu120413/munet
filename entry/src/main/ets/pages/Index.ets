@@ -5,7 +5,6 @@ import { PortScanView } from '../views/PortScanView';
 import { LanDiscoveryView } from '../views/LanDiscoveryView';
 import { HistoryView } from '../views/HistoryView';
 import { AboutView } from '../views/AboutView';
-import { DebugViewModel } from '../viewmodel/DebugViewModel';
 
 interface NavItem {
   title: string;
@@ -21,12 +20,10 @@ interface NavItem {
 @Component
 struct Index {
   @State current: number = 0;
-  @State selfTest: string = '';
   @State isWide: boolean = true;
   @State pendingKind: ScanKind | undefined = undefined;
   @State pendingTarget: string = '';
 
-  private debugVm: DebugViewModel = new DebugViewModel();
 
   private navItems: NavItem[] = [
     { title: '本机网络', short: '本机', subtitle: 'IP · 网关 · DNS' },
@@ -57,10 +54,10 @@ struct Index {
         Text(this.navItems[index].title)
           .fontSize(15)
           .fontWeight(FontWeight.Medium)
-          .fontColor(this.current === index ? '#FFFFFF' : '#333333')
+          .fontColor(this.current === index ? '#174B8C' : '#333333')
         Text(this.navItems[index].subtitle)
-          .fontSize(11)
-          .fontColor(this.current === index ? '#D6E4FF' : '#888888')
+          .fontSize(12)
+          .fontColor(this.current === index ? '#365D8A' : '#59616B')
           .margin({ top: 2 })
       }
       .alignItems(HorizontalAlign.Start)
@@ -68,7 +65,7 @@ struct Index {
     .width('100%')
     .padding({ left: 16, right: 12, top: 10, bottom: 10 })
     .borderRadius(8)
-    .backgroundColor(this.current === index ? '#0A59F7' : Color.Transparent)
+    .backgroundColor(this.current === index ? '#E6ECF4' : Color.Transparent)
     .margin({ bottom: 4 })
     .onClick(() => {
       this.pendingKind = undefined;
@@ -111,34 +108,13 @@ struct Index {
         .margin({ bottom: 4 })
       Text('网络诊断工具箱')
         .fontSize(12)
-        .fontColor('#888888')
+        .fontColor('#59616B')
         .margin({ bottom: 24 })
       ForEach(this.navItems, (item: NavItem, index: number) => {
         this.NavButton(index)
       }, (item: NavItem) => item.title)
       Blank()
-      if (this.debugVm.isDebug()) {
-        Column() {
-          Text('原生核心 v' + this.debugVm.coreVersion())
-            .fontSize(11)
-            .fontColor('#999999')
-          if (this.selfTest.length > 0) {
-            Text(this.selfTest)
-              .fontSize(10)
-              .fontColor('#666666')
-              .margin({ top: 4 })
-          }
-          Button('原生探测自检')
-            .fontSize(11)
-            .height(28)
-            .margin({ top: 8 })
-            .onClick(() => {
-              this.selfTest = this.debugVm.probeSelfTest();
-            })
-        }
-        .alignItems(HorizontalAlign.Start)
-        .width('100%')
-      }
+
     }
     .width(200)
     .height('100%')

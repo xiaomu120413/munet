@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-22",
+  "status": "design archive; implementation pending",
+  "files": [
+    {
+      "path": "assets/01-local-network.png",
+      "bytes": 1298658,
+      "sha256": "a04a161caefc3007cf21d58787a6ae0f060d1b49f7df6d56c290afd948b5becd"
+    },
+    {
+      "path": "assets/02-ping.png",
+      "bytes": 1343593,
+      "sha256": "d4cb24fd76cde46078c3a064e25682721f8b4c1fc8333af01db9c551336baf33"
+    },
+    {
+      "path": "assets/03-port-scan.png",
+      "bytes": 1386990,
+      "sha256": "bc5ac3a090df3930ce57e1a41228ce036673483bab32458cced6fe5bc0376a74"
+    },
+    {
+      "path": "assets/04-lan.png",
+      "bytes": 1342836,
+      "sha256": "529c853d9958c6fcd86f7f9cb2d275d0c0ea4b9fa9de5076b296e20d602e28f3"
+    },
+    {
+      "path": "assets/05-history.png",
+      "bytes": 1309768,
+      "sha256": "2cfe3d556a6f3992f3b7d2e25144cd15562094b2b1acf83e6edd2b53b592d421"
+    },
+    {
+      "path": "assets/06-device-archive.png",
+      "bytes": 1422430,
+      "sha256": "7b2636114223033eaf543118ab0bc8687b05cd033a026ee25bd411316cf65f55"
+    },
+    {
+      "path": "assets/07-about.png",
+      "bytes": 1452766,
+      "sha256": "589cda732f402dea0a17a0d9cf7d0703c6f87c6074a6f6e57f95464a8aeacc6c"
+    },
+    {
+      "path": "assets/08-tools.png",
+      "bytes": 1217412,
+      "sha256": "30b7b69f2aaedc3b7fff1fed5154750c2dc74a84af4e3e0f82c9e415d81cb970"
+    },
+    {
+      "path": "assets/09-desktop-history.png",
+      "bytes": 1199371,
+      "sha256": "b7103510fd30df06ba08eda5ada1c58af3c2f308cc6d1fd5c7d171f1f7bc0af6"
+    },
+    {
+      "path": "GALLERY.md",
+      "bytes": 1132,
+      "sha256": "5f30b84616aec847f9924f56d9b936bb8b87e6eb6d655de981665722d9aadef8"
+    },
+    {
+      "path": "generation-prompts.json",
+      "bytes": 21418,
+      "sha256": "b749cbf8a9c5fac340a751dc481c2eb0c1f279fc45352af493f8bf58f6411f9e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1994,
+      "sha256": "773cd6532269c29396f9c11c33b4ec56e9a68cd8ff2e2d5646c5956dc02fd867"
+    },
+    {
+      "path": "UI-SPEC.md",
+      "bytes": 18215,
+      "sha256": "905b1a7362cfa6684d411b27c9b073683c88754cd334f4c1053c6133788b8a21"
+    }
+  ],
+  "note": "Manifest excludes itself; PNG files are Image Gen concept boards, not application captures."
+}

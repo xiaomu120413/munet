@@ -1,3 +1,4 @@
+import { DebugViewModel } from '../viewmodel/DebugViewModel';
 import { AboutViewModel } from '../viewmodel/AboutViewModel';
 
 /**
@@ -5,6 +6,9 @@ import { AboutViewModel } from '../viewmodel/AboutViewModel';
  */
 @Component
 export struct AboutView {
+  @State showDiagnostics: boolean = false;
+  @State selfTest: string = '';
+  private debugVm: DebugViewModel = new DebugViewModel();
   @State vm: AboutViewModel = new AboutViewModel();
 
   @Builder
@@ -16,6 +20,35 @@ export struct AboutView {
     .width('100%')
     .margin({ top: 8 })
     .alignItems(VerticalAlign.Top)
+  }
+
+  @Builder
+  Diagnostics() {
+    Column() {
+      Button(this.showDiagnostics ? '收起开发诊断' : '开发诊断')
+        .fontSize(13)
+        .fontColor('#59616B')
+        .backgroundColor(Color.Transparent)
+        .borderRadius(6)
+        .onClick(() => {
+          this.showDiagnostics = !this.showDiagnostics;
+        })
+      if (this.showDiagnostics) {
+        Text('仅用于开发排查').fontSize(13).fontColor('#59616B')
+        Button('运行原生探测自检')
+          .fontSize(13)
+          .margin({ top: 8 })
+          .onClick(() => {
+            this.selfTest = this.debugVm.probeSelfTest();
+          })
+        if (this.selfTest.length > 0) {
+          Text(this.selfTest).fontSize(13).fontColor('#333333').margin({ top: 8 })
+        }
+      }
+    }
+    .alignItems(HorizontalAlign.Start)
+    .width('100%')
+    .margin({ top: 16 })
   }
 
   build() {
@@ -74,6 +107,9 @@ export struct AboutView {
           .borderRadius(12)
           .border({ width: 1, color: '#ECECEC' })
           .margin({ top: 10 })
+          if (this.debugVm.isDebug()) {
+            this.Diagnostics()
+          }
         }
         .width('100%')
         .padding({ left: 20, right: 20, bottom: 24 })

@@ -1,5 +1,7 @@
 # 网络工具箱（NetTools）整体设计
 
+> UI重新设计（2026-10-22）：见[整套UI归档](docs/ui-redesign-2026-10-22/README.md)及[完整UI规范](docs/ui-redesign-2026-10-22/UI-SPEC.md)。新文档在视觉、导航和多端布局方面替代下文旧版§3的设计；其状态为设计稿，尚未据此完成整套代码实现。原架构、平台能力与业务实现说明保留。
+
 > 状态：设计评审稿 v2（2026-10-17）
 > 平台：HarmonyOS NEXT / OpenHarmony 7.0（API 26），PC 优先，手机/平板自适应
 > 架构：**ArkUI（页面/存储/mDNS）+ C++ NAPI 原生核心（探测/扫描，libnettools.so）**
