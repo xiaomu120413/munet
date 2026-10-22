@@ -29,6 +29,7 @@ struct Index {
   @State historyVm: HistoryViewModel = new HistoryViewModel();
   private readonly desktop: boolean = deviceInfo.deviceType === '2in1' || deviceInfo.deviceType === 'pc';
   private confirmingLeave: boolean = false;
+  private desktopScroller: Scroller = new Scroller();
   private navItems: NavItem[] = [
     { title: '本机网络', icon: $r('sys.symbol.worldclock') },
     { title: 'Ping', icon: $r('sys.symbol.waveform_path_ecg_square') },
@@ -140,13 +141,19 @@ struct Index {
 
   @Builder
   TopNav() {
-    Scroll() {
+    Scroll(this.desktopScroller) {
       Row({ space: 4 }) {
         ForEach(this.navItems, (item: NavItem, index: number) => {
           this.NavigationItem(item, index, false)
         }, (item: NavItem) => item.title)
-      }.padding({ left: 16, right: 16, top: 4, bottom: 4 })
-    }.id('desktop-navigation').width('100%').scrollable(ScrollDirection.Horizontal).scrollBar(BarState.Off)
+      }.width('auto').padding({ left: 16, right: 16, top: 4, bottom: 4 })
+    }.id('desktop-navigation').width('100%').scrollable(ScrollDirection.Horizontal).scrollBar(BarState.Auto)
+      .onAxisEvent((event: AxisEvent) => {
+        // A mouse wheel usually emits a vertical axis even over this horizontal bar.
+        if (event.getHorizontalAxisValue() === 0 && event.getVerticalAxisValue() !== 0) {
+          this.desktopScroller.scrollBy(-event.getVerticalAxisValue(), 0);
+        } else { event.propagation(); }
+      })
       .align(Alignment.Start).backgroundColor(UiTheme.surface)
   }
 
