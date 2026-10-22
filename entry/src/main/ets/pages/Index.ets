@@ -119,19 +119,23 @@ struct Index {
     }
     .borderRadius(side ? 24 : 8)
     .backgroundColor(this.current === index ? UiTheme.selected : Color.Transparent)
+    .id('nav-' + index).accessibilitySelected(this.current === index)
     .accessibilityText(item.title + (this.current === index ? '，已选中' : ''))
     .onClick(() => { this.navigate(index); })
   }
 
   @Builder
   SideNav() {
-    Column({ space: 8 }) {
+    Scroll() {
+      Column({ space: 8 }) {
       Text($r('app.string.app_brand')).fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
         .width('100%').padding({ left: 16, top: 16, bottom: 24 })
       ForEach(this.navItems, (item: NavItem, index: number) => {
         this.NavigationItem(item, index, true)
       }, (item: NavItem) => item.title)
-    }.width(192).height('100%').padding({ left: 8, right: 8 }).backgroundColor(UiTheme.background)
+      }.width('100%').padding({ left: 8, right: 8, bottom: 16 })
+    }.id('tablet-navigation').width(192).height('100%').align(Alignment.TopStart)
+      .scrollBar(BarState.Auto).backgroundColor(UiTheme.background)
   }
 
   @Builder
@@ -142,7 +146,7 @@ struct Index {
           this.NavigationItem(item, index, false)
         }, (item: NavItem) => item.title)
       }.padding({ left: 16, right: 16, top: 4, bottom: 4 })
-    }.width('100%').scrollable(ScrollDirection.Horizontal).scrollBar(BarState.Off)
+    }.id('desktop-navigation').width('100%').scrollable(ScrollDirection.Horizontal).scrollBar(BarState.Off)
       .align(Alignment.Start).backgroundColor(UiTheme.surface)
   }
 
@@ -158,10 +162,11 @@ struct Index {
               .fontColor(this.selectedBottom() === index ? UiTheme.accent : UiTheme.secondary)
           }.width('100%').padding({ top: 10, bottom: 10 })
         }.layoutWeight(1).borderRadius(8).backgroundColor(Color.Transparent)
+          .id('bottom-nav-' + index).accessibilitySelected(this.selectedBottom() === index)
           .accessibilityText(item.title + (this.selectedBottom() === index ? '，已选中' : ''))
           .onClick(() => { this.navigate(index === 0 ? 0 : index === 1 ? 6 : index === 2 ? 4 : 5); })
       }, (item: NavItem) => item.title)
-    }.width('100%').backgroundColor(UiTheme.surface)
+    }.id('bottom-navigation').width('100%').backgroundColor(UiTheme.surface)
       .border({ width: { top: 1 }, color: UiTheme.divider })
   }
 
@@ -182,7 +187,7 @@ struct Index {
         }.layoutWeight(1).width(this.sideNavigation() ? 'auto' : '100%')
       }.width('100%').layoutWeight(1)
       if (this.narrowNavigation()) { this.BottomNav() }
-    }.width('100%').height('100%').backgroundColor(UiTheme.background)
+    }.id('app-shell').width('100%').height('100%').backgroundColor(UiTheme.background)
       .onAreaChange((oldArea: Area, newArea: Area) => { this.windowWidth = Number(newArea.width); })
   }
 }

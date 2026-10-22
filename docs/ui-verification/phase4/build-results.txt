@@ -1,0 +1,12 @@
+﻿Debug application build:
+> hvigor [32mFinished :entry:default@CollectDebugSymbol... after 1 ms [39m
+> hvigor [32mFinished :entry:assembleHap... after 1 ms [39m
+> hvigor [32mBUILD SUCCESSFUL in 2 s 126 ms [39m
+
+33 tasks in total: 17 executed, 16 up-to-date
+ohosTest build:
+> hvigor [32mFinished :entry:ohosTest@CollectDebugSymbol... after 1 ms [39m
+> hvigor [32mFinished :entry:assembleHap... after 1 ms [39m
+> hvigor [32mBUILD SUCCESSFUL in 1 s 61 ms [39m
+
+34 tasks in total: 18 executed, 16 up-to-date

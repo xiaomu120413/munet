@@ -30,7 +30,8 @@ export struct LocalNetView {
   @Builder
   InfoRow(label: string, value: string) {
     Row({ space: 12 }) {
-      Text(label).fontSize(14).fontColor(UiTheme.secondary).width(76)
+      Text(label).fontSize(14).fontColor(UiTheme.secondary)
+        .width(UiTheme.labelWidth(76, this.getUIContext().getHostContext() as common.Context))
       Text(value).fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
         .wordBreak(WordBreak.BREAK_ALL).copyOption(CopyOptions.LocalDevice)
     }.width('100%').constraintSize({ minHeight: 44 }).alignItems(VerticalAlign.Top)

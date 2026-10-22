@@ -2,6 +2,10 @@ import { common } from '@kit.AbilityKit';
 
 /** Semantic resources have base/dark variants and follow the system theme. */
 export class UiTheme {
+  static labelWidth(width: number, context: common.Context | undefined): number {
+    const scale: number = (context as common.UIAbilityContext | undefined)?.config.fontSizeScale ?? 1;
+    return width * Math.min(2, Math.max(1, scale));
+  }
   static supportsWide(width: number, context: common.Context | undefined, threshold: number = 768): boolean {
     const scale: number = (context as common.UIAbilityContext | undefined)?.config.fontSizeScale ?? 1;
     return width >= threshold * Math.max(1, scale);

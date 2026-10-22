@@ -22,6 +22,7 @@ export struct PingView {
       Row({ space: 12 }) {
         Text('目标').fontSize(16).fontColor(UiTheme.text).width(64)
         TextInput({ text: this.vm.target, placeholder: 'IP 或域名' })
+          .id('ping-target')
           .fontSize(16).fontColor(UiTheme.text).backgroundColor(UiTheme.background)
           .constraintSize({ minHeight: 44 }).layoutWeight(1).borderRadius(12)
           .enabled(!this.vm.isRunning).accessibilityText('探测目标，IP或域名')
@@ -42,6 +43,7 @@ export struct PingView {
           Row() {
             Text('智能回退').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
             Toggle({ type: ToggleType.Switch, isOn: this.vm.smartFallback }).enabled(!this.vm.isRunning)
+              .id('ping-smart')
               .accessibilityText('智能回退').onChange((value: boolean) => {
                 if (value !== this.vm.smartFallback) { this.vm.toggleSmartFallback(); }
               })
@@ -62,6 +64,7 @@ export struct PingView {
           Row() {
             Text('持续模式').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
             Toggle({ type: ToggleType.Switch, isOn: this.vm.continuous }).enabled(!this.vm.isRunning)
+              .id('ping-continuous')
               .accessibilityText('持续模式').onChange((value: boolean) => {
                 if (value !== this.vm.continuous) { this.vm.toggleContinuous(); }
               })
@@ -69,6 +72,7 @@ export struct PingView {
         }.width(this.wide() ? '50%' : '100%')
       }.width('100%')
       Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始', { type: ButtonType.Capsule, stateEffect: true })
+        .id('ping-start')
         .fontSize(16).constraintSize({ minHeight: 44 }).width(this.wide() ? 144 : '100%')
         .backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
         .fontColor($r('app.color.ui_on_accent'))
@@ -124,6 +128,7 @@ export struct PingView {
               this.vm.stats.lossPercent + '%\n平均 ' + (this.vm.stats.received > 0 ? this.vm.stats.avgMs + ' ms' : '—') +
               '   最小 ' + (this.vm.stats.received > 0 ? this.vm.stats.minMs + ' ms' : '—') +
               '   最大 ' + (this.vm.stats.received > 0 ? this.vm.stats.maxMs + ' ms' : '—'))
+              .id('ping-summary')
               .fontSize(16).fontColor(UiTheme.text).width('100%')
           }
           Column() {
@@ -145,7 +150,7 @@ export struct PingView {
           }.width('100%').padding(16).backgroundColor(UiTheme.surface).borderRadius(12)
         }.width('100%').alignItems(HorizontalAlign.Start)
           .padding({ left: this.inset(), right: this.inset(), bottom: 24 })
-      }.width('100%').layoutWeight(1).align(Alignment.Top).scrollBar(BarState.Auto)
+      }.id('ping-content').width('100%').layoutWeight(1).align(Alignment.Top).scrollBar(BarState.Auto)
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
       .onAreaChange((oldArea: Area, newArea: Area) => { this.contentWidth = Number(newArea.width); })
   }

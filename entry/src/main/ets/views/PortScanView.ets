@@ -58,6 +58,7 @@ export struct PortScanView {
           Text('本机地址').fontSize(16).fontColor(UiTheme.secondary).layoutWeight(1)
         } else {
           TextInput({ text: this.vm.target, placeholder: 'IP 或域名' }).fontSize(16).fontColor(UiTheme.text)
+            .id('port-target')
             .backgroundColor(UiTheme.background).layoutWeight(1).constraintSize({ minHeight: 44 })
             .enabled(!this.vm.isRunning).accessibilityText('扫描目标')
             .onChange((value: string) => { this.vm.setTarget(value); }).onSubmit(() => { this.start(); })
@@ -66,19 +67,23 @@ export struct PortScanView {
       Row() {
         Text('扫描本机').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
         Toggle({ type: ToggleType.Switch, isOn: this.vm.scanLocalHost }).enabled(!this.vm.isRunning)
+          .id('port-local')
           .accessibilityText('扫描本机').onChange((value: boolean) => { this.vm.setScanLocalHost(value); })
       }.width('100%').constraintSize({ minHeight: 44 })
       Text('本机模式探测 127.0.0.1、::1 和本机 IPv4 地址，不等同于系统完整监听表。')
         .fontSize(14).fontColor(UiTheme.secondary).width('100%')
       Row({ space: 12 }) {
-        Text('端口范围').fontSize(16).fontColor(UiTheme.text).width(72)
+        Text('端口范围').fontSize(16).fontColor(UiTheme.text)
+          .width(UiTheme.labelWidth(72, this.getUIContext().getHostContext() as common.Context))
         Select([{ value: '常用' }, { value: 'Web' }, { value: '1–1024' }, { value: '自定义' }])
+          .id('port-mode')
           .selected(this.modes.indexOf(this.vm.mode)).value(this.modeLabels[this.modes.indexOf(this.vm.mode)])
           .font({ size: 16 }).constraintSize({ minHeight: 44 }).layoutWeight(1).enabled(!this.vm.isRunning)
           .accessibilityText('端口范围').onSelect((index: number) => { this.vm.selectMode(this.modes[index]); })
       }.width('100%')
       if (this.vm.mode === PortScanMode.CUSTOM) {
         TextInput({ text: this.vm.customExpr, placeholder: '80,443,1000-2000' }).fontSize(16)
+          .id('port-expression')
           .fontColor(UiTheme.text).backgroundColor(UiTheme.background).width('100%')
           .constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning).accessibilityText('自定义端口表达式')
           .onChange((value: string) => { this.vm.setCustomExpr(value); })
@@ -95,6 +100,7 @@ export struct PortScanView {
         ErrorBanner({ message: this.vm.error, onClose: (): void => { this.vm.dismissError(); } })
       }
       Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始扫描', { stateEffect: true })
+        .id('port-start')
         .fontSize(16).fontColor($r('app.color.ui_on_accent')).constraintSize({ minHeight: 44 })
         .width(this.wide() ? 160 : '100%').backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
         .enabled(!this.vm.isRunning || !this.vm.cancelled)

@@ -94,9 +94,9 @@ export struct HistoryView {
   HostRow(host: DiscoveredHost) {
     Flex({ direction: this.wide() ? FlexDirection.Row : FlexDirection.Column }) {
       Text(host.ip).fontSize(16).fontColor(UiTheme.text).width(this.wide() ? '25%' : '100%').copyOption(CopyOptions.InApp)
-      Text('名称：' + this.vm.hostNameLabel(host)).fontSize(14).fontColor(UiTheme.secondary).width(this.wide() ? '25%' : '100%').margin({ top: this.wide() ? 0 : 8 })
-      Text('开放端口：' + this.vm.hostPortsLabel(host)).fontSize(14).fontColor(UiTheme.secondary).width(this.wide() ? '25%' : '100%').margin({ top: this.wide() ? 0 : 8 })
-      Text('最近发现 ' + this.vm.formatTime(host.lastSeen)).fontSize(14).fontColor(UiTheme.secondary).width(this.wide() ? '25%' : '100%').margin({ top: this.wide() ? 0 : 8 })
+      Text((this.wide() ? '' : '名称：') + this.vm.hostNameLabel(host)).fontSize(14).fontColor(UiTheme.secondary).width(this.wide() ? '25%' : '100%').margin({ top: this.wide() ? 0 : 8 })
+      Text((this.wide() ? '' : '开放端口：') + this.vm.hostPortsLabel(host)).fontSize(14).fontColor(UiTheme.secondary).width(this.wide() ? '25%' : '100%').margin({ top: this.wide() ? 0 : 8 })
+      Text((this.wide() ? '' : '最近发现 ') + this.vm.formatTime(host.lastSeen)).fontSize(14).fontColor(UiTheme.secondary).width(this.wide() ? '25%' : '100%').margin({ top: this.wide() ? 0 : 8 })
     }.width('100%').padding({ top: 20, bottom: 20 })
     Divider().color(UiTheme.divider)
   }
@@ -108,9 +108,11 @@ export struct HistoryView {
         if (this.wide()) {
           if (!this.vm.showHosts) {
             Button('导出全部', { stateEffect: true }).height(44).fontSize(14).fontColor(UiTheme.accent)
+              .id('history-export')
               .backgroundColor(UiTheme.selected).enabled(!this.busy() && this.vm.hasRecords()).bindMenu(this.ExportMenu)
           }
           Button('更多', { stateEffect: true }).height(44).fontSize(14).fontColor(UiTheme.accent)
+            .id('history-more')
             .backgroundColor(UiTheme.selected).enabled(!this.busy()).bindMenu(this.Actions)
         } else {
           UiAction({ label: '更多', actionEnabled: !this.busy(), onAction: () => { this.more(); } })
@@ -118,10 +120,12 @@ export struct HistoryView {
       }.width('100%').padding({ left: 16, right: 16, top: 16, bottom: 16 })
       Row({ space: 8 }) {
         Button('扫描记录', { stateEffect: true }).height(44).fontSize(16)
+          .id('history-scans')
           .backgroundColor(this.vm.showHosts ? UiTheme.surface : UiTheme.selected)
           .fontColor(this.vm.showHosts ? UiTheme.secondary : UiTheme.accent).layoutWeight(1)
           .accessibilitySelected(!this.vm.showHosts).onClick(() => { this.switchView(false); })
         Button('设备档案', { stateEffect: true }).height(44).fontSize(16)
+          .id('history-hosts')
           .backgroundColor(this.vm.showHosts ? UiTheme.selected : UiTheme.surface)
           .fontColor(this.vm.showHosts ? UiTheme.accent : UiTheme.secondary).layoutWeight(1)
           .accessibilitySelected(this.vm.showHosts).onClick(() => { this.switchView(true); })
@@ -129,6 +133,7 @@ export struct HistoryView {
       if (!this.vm.showHosts) {
         Row() {
           Select([{ value: '全部类型' }, { value: 'Ping' }, { value: '端口扫描' }, { value: '局域网' }])
+            .id('history-filter')
             .selected(this.kinds.indexOf(this.vm.filterKind)).value(this.labels[this.kinds.indexOf(this.vm.filterKind)])
             .font({ size: 16 }).constraintSize({ minHeight: 44 }).accessibilityText('筛选记录类型')
             .onSelect((index: number) => { this.vm.selectFilter(this.kinds[index]); this.vm.recordOffset = 0; this.restore(); })

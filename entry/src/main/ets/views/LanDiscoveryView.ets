@@ -56,6 +56,7 @@ export struct LanDiscoveryView {
             Row({ space: 12 }) {
               Text('网段').fontSize(16).fontColor(UiTheme.text).width(64)
               TextInput({ text: this.vm.cidr, placeholder: '192.168.1.0/24' }).fontSize(16).fontColor(UiTheme.text)
+                .id('lan-cidr')
                 .backgroundColor(UiTheme.background).constraintSize({ minHeight: 44 }).layoutWeight(1)
                 .enabled(!this.vm.isRunning).accessibilityText('发现网段，CIDR格式')
                 .onChange((value: string) => { this.vm.setCidr(value); }).onSubmit(() => { this.start(); })
@@ -67,6 +68,7 @@ export struct LanDiscoveryView {
               ErrorBanner({ message: this.vm.error, onClose: (): void => { this.vm.dismissError(); } })
             }
             Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始发现', { stateEffect: true })
+              .id('lan-start')
               .fontSize(16).fontColor($r('app.color.ui_on_accent')).constraintSize({ minHeight: 44 })
               .width(this.wide() ? 160 : '100%').backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
               .enabled(!this.vm.isRunning || !this.vm.cancelled)
