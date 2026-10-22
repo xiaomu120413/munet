@@ -9,6 +9,8 @@ export struct AboutView {
   @Prop title: string = '关于';
   @State diagnostics: boolean = false;
   @State diagnosticResult: string = '';
+  @State contentWidth: number = 0;
+  private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
   private vm: AboutViewModel = new AboutViewModel();
   private debug: DebugViewModel = new DebugViewModel();
   @Builder
@@ -21,7 +23,7 @@ export struct AboutView {
   }
   build() {
     Column() {
-      UiPageHeader({ title: this.title })
+      UiPageHeader({ title: this.title, inset: this.inset() })
       Scroll() {
         Column({ space: 24 }) {
           Row({ space: 16 }) {
@@ -53,8 +55,9 @@ export struct AboutView {
               }
             }.width('100%').alignItems(HorizontalAlign.Start)
           }
-        }.width('100%').constraintSize({ maxWidth: 840 }).padding({ left: 16, right: 16, top: 8, bottom: 32 })
+        }.width('100%').constraintSize({ maxWidth: 840 }).padding({ left: this.inset(), right: this.inset(), top: 8, bottom: 32 })
       }.width('100%').layoutWeight(1).align(Alignment.TopStart)
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
+      .onAreaChange((_old: Area, area: Area) => { this.contentWidth = Number(area.width); })
   }
 }

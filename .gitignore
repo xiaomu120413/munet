@@ -8,6 +8,8 @@
 /entry/.preview
 /entry/oh_modules
 *.hap
+/artifacts/
+__pycache__/
 local.properties
 
 # Verification screenshots

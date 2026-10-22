@@ -9,7 +9,7 @@
       "tablet",
       "phone"
     ],
-    "deliveryWithInstall": false,
+    "deliveryWithInstall": true,
     "installationFree": false,
     "pages": "$profile:main_pages",
     "abilities": [

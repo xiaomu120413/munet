@@ -47,34 +47,51 @@ export struct LanDiscoveryView {
     }
     Divider().color(UiTheme.divider)
   }
+  @Builder
+  CidrField() {
+    Flex({ direction: this.contentWidth < 320 ? FlexDirection.Column : FlexDirection.Row }) {
+      Text('网段').fontSize(16).fontColor(UiTheme.text).width(this.contentWidth < 320 ? '100%' : 76)
+        .margin({ bottom: this.contentWidth < 320 ? 8 : 0 })
+      TextInput({ text: this.vm.cidr, placeholder: '192.168.1.0/24' }).fontSize(16).fontColor(UiTheme.text)
+        .id('lan-cidr')
+        .backgroundColor(UiTheme.background).constraintSize({ minHeight: 44 })
+        .flexGrow(this.contentWidth < 320 ? 0 : 1).width(this.contentWidth < 320 ? '100%' : 0).flexBasis(this.contentWidth < 320 ? 'auto' : 0)
+        .enabled(!this.vm.isRunning).accessibilityText('发现网段，CIDR格式')
+        .onChange((value: string) => { this.vm.setCidr(value); }).onSubmit(() => { this.start(); })
+    }.width('100%')
+  }
+  @Builder
+  StartButton() {
+    Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始发现', { type: ButtonType.Capsule, stateEffect: true })
+      .id('lan-start')
+      .fontSize(16).fontColor($r('app.color.ui_on_accent')).constraintSize({ minHeight: 44 })
+      .width(this.wide() ? 160 : '100%').backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
+      .enabled(!this.vm.isRunning || !this.vm.cancelled)
+      .onClick(() => { if (this.vm.isRunning) { this.vm.stop(); } else { this.start(); } })
+  }
   build() {
     Column() {
       UiPageHeader({ title: '局域网', inset: this.inset() })
       Scroll() {
         Column({ space: 16 }) {
           Column({ space: 16 }) {
-            Flex({ direction: this.contentWidth < 320 ? FlexDirection.Column : FlexDirection.Row }) {
-              Text('网段').fontSize(16).fontColor(UiTheme.text).width(this.contentWidth < 320 ? '100%' : 76)
-                .margin({ bottom: this.contentWidth < 320 ? 8 : 0 })
-              TextInput({ text: this.vm.cidr, placeholder: '192.168.1.0/24' }).fontSize(16).fontColor(UiTheme.text)
-                .id('lan-cidr')
-                .backgroundColor(UiTheme.background).constraintSize({ minHeight: 44 })
-                .flexGrow(this.contentWidth < 320 ? 0 : 1).width(this.contentWidth < 320 ? '100%' : 0).flexBasis(this.contentWidth < 320 ? 'auto' : 0)
-                .enabled(!this.vm.isRunning).accessibilityText('发现网段，CIDR格式')
-                .onChange((value: string) => { this.vm.setCidr(value); }).onSubmit(() => { this.start(); })
-            }.width('100%')
+            if (this.wide()) {
+              Row({ space: 24 }) {
+                Column() {
+                  this.CidrField()
+                }.layoutWeight(1)
+                this.StartButton()
+              }.width('100%')
+            } else {
+              this.CidrField()
+            }
             Text('预计探测 ' + this.vm.hostCount() + ' 台主机').fontSize(14).fontColor(UiTheme.secondary).width('100%')
             Text('输入需要诊断的局域网网段；AP 隔离可能导致部分设备不可见。')
               .fontSize(14).fontColor(UiTheme.secondary).width('100%')
             if (this.vm.error.length > 0) {
               ErrorBanner({ message: this.vm.error, onClose: (): void => { this.vm.dismissError(); } })
             }
-            Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始发现', { stateEffect: true })
-              .id('lan-start')
-              .fontSize(16).fontColor($r('app.color.ui_on_accent')).constraintSize({ minHeight: 44 })
-              .width(this.wide() ? 160 : '100%').backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
-              .enabled(!this.vm.isRunning || !this.vm.cancelled)
-              .onClick(() => { if (this.vm.isRunning) { this.vm.stop(); } else { this.start(); } })
+            if (!this.wide()) { this.StartButton() }
           }.width('100%').alignItems(HorizontalAlign.Start).padding(16).backgroundColor(UiTheme.surface).borderRadius(12)
           if (this.vm.total > 0) {
             UiScanProgress({ done: this.vm.done, total: this.vm.total, running: this.vm.isRunning,

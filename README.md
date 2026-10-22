@@ -37,9 +37,11 @@ HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口�
   普通应用不可用，已放弃。
 - ❌ `/proc/net/tcp` 本机监听表：应用沙箱 `denied`，改走 connect 扫描近似。
 - ✅ **单元测试**：ohosTest（hypium）覆盖 `Subnet` 与 `HistoryExportFormat`，
-  MateBook 实测 6/6 通过。
+  原有记录为6/6；当前完整桌面专项包含14项单元测试与1项综合测试，结果和边界见下方最新验收。
 
 ## 目录
+
+最新UI对照与验证见[阶段8报告](docs/ui-verification/phase8/README.md)，发布候选产物和剩余条件见[发布准备](docs/RELEASE-READINESS.md)。PC采用左侧导航、宽屏横排参数；窄窗与大字号回退单列。关于页隐私说明已按用户要求删除，诊断入口仅Debug可见。文档和候选产物不表示已向应用市场送审。
 
 ```
 nettools/
@@ -66,9 +68,9 @@ nettools/
 export PATH="/c/Program Files/Huawei/DevEco Studio/tools/node:/c/Program Files/Huawei/DevEco Studio/tools/ohpm/bin:$PATH"
 ohpm install --all
 
-# 1) 构建（首次失败过或改过 ets 后必须先清理，见下方注意事项）
+# 1) 构建（显式指定模式，仅在产物异常时清理）
 export DEVECO_SDK_HOME="C:\Program Files\Huawei\DevEco Studio\sdk"
-./hvigorw assembleHap --mode module -p product=default debuggable
+./hvigorw assembleHap --mode module -p product=default -p buildMode=debug
 
 # 2) 签名（每个设备 UDID 单独签一次；脚本与材料在同级 thirty 工作区，不入本仓库）
 bash ../thirty/tools/sign-local.sh entry/build/default/outputs/default/entry-default-unsigned.hap \
@@ -91,8 +93,9 @@ MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
 
 1. **增量打包可能漏掉 `ets/modules.abc`**：首次构建若 CompileArkTS 失败过，
    之后增量打包出的 HAP 可能没有字节码，真机表现为 `JsRuntime: run script
-   failed` / `null jsAbilityObj` / 永久卡启动图。**先 `rm -rf entry/build
-   .hvigor` 再构建**，并用 `unzip -l <hap> | grep modules.abc` 确认。
+   failed` / `null jsAbilityObj` / 永久卡启动图。先核对HAP中存在非空的
+   `ets/modules.abc`，确认路径后再清理本工程构建目录并重建。Release可使用
+   `scripts/check_release.py`核对，不能用旧包的成功构建代替当前源码验证。
 2. **OHM 类型依赖名必须一致**：`entry/oh-package.json5` 里必须是
    `"libnettools.so": "file:./src/main/cpp/types/libnettools"`（key 与类型包
    `name` 一致）；写成 `@types/libnettools.so` 会导致 ArkTS 侧导入退化为

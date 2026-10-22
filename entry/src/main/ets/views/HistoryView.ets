@@ -16,6 +16,7 @@ export struct HistoryView {
   private kinds: (ScanKind | undefined)[] = [undefined, ScanKind.PING, ScanKind.PORT_SCAN, ScanKind.LAN_DISCOVERY];
   private labels: string[] = ['全部类型', 'Ping', '端口扫描', '局域网'];
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
+  private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
   private stackedHeader(): boolean {
     return this.contentWidth < UiTheme.labelWidth(280, this.getUIContext().getHostContext() as common.Context);
   }
@@ -127,17 +128,17 @@ export struct HistoryView {
   @Builder
   HistoryTab(hosts: boolean) {
     if (!hosts) {
-        Button('扫描记录', { stateEffect: true }).height(44).fontSize(16)
+        Button('扫描记录', { type: ButtonType.Capsule, stateEffect: true }).height(44).fontSize(16)
           .id('history-scans')
-          .backgroundColor(this.vm.showHosts ? UiTheme.surface : UiTheme.selected)
-          .fontColor(this.vm.showHosts ? UiTheme.secondary : UiTheme.accent)
+          .backgroundColor(this.vm.showHosts ? UiTheme.surface : UiTheme.accent)
+          .fontColor(this.vm.showHosts ? UiTheme.secondary : $r('app.color.ui_on_accent'))
           .width(this.stackedTabs() ? '100%' : 'auto').layoutWeight(this.stackedTabs() ? 0 : 1)
           .accessibilitySelected(!this.vm.showHosts).onClick(() => { this.switchView(false); })
     } else {
-        Button('设备档案', { stateEffect: true }).height(44).fontSize(16)
+        Button('设备档案', { type: ButtonType.Capsule, stateEffect: true }).height(44).fontSize(16)
           .id('history-hosts')
-          .backgroundColor(this.vm.showHosts ? UiTheme.selected : UiTheme.surface)
-          .fontColor(this.vm.showHosts ? UiTheme.accent : UiTheme.secondary)
+          .backgroundColor(this.vm.showHosts ? UiTheme.accent : UiTheme.surface)
+          .fontColor(this.vm.showHosts ? $r('app.color.ui_on_accent') : UiTheme.secondary)
           .width(this.stackedTabs() ? '100%' : 'auto').layoutWeight(this.stackedTabs() ? 0 : 1)
           .accessibilitySelected(this.vm.showHosts).onClick(() => { this.switchView(true); })
     }
@@ -154,7 +155,7 @@ export struct HistoryView {
             this.HeaderActions()
           }.width('100%')
         }
-      }.width('100%').padding({ left: 16, right: 16, top: 16, bottom: 16 })
+      }.width('100%').padding({ left: this.inset(), right: this.inset(), top: 16, bottom: 16 })
       Column() {
         if (this.stackedTabs()) {
           Column({ space: 8 }) {
@@ -165,9 +166,9 @@ export struct HistoryView {
           Row({ space: 8 }) {
             this.HistoryTab(false)
             this.HistoryTab(true)
-          }.width('100%')
+          }.width('100%').constraintSize({ maxWidth: this.wide() ? 360 : this.contentWidth })
         }
-      }.width('100%').padding({ left: 16, right: 16, bottom: 16 })
+      }.width('100%').alignItems(HorizontalAlign.Start).padding({ left: this.inset(), right: this.inset(), bottom: 16 })
       if (!this.vm.showHosts) {
         Row() {
           Select([{ value: '全部类型' }, { value: 'Ping' }, { value: '端口扫描' }, { value: '局域网' }])
@@ -177,7 +178,7 @@ export struct HistoryView {
             .onSelect((index: number) => { this.vm.selectFilter(this.kinds[index]); this.vm.recordOffset = 0; this.restore(); })
           Blank()
           Text(this.vm.records.length + ' 条').fontSize(14).fontColor(UiTheme.secondary)
-        }.width('100%').padding({ left: 16, right: 16, bottom: 12 })
+        }.width('100%').padding({ left: this.inset(), right: this.inset(), bottom: 12 })
       }
       if (this.vm.error.length > 0) {
         ErrorBanner({ message: this.vm.error, onClose: () => { this.vm.dismissError(); } })
@@ -218,7 +219,7 @@ export struct HistoryView {
             }
             ForEach(this.vm.records, (record: ScanRecord) => { this.ScanRow(record) }, (record: ScanRecord) => String(record.id))
           }
-        }.width('100%').padding({ left: 16, right: 16, bottom: 24 })
+        }.width('100%').padding({ left: this.inset(), right: this.inset(), bottom: 24 })
       }.layoutWeight(1).width('100%').align(Alignment.Top)
         .onScroll(() => {
           if (this.restoring) { return; }

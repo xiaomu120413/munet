@@ -17,74 +17,112 @@ export struct PingView {
   aboutToDisappear(): void { this.vm.leave(); }
 
   @Builder
+  TargetField() {
+    Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+      Text('目标').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
+        .margin({ bottom: this.stacked() ? 8 : 0 })
+      TextInput({ text: this.vm.target, placeholder: 'IP 或域名' })
+        .id('ping-target')
+        .fontSize(16).fontColor(UiTheme.text).backgroundColor(UiTheme.background)
+        .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
+        .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).borderRadius(12)
+        .enabled(!this.vm.isRunning).accessibilityText('探测目标，IP或域名')
+        .onChange((value: string) => { this.vm.setTarget(value); })
+        .onSubmit(() => { this.vm.start(); })
+    }.width('100%')
+  }
+
+  @Builder
+  PortField() {
+    Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+      Text('端口').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
+        .margin({ bottom: this.stacked() ? 8 : 0 })
+      Select([{ value: '80' }, { value: '443' }, { value: '22' }, { value: '3389' }, { value: '8080' }])
+        .value(this.vm.smartFallback ? '自动回退' : String(this.vm.selectedPort))
+        .selected(this.ports.indexOf(this.vm.selectedPort)).font({ size: 16 })
+        .enabled(!this.vm.isRunning && !this.vm.smartFallback)
+        .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
+        .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).accessibilityText('探测端口')
+        .onSelect((index: number) => { this.vm.selectPort(this.ports[index]); })
+    }.width('100%')
+  }
+
+  @Builder
+  SmartField() {
+    Row() {
+      Text('智能回退').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
+      Toggle({ type: ToggleType.Switch, isOn: this.vm.smartFallback }).enabled(!this.vm.isRunning)
+        .id('ping-smart')
+        .accessibilityText('智能回退').onChange((value: boolean) => {
+          if (value !== this.vm.smartFallback) { this.vm.toggleSmartFallback(); }
+        })
+    }.width('100%').constraintSize({ minHeight: 44 })
+    Text('探测 443、80、22、8080、3389，任一可达即成功')
+      .fontSize(14).fontColor(UiTheme.secondary).width('100%')
+  }
+
+  @Builder
+  CountField() {
+    Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+      Text('次数').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
+        .margin({ bottom: this.stacked() ? 8 : 0 })
+      Select([{ value: '1 次' }, { value: '4 次' }, { value: '10 次' }])
+        .value(this.vm.continuous ? '持续探测' : this.vm.count + ' 次')
+        .selected(this.counts.indexOf(this.vm.count)).font({ size: 16 })
+        .enabled(!this.vm.isRunning && !this.vm.continuous)
+        .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
+        .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).accessibilityText('探测次数')
+        .onSelect((index: number) => { this.vm.setCount(this.counts[index]); })
+    }.width('100%')
+  }
+
+  @Builder
+  ContinuousField() {
+    Row() {
+      Text('持续模式').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
+      Toggle({ type: ToggleType.Switch, isOn: this.vm.continuous }).enabled(!this.vm.isRunning)
+        .id('ping-continuous')
+        .accessibilityText('持续模式').onChange((value: boolean) => {
+          if (value !== this.vm.continuous) { this.vm.toggleContinuous(); }
+        })
+    }.width('100%').constraintSize({ minHeight: 44 })
+  }
+
+  @Builder
+  StartButton() {
+    Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始', { type: ButtonType.Capsule, stateEffect: true })
+      .id('ping-start')
+      .fontSize(16).constraintSize({ minHeight: 44 }).width(this.wide() ? 144 : '100%')
+      .backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
+      .fontColor($r('app.color.ui_on_accent'))
+      .enabled(!this.vm.isRunning || !this.vm.cancelled)
+      .onClick(() => { if (this.vm.isRunning) { this.vm.stop(); } else { this.vm.start(); } })
+  }
+
+  @Builder
   Parameters() {
-    Column({ space: 16 }) {
-      Text('TCP 连通性探测').fontSize(14).fontColor(UiTheme.secondary).width('100%')
-      Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
-        Text('目标').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
-          .margin({ bottom: this.stacked() ? 8 : 0 })
-        TextInput({ text: this.vm.target, placeholder: 'IP 或域名' })
-          .id('ping-target')
-          .fontSize(16).fontColor(UiTheme.text).backgroundColor(UiTheme.background)
-          .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
-          .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).borderRadius(12)
-          .enabled(!this.vm.isRunning).accessibilityText('探测目标，IP或域名')
-          .onChange((value: string) => { this.vm.setTarget(value); })
-          .onSubmit(() => { this.vm.start(); })
-      }.width('100%')
-      Flex({ direction: this.wide() ? FlexDirection.Row : FlexDirection.Column }) {
-        Column({ space: 12 }) {
-          Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
-            Text('端口').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
-              .margin({ bottom: this.stacked() ? 8 : 0 })
-            Select([{ value: '80' }, { value: '443' }, { value: '22' }, { value: '3389' }, { value: '8080' }])
-              .value(this.vm.smartFallback ? '自动回退' : String(this.vm.selectedPort))
-              .selected(this.ports.indexOf(this.vm.selectedPort)).font({ size: 16 })
-              .enabled(!this.vm.isRunning && !this.vm.smartFallback)
-              .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
-              .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).accessibilityText('探测端口')
-              .onSelect((index: number) => { this.vm.selectPort(this.ports[index]); })
-          }.width('100%')
-          Row() {
-            Text('智能回退').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
-            Toggle({ type: ToggleType.Switch, isOn: this.vm.smartFallback }).enabled(!this.vm.isRunning)
-              .id('ping-smart')
-              .accessibilityText('智能回退').onChange((value: boolean) => {
-                if (value !== this.vm.smartFallback) { this.vm.toggleSmartFallback(); }
-              })
-          }.width('100%').constraintSize({ minHeight: 44 })
-          Text('探测 443、80、22、8080、3389，任一可达即成功')
-            .fontSize(14).fontColor(UiTheme.secondary).width('100%')
-        }.width(this.wide() ? '50%' : '100%').padding({ right: this.wide() ? 24 : 0, bottom: 16 })
-        Column({ space: 12 }) {
-          Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
-            Text('次数').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
-              .margin({ bottom: this.stacked() ? 8 : 0 })
-            Select([{ value: '1 次' }, { value: '4 次' }, { value: '10 次' }])
-              .value(this.vm.continuous ? '持续探测' : this.vm.count + ' 次')
-              .selected(this.counts.indexOf(this.vm.count)).font({ size: 16 })
-              .enabled(!this.vm.isRunning && !this.vm.continuous)
-              .constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
-              .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).accessibilityText('探测次数')
-              .onSelect((index: number) => { this.vm.setCount(this.counts[index]); })
-          }.width('100%')
-          Row() {
-            Text('持续模式').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
-            Toggle({ type: ToggleType.Switch, isOn: this.vm.continuous }).enabled(!this.vm.isRunning)
-              .id('ping-continuous')
-              .accessibilityText('持续模式').onChange((value: boolean) => {
-                if (value !== this.vm.continuous) { this.vm.toggleContinuous(); }
-              })
-          }.width('100%').constraintSize({ minHeight: 44 })
-        }.width(this.wide() ? '50%' : '100%')
-      }.width('100%')
-      Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始', { type: ButtonType.Capsule, stateEffect: true })
-        .id('ping-start')
-        .fontSize(16).constraintSize({ minHeight: 44 }).width(this.wide() ? 144 : '100%')
-        .backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
-        .fontColor($r('app.color.ui_on_accent'))
-        .enabled(!this.vm.isRunning || !this.vm.cancelled)
-        .onClick(() => { if (this.vm.isRunning) { this.vm.stop(); } else { this.vm.start(); } })
+    Column({ space: 24 }) {
+      if (this.wide()) {
+        Row({ space: 24 }) {
+          Column() { this.TargetField() }.layoutWeight(5)
+          Column() { this.PortField() }.layoutWeight(3)
+          Column({ space: 8 }) { this.SmartField() }.layoutWeight(4)
+        }.width('100%').alignItems(VerticalAlign.Top)
+        Row({ space: 24 }) {
+          Column() { this.CountField() }.layoutWeight(4)
+          Column() { this.ContinuousField() }.layoutWeight(4)
+          this.StartButton()
+        }.width('100%')
+      } else {
+        Column({ space: 16 }) {
+          this.TargetField()
+          this.PortField()
+          this.SmartField()
+          this.CountField()
+          this.ContinuousField()
+          this.StartButton()
+        }.width('100%')
+      }
     }.width('100%').alignItems(HorizontalAlign.Start).padding(16)
       .backgroundColor(UiTheme.surface).borderRadius(12)
   }

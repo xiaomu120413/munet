@@ -185,7 +185,7 @@ struct Index {
             Row() {
               UiAction({ label: '返回工具', icon: $r('sys.symbol.chevron_left'),
                 onAction: (): void => { this.navigate(6); } })
-            }.width('100%').padding({ left: 16, top: 8 })
+            }.width('100%').padding({ left: this.windowWidth >= 600 ? 24 : 16, top: 8 })
           }
           Column() { this.Content() }.width('100%').layoutWeight(1)
         }.layoutWeight(1).width(this.sideNavigation() ? 'auto' : '100%')

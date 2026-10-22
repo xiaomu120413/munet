@@ -9,6 +9,8 @@ interface ToolEntry {
 
 @Component
 export struct ToolsView {
+  @State contentWidth: number = 0;
+  private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
   onSelect: (index: number) => void = () => {};
   private tools: ToolEntry[] = [
     { title: 'Ping', detail: 'TCP 连通性探测', icon: $r('sys.symbol.waveform_path_ecg_square') },
@@ -18,7 +20,7 @@ export struct ToolsView {
 
   build() {
     Column() {
-      UiPageHeader({ title: '工具' })
+      UiPageHeader({ title: '工具', inset: this.inset() })
       Scroll() {
         Column() {
           ForEach(this.tools, (tool: ToolEntry, index: number) => {
@@ -37,8 +39,9 @@ export struct ToolsView {
             .onClick(() => { this.onSelect(index + 1); })
             Divider().color(UiTheme.divider)
           }, (tool: ToolEntry) => tool.title)
-        }.width('100%').padding({ left: 16, right: 16, bottom: 24 })
+        }.width('100%').padding({ left: this.inset(), right: this.inset(), bottom: 24 })
       }.layoutWeight(1).width('100%').align(Alignment.Top)
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
+      .onAreaChange((_old: Area, area: Area) => { this.contentWidth = Number(area.width); })
   }
 }

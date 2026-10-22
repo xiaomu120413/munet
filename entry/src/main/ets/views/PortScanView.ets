@@ -54,52 +54,88 @@ export struct PortScanView {
     }.width('100%')
   }
   @Builder
-  Parameters() {
-    Column({ space: 16 }) {
-      Text('TCP connect 扫描').fontSize(14).fontColor(UiTheme.secondary).width('100%')
-      Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
-        Text('目标').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 84)
-          .margin({ bottom: this.stacked() ? 8 : 0 })
-        if (this.vm.scanLocalHost) {
-          Text('本机地址').fontSize(16).fontColor(UiTheme.secondary).flexGrow(this.stacked() ? 0 : 1)
-            .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0)
-        } else {
-          TextInput({ text: this.vm.target, placeholder: 'IP 或域名' }).fontSize(16).fontColor(UiTheme.text)
-            .id('port-target')
-            .backgroundColor(UiTheme.background).flexGrow(this.stacked() ? 0 : 1)
-            .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).constraintSize({ minHeight: 44 })
-            .enabled(!this.vm.isRunning).accessibilityText('扫描目标')
-            .onChange((value: string) => { this.vm.setTarget(value); }).onSubmit(() => { this.start(); })
-        }
-      }.width('100%')
-      Row() {
-        Text('扫描本机').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
-        Toggle({ type: ToggleType.Switch, isOn: this.vm.scanLocalHost }).enabled(!this.vm.isRunning)
-          .id('port-local')
-          .accessibilityText('扫描本机').onChange((value: boolean) => { this.vm.setScanLocalHost(value); })
-      }.width('100%').constraintSize({ minHeight: 44 })
-      Text('本机模式探测 127.0.0.1、::1 和本机 IPv4 地址，不等同于系统完整监听表。')
-        .fontSize(14).fontColor(UiTheme.secondary).width('100%')
-      Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
-        Text('端口范围').fontSize(16).fontColor(UiTheme.text)
-          .width(this.stacked() ? '100%' : UiTheme.labelWidth(72, this.getUIContext().getHostContext() as common.Context) + 12)
-          .margin({ bottom: this.stacked() ? 8 : 0 })
-        Select([{ value: '常用' }, { value: 'Web' }, { value: '1–1024' }, { value: '自定义' }])
-          .id('port-mode')
-          .selected(this.modes.indexOf(this.vm.mode)).value(this.modeLabels[this.modes.indexOf(this.vm.mode)])
-          .font({ size: 16 }).constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
-          .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).enabled(!this.vm.isRunning)
-          .accessibilityText('端口范围').onSelect((index: number) => { this.vm.selectMode(this.modes[index]); })
-      }.width('100%')
-      if (this.vm.mode === PortScanMode.CUSTOM) {
-        TextInput({ text: this.vm.customExpr, placeholder: '80,443,1000-2000' }).fontSize(16)
-          .id('port-expression')
-          .fontColor(UiTheme.text).backgroundColor(UiTheme.background).width('100%')
-          .constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning).accessibilityText('自定义端口表达式')
-          .onChange((value: string) => { this.vm.setCustomExpr(value); })
+  TargetField() {
+    Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+      Text('目标').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 84)
+        .margin({ bottom: this.stacked() ? 8 : 0 })
+      if (this.vm.scanLocalHost) {
+        Text('本机地址').fontSize(16).fontColor(UiTheme.secondary).flexGrow(this.stacked() ? 0 : 1)
+          .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0)
+      } else {
+        TextInput({ text: this.vm.target, placeholder: 'IP 或域名' }).fontSize(16).fontColor(UiTheme.text)
+          .id('port-target')
+          .backgroundColor(UiTheme.background).flexGrow(this.stacked() ? 0 : 1)
+          .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).constraintSize({ minHeight: 44 })
+          .enabled(!this.vm.isRunning).accessibilityText('扫描目标')
+          .onChange((value: string) => { this.vm.setTarget(value); }).onSubmit(() => { this.start(); })
       }
-      Text(this.vm.portCount() + ' 个端口').fontSize(14).fontColor(UiTheme.secondary).width('100%')
-      if (!this.wide()) {
+    }.width('100%')
+  }
+  @Builder
+  LocalField() {
+    Row() {
+      Text('扫描本机').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
+      Toggle({ type: ToggleType.Switch, isOn: this.vm.scanLocalHost }).enabled(!this.vm.isRunning)
+        .id('port-local')
+        .accessibilityText('扫描本机').onChange((value: boolean) => { this.vm.setScanLocalHost(value); })
+    }.width('100%').constraintSize({ minHeight: 44 })
+    Text('本机模式探测 127.0.0.1、::1 和本机 IPv4 地址，不等同于系统完整监听表。')
+      .fontSize(14).fontColor(UiTheme.secondary).width('100%')
+  }
+  @Builder
+  RangeField() {
+    Flex({ direction: this.stacked() ? FlexDirection.Column : FlexDirection.Row }) {
+      Text('端口范围').fontSize(16).fontColor(UiTheme.text)
+        .width(this.stacked() ? '100%' : UiTheme.labelWidth(72, this.getUIContext().getHostContext() as common.Context) + 12)
+        .margin({ bottom: this.stacked() ? 8 : 0 })
+      Select([{ value: '常用' }, { value: 'Web' }, { value: '1–1024' }, { value: '自定义' }])
+        .id('port-mode')
+        .selected(this.modes.indexOf(this.vm.mode)).value(this.modeLabels[this.modes.indexOf(this.vm.mode)])
+        .font({ size: 16 }).constraintSize({ minHeight: 44 }).flexGrow(this.stacked() ? 0 : 1)
+        .width(this.stacked() ? '100%' : 0).flexBasis(this.stacked() ? 'auto' : 0).enabled(!this.vm.isRunning)
+        .accessibilityText('端口范围').onSelect((index: number) => { this.vm.selectMode(this.modes[index]); })
+    }.width('100%')
+    if (this.vm.mode === PortScanMode.CUSTOM) {
+      TextInput({ text: this.vm.customExpr, placeholder: '80,443,1000-2000' }).fontSize(16)
+        .id('port-expression')
+        .fontColor(UiTheme.text).backgroundColor(UiTheme.background).width('100%')
+        .constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning).accessibilityText('自定义端口表达式')
+        .onChange((value: string) => { this.vm.setCustomExpr(value); })
+    }
+    Text(this.vm.portCount() + ' 个端口').fontSize(14).fontColor(UiTheme.secondary).width('100%')
+    if (this.vm.error.length > 0) {
+      ErrorBanner({ message: this.vm.error, onClose: (): void => { this.vm.dismissError(); } })
+    }
+  }
+  @Builder
+  StartButton() {
+    Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始扫描', { type: ButtonType.Capsule, stateEffect: true })
+      .id('port-start')
+      .fontSize(16).fontColor($r('app.color.ui_on_accent')).constraintSize({ minHeight: 44 })
+      .width(this.wide() ? 160 : '100%').backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
+      .enabled(!this.vm.isRunning || !this.vm.cancelled)
+      .onClick(() => { if (this.vm.isRunning) { this.vm.stop(); } else { this.start(); } })
+  }
+  @Builder
+  Parameters() {
+    Column({ space: 24 }) {
+      if (this.wide()) {
+        Row({ space: 24 }) {
+          Column() { this.TargetField() }.layoutWeight(5)
+          Column({ space: 8 }) { this.LocalField() }.layoutWeight(4)
+        }.width('100%').alignItems(VerticalAlign.Top)
+      } else {
+        this.TargetField()
+        this.LocalField()
+      }
+      this.RangeField()
+      if (this.wide()) {
+        Row({ space: 24 }) {
+          Column() { this.Settings() }.layoutWeight(1)
+          this.StartButton()
+        }.width('100%')
+      } else {
+        Column({ space: 16 }) {
         Button({ type: ButtonType.Normal, stateEffect: true }) {
           Text((this.expanded ? '收起设置' : '扫描设置') + ' · 并发 ' + this.vm.concurrency + ' · ' + this.vm.timeoutMs + ' ms')
             .fontSize(14).fontColor(UiTheme.accent).textAlign(TextAlign.Center)
@@ -107,17 +143,10 @@ export struct PortScanView {
         }
           .width('100%').constraintSize({ minHeight: 44 }).backgroundColor(UiTheme.selected).borderRadius(12)
           .onClick(() => { this.expanded = !this.expanded; })
+        if (this.expanded) { this.Settings() }
+        this.StartButton()
+        }.width('100%')
       }
-      if (this.wide() || this.expanded) { this.Settings() }
-      if (this.vm.error.length > 0) {
-        ErrorBanner({ message: this.vm.error, onClose: (): void => { this.vm.dismissError(); } })
-      }
-      Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始扫描', { stateEffect: true })
-        .id('port-start')
-        .fontSize(16).fontColor($r('app.color.ui_on_accent')).constraintSize({ minHeight: 44 })
-        .width(this.wide() ? 160 : '100%').backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
-        .enabled(!this.vm.isRunning || !this.vm.cancelled)
-        .onClick(() => { if (this.vm.isRunning) { this.vm.stop(); } else { this.start(); } })
     }.width('100%').padding(16).alignItems(HorizontalAlign.Start).backgroundColor(UiTheme.surface).borderRadius(12)
   }
   @Builder
