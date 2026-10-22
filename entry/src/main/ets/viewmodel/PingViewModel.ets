@@ -29,6 +29,7 @@ export class PingViewModel {
   continuous: boolean = false;
 
   isRunning: boolean = false;
+  cancelled: boolean = false;
   resolvedAddress: string = '';
   records: PingRecord[] = [];
   error: string = '';
@@ -84,15 +85,17 @@ export class PingViewModel {
     this.resetStats();
 
     this.isRunning = true;
+    this.cancelled = false;
     const runId: number = ++this.runId;
 
     try {
       const address: string = this.isIpLiteral(host) ? host : await this.netRepo.resolveAddress(host);
-      if (runId !== this.runId || !this.isRunning) { return; }
+      if (runId !== this.runId) { return; }
+      if (this.cancelled) { this.isRunning = false; return; }
       this.resolvedAddress = address;
     } catch (err) {
-      if (runId === this.runId && this.isRunning) {
-        this.error = '无法解析域名，请检查目标或网络';
+      if (runId === this.runId) {
+        if (!this.cancelled) { this.error = '无法解析域名，请检查目标或网络'; }
         this.isRunning = false;
       }
       return;
@@ -102,7 +105,7 @@ export class PingViewModel {
     const ports: number[] = this.smartFallback ? FALLBACK_PORTS : [this.selectedPort];
     let seq: number = 0;
 
-    while (this.isRunning && runId === this.runId) {
+    while (this.isRunning && !this.cancelled && runId === this.runId) {
       seq++;
       let results: PortResult[] = [];
       try {
@@ -110,12 +113,12 @@ export class PingViewModel {
           () => {
           });
       } catch (err) {
-        if (runId === this.runId) {
+        if (runId === this.runId && !this.cancelled) {
           this.error = '探测失败，请稍后重试';
         }
         break;
       }
-      if (!this.isRunning || runId !== this.runId) {
+      if (this.cancelled || runId !== this.runId) {
         break;
       }
       this.appendRecord(seq, results);
@@ -128,10 +131,10 @@ export class PingViewModel {
     }
 
     if (runId === this.runId) {
-      const completed: boolean = this.isRunning;
+      const completed: boolean = !this.cancelled;
       this.isRunning = false;
       if (this.records.length > 0) {
-        const status: ScanStatus = completed ? ScanStatus.DONE : ScanStatus.CANCELLED;
+        const status: ScanStatus = this.error.length > 0 ? ScanStatus.ERROR : completed ? ScanStatus.DONE : ScanStatus.CANCELLED;
         const summary: string = JSON.stringify({
           sent: this.stats.sent,
           recv: this.stats.received,
@@ -153,7 +156,8 @@ export class PingViewModel {
   }
 
   stop(): void {
-    this.isRunning = false;
+    if (!this.isRunning || this.cancelled) { return; }
+    this.cancelled = true;
     this.scanRepo.cancel();
   }
 

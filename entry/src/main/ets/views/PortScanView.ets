@@ -1,330 +1,153 @@
 import { PortResult, PortScanMode } from '../model/ScanInfo';
+import { common } from '@kit.AbilityKit';
 import { PortScanViewModel } from '../viewmodel/PortScanViewModel';
+import { UiTheme } from './UiTheme';
+import { UiPageHeader } from './UiPageHeader';
+import { UiScanProgress } from './UiScanProgress';
 import { ErrorBanner } from './ErrorBanner';
 
-const LARGE_SCAN_THRESHOLD: number = 4096;
-
-/**
- * Port-scan view: port-set selection, scan parameters, progress and results.
- * Pure rendering + event forwarding; state lives in PortScanViewModel.
- */
 @Component
 export struct PortScanView {
-  /** Target injected by the shell when re-scanning from history. */
-  pendingTarget: string = '';
-
   @ObjectLink vm: PortScanViewModel;
-
-  aboutToAppear(): void {
-    if (this.pendingTarget === '本机') {
-      this.vm.setScanLocalHost(true);
-    } else if (this.pendingTarget.length > 0) {
-      this.vm.setTarget(this.pendingTarget);
-    }
-  }
-
-  aboutToDisappear(): void {
-    this.vm.leave();
-  }
-
-  onStart(): void {
+  @State contentWidth: number = 0;
+  @State expanded: boolean = false;
+  private confirming: boolean = false;
+  private modes: PortScanMode[] = [PortScanMode.COMMON, PortScanMode.WEB, PortScanMode.TOP1024, PortScanMode.CUSTOM];
+  private modeLabels: string[] = ['常用', 'Web', '1–1024', '自定义'];
+  private concurrency: number[] = [32, 64, 128, 256];
+  private timeouts: number[] = [800, 1500, 3000];
+  private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
+  private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
+  aboutToDisappear(): void { this.vm.leave(); }
+  private start(): void {
+    if (this.vm.isRunning || this.confirming) { return; }
     const probes: number = this.vm.expectedProbes();
-    if (probes > LARGE_SCAN_THRESHOLD) {
-      this.getUIContext().showAlertDialog({
-        title: '扫描范围较大',
-        message: '本次将发起 ' + probes + ' 次探测，可能需要较长时间。',
-        primaryButton: {
-          value: '取消',
-          action: () => {
-          }
-        },
-        secondaryButton: {
-          value: '开始',
-          action: () => {
-            this.vm.start();
-          }
+    if (probes <= 4096) { this.vm.start(); return; }
+    this.confirming = true;
+    this.getUIContext().showAlertDialog({ title: '扫描范围较大',
+      message: '将发起 ' + probes + ' 次探测，可能需要较长时间。', autoCancel: false,
+      primaryButton: { value: '取消', action: () => { this.confirming = false; } },
+      secondaryButton: { value: '开始', action: () => { this.confirming = false; this.vm.start(); } } });
+  }
+  @Builder
+  Settings() {
+    Flex({ direction: this.wide() ? FlexDirection.Row : FlexDirection.Column }) {
+      Row({ space: 12 }) {
+        Text('并发').fontSize(16).fontColor(UiTheme.text).width(72)
+        Select([{ value: '32' }, { value: '64' }, { value: '128' }, { value: '256' }])
+          .selected(this.concurrency.indexOf(this.vm.concurrency)).value(String(this.vm.concurrency))
+          .font({ size: 16 }).layoutWeight(1).constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning)
+          .accessibilityText('扫描并发数').onSelect((index: number) => { this.vm.setConcurrency(this.concurrency[index]); })
+      }.width(this.wide() ? '50%' : '100%').padding({ right: this.wide() ? 24 : 0, bottom: 12 })
+      Row({ space: 12 }) {
+        Text('超时').fontSize(16).fontColor(UiTheme.text).width(72)
+        Select([{ value: '800 ms' }, { value: '1500 ms' }, { value: '3000 ms' }])
+          .selected(this.timeouts.indexOf(this.vm.timeoutMs)).value(this.vm.timeoutMs + ' ms')
+          .font({ size: 16 }).layoutWeight(1).constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning)
+          .accessibilityText('扫描超时').onSelect((index: number) => { this.vm.setTimeoutMs(this.timeouts[index]); })
+      }.width(this.wide() ? '50%' : '100%')
+    }.width('100%')
+  }
+  @Builder
+  Parameters() {
+    Column({ space: 16 }) {
+      Text('TCP connect 扫描').fontSize(14).fontColor(UiTheme.secondary).width('100%')
+      Row({ space: 12 }) {
+        Text('目标').fontSize(16).fontColor(UiTheme.text).width(72)
+        if (this.vm.scanLocalHost) {
+          Text('本机地址').fontSize(16).fontColor(UiTheme.secondary).layoutWeight(1)
+        } else {
+          TextInput({ text: this.vm.target, placeholder: 'IP 或域名' }).fontSize(16).fontColor(UiTheme.text)
+            .backgroundColor(UiTheme.background).layoutWeight(1).constraintSize({ minHeight: 44 })
+            .enabled(!this.vm.isRunning).accessibilityText('扫描目标')
+            .onChange((value: string) => { this.vm.setTarget(value); }).onSubmit(() => { this.start(); })
         }
-      });
-      return;
+      }.width('100%')
+      Row() {
+        Text('扫描本机').fontSize(16).fontColor(UiTheme.text).layoutWeight(1)
+        Toggle({ type: ToggleType.Switch, isOn: this.vm.scanLocalHost }).enabled(!this.vm.isRunning)
+          .accessibilityText('扫描本机').onChange((value: boolean) => { this.vm.setScanLocalHost(value); })
+      }.width('100%').constraintSize({ minHeight: 44 })
+      Text('本机模式探测 127.0.0.1、::1 和本机 IPv4 地址，不等同于系统完整监听表。')
+        .fontSize(14).fontColor(UiTheme.secondary).width('100%')
+      Row({ space: 12 }) {
+        Text('端口范围').fontSize(16).fontColor(UiTheme.text).width(72)
+        Select([{ value: '常用' }, { value: 'Web' }, { value: '1–1024' }, { value: '自定义' }])
+          .selected(this.modes.indexOf(this.vm.mode)).value(this.modeLabels[this.modes.indexOf(this.vm.mode)])
+          .font({ size: 16 }).constraintSize({ minHeight: 44 }).layoutWeight(1).enabled(!this.vm.isRunning)
+          .accessibilityText('端口范围').onSelect((index: number) => { this.vm.selectMode(this.modes[index]); })
+      }.width('100%')
+      if (this.vm.mode === PortScanMode.CUSTOM) {
+        TextInput({ text: this.vm.customExpr, placeholder: '80,443,1000-2000' }).fontSize(16)
+          .fontColor(UiTheme.text).backgroundColor(UiTheme.background).width('100%')
+          .constraintSize({ minHeight: 44 }).enabled(!this.vm.isRunning).accessibilityText('自定义端口表达式')
+          .onChange((value: string) => { this.vm.setCustomExpr(value); })
+      }
+      Text(this.vm.portCount() + ' 个端口').fontSize(14).fontColor(UiTheme.secondary).width('100%')
+      if (!this.wide()) {
+        Button((this.expanded ? '收起设置' : '扫描设置') + ' · 并发 ' + this.vm.concurrency + ' · ' + this.vm.timeoutMs + ' ms',
+          { type: ButtonType.Normal, stateEffect: true }).fontSize(14).fontColor(UiTheme.accent)
+          .width('100%').constraintSize({ minHeight: 44 }).backgroundColor(UiTheme.selected).borderRadius(12)
+          .onClick(() => { this.expanded = !this.expanded; })
+      }
+      if (this.wide() || this.expanded) { this.Settings() }
+      if (this.vm.error.length > 0) {
+        ErrorBanner({ message: this.vm.error, onClose: (): void => { this.vm.dismissError(); } })
+      }
+      Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始扫描', { stateEffect: true })
+        .fontSize(16).fontColor($r('app.color.ui_on_accent')).constraintSize({ minHeight: 44 })
+        .width(this.wide() ? 160 : '100%').backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
+        .enabled(!this.vm.isRunning || !this.vm.cancelled)
+        .onClick(() => { if (this.vm.isRunning) { this.vm.stop(); } else { this.start(); } })
+    }.width('100%').padding(16).alignItems(HorizontalAlign.Start).backgroundColor(UiTheme.surface).borderRadius(12)
+  }
+  @Builder
+  ResultRow(result: PortResult) {
+    if (this.wide()) {
+      Row({ space: 16 }) {
+        Text(String(result.port)).width(88).fontColor(UiTheme.text)
+        Text(this.vm.scanLocalHost ? '占用' : '开放').width(88).fontColor(UiTheme.success)
+        Text(this.vm.serviceLabel(result.port)).layoutWeight(1).fontColor(UiTheme.text)
+        Text(result.rttMs + ' ms').width(104).fontColor(UiTheme.secondary)
+      }.width('100%').padding({ top: 14, bottom: 14 })
+    } else {
+      Column({ space: 6 }) {
+        Text(result.port + ' · ' + this.vm.serviceLabel(result.port)).fontSize(16).fontColor(UiTheme.text).width('100%')
+        Text((this.vm.scanLocalHost ? '占用' : '开放') + ' · ' + result.rttMs + ' ms').fontSize(14)
+          .fontColor(UiTheme.success).width('100%')
+      }.width('100%').padding({ top: 14, bottom: 14 })
     }
-    this.vm.start();
+    Divider().color(UiTheme.divider)
   }
-
-  onStop(): void {
-    this.vm.stop();
-  }
-
-  onTargetChange(value: string): void {
-    this.vm.setTarget(value);
-  }
-
-  onModeSelect(mode: PortScanMode): void {
-    this.vm.selectMode(mode);
-  }
-
-  onExprChange(value: string): void {
-    this.vm.setCustomExpr(value);
-  }
-
-  onConcurrencySelect(value: number): void {
-    this.vm.setConcurrency(value);
-  }
-
-  onTimeoutSelect(value: number): void {
-    this.vm.setTimeoutMs(value);
-  }
-
-  onDismissError(): void {
-    this.vm.dismissError();
-  }
-
-  @Builder
-  ModeChip(mode: PortScanMode, label: string) {
-    Text(label)
-      .fontSize(12)
-      .fontColor(this.vm.mode === mode ? '#FFFFFF' : '#444444')
-      .backgroundColor(this.vm.mode === mode ? '#0A59F7' : '#F0F1F3')
-      .padding({ left: 12, right: 12, top: 5, bottom: 5 })
-      .borderRadius(14)
-      .margin({ right: 8 })
-      .onClick(() => {
-        this.onModeSelect(mode);
-      })
-  }
-
-  @Builder
-  ConcurrencyChip(value: number) {
-    Text(String(value))
-      .fontSize(12)
-      .fontColor(this.vm.concurrency === value ? '#FFFFFF' : '#444444')
-      .backgroundColor(this.vm.concurrency === value ? '#0A59F7' : '#F0F1F3')
-      .padding({ left: 12, right: 12, top: 5, bottom: 5 })
-      .borderRadius(14)
-      .margin({ right: 8 })
-      .onClick(() => {
-        this.onConcurrencySelect(value);
-      })
-  }
-
-  @Builder
-  TimeoutChip(value: number) {
-    Text(String(value) + ' ms')
-      .fontSize(12)
-      .fontColor(this.vm.timeoutMs === value ? '#FFFFFF' : '#444444')
-      .backgroundColor(this.vm.timeoutMs === value ? '#0A59F7' : '#F0F1F3')
-      .padding({ left: 12, right: 12, top: 5, bottom: 5 })
-      .borderRadius(14)
-      .margin({ right: 8 })
-      .onClick(() => {
-        this.onTimeoutSelect(value);
-      })
-  }
-
-  @Builder
-  PortRow(result: PortResult) {
-    Row() {
-      Text(String(result.port)).fontSize(14).fontWeight(FontWeight.Medium).width(64)
-      Text(this.vm.scanLocalHost ? '占用' : '开放')
-        .fontSize(11)
-        .fontColor('#2E7D32')
-        .backgroundColor('#E6F4EA')
-        .padding({ left: 6, right: 6, top: 2, bottom: 2 })
-        .borderRadius(4)
-        .margin({ right: 10 })
-      Text(this.vm.serviceLabel(result.port)).fontSize(12).fontColor('#666666').width(130)
-      Text(result.rttMs + ' ms').fontSize(12).fontColor('#888888')
-      Blank()
-    }
-    .width('100%')
-    .padding({ top: 7, bottom: 7 })
-  }
-
   build() {
     Column() {
-      Row() {
-        Column() {
-          Text('端口扫描').fontSize(24).fontWeight(FontWeight.Bold)
-          Text('TCP connect 扫描').fontSize(12).fontColor('#888888').margin({ top: 2 })
-        }
-        .alignItems(HorizontalAlign.Start)
-
-        Blank()
-
-        if (this.vm.isRunning) {
-          Button('停止')
-            .fontSize(13)
-            .height(32)
-            .backgroundColor('#B3261E')
-            .onClick(() => {
-              this.onStop();
-            })
-        } else {
-          Button('开始扫描')
-            .fontSize(13)
-            .height(32)
-            .onClick(() => {
-              this.onStart();
-            })
-        }
-      }
-      .width('100%')
-      .padding({ left: 20, right: 20, top: 16, bottom: 8 })
-
-      if (this.vm.error.length > 0) {
-        ErrorBanner({
-          message: this.vm.error,
-          onClose: (): void => {
-            this.onDismissError();
-          }
-        })
-      }
-
+      UiPageHeader({ title: '端口扫描', inset: this.inset() })
       Scroll() {
-        Column() {
-          Row() {
-            Text('目标').fontSize(13).fontColor('#666666').width(52)
-            if (this.vm.scanLocalHost) {
-              Text('本机（127.0.0.1、::1 与本机 IPv4 地址）')
-                .fontSize(13)
-                .fontColor('#555555')
-                .layoutWeight(1)
-            } else {
-              TextInput({ text: this.vm.target, placeholder: 'IP 或域名，例如 192.168.1.1' })
-                .fontSize(13)
-                .height(36)
-                .layoutWeight(1)
-                .borderRadius(8)
-                .backgroundColor('#F5F6F8')
-                .onChange((value: string) => {
-                  this.onTargetChange(value);
-                })
-                .onSubmit((enterKey: EnterKeyType) => {
-                  this.onStart();
-                })
-            }
-          }
-          .width('100%')
-
-          Row() {
-            Text('扫描本机').fontSize(13).fontColor('#666666').width(52)
-            Blank()
-            Toggle({ type: ToggleType.Switch, isOn: this.vm.scanLocalHost })
-              .onChange((isOn: boolean) => {
-                this.vm.setScanLocalHost(isOn);
-              })
-          }
-          .width('100%')
-          .margin({ top: 8 })
-
-          Text('列出本机正在监听的端口；扫描 127.0.0.1、::1 与本机所有 IPv4 地址')
-            .fontSize(10)
-            .fontColor('#999999')
-            .margin({ top: 2, left: 52 })
-
-          Row() {
-            Text('端口').fontSize(13).fontColor('#666666').width(52)
-            this.ModeChip(PortScanMode.COMMON, '常用')
-            this.ModeChip(PortScanMode.WEB, 'Web')
-            this.ModeChip(PortScanMode.TOP1024, '1-1024')
-            this.ModeChip(PortScanMode.CUSTOM, '自定义')
-            Blank()
-            Text(this.vm.portCount() + ' 个')
-              .fontSize(11)
-              .fontColor('#999999')
-          }
-          .width('100%')
-          .margin({ top: 10 })
-
-          if (this.vm.mode === PortScanMode.CUSTOM) {
-            Row() {
-              Text('表达式').fontSize(13).fontColor('#666666').width(52)
-              TextInput({ text: this.vm.customExpr, placeholder: '80,443,1000-2000' })
-                .fontSize(13)
-                .height(36)
-                .layoutWeight(1)
-                .borderRadius(8)
-                .backgroundColor('#F5F6F8')
-                .onChange((value: string) => {
-                  this.onExprChange(value);
-                })
-            }
-            .width('100%')
-            .margin({ top: 8 })
-          }
-
-          Row() {
-            Text('并发').fontSize(13).fontColor('#666666').width(52)
-            this.ConcurrencyChip(32)
-            this.ConcurrencyChip(64)
-            this.ConcurrencyChip(128)
-            this.ConcurrencyChip(256)
-            Blank()
-          }
-          .width('100%')
-          .margin({ top: 8 })
-
-          Row() {
-            Text('超时').fontSize(13).fontColor('#666666').width(52)
-            this.TimeoutChip(800)
-            this.TimeoutChip(1500)
-            this.TimeoutChip(3000)
-            Blank()
-          }
-          .width('100%')
-          .margin({ top: 8 })
-
+        Column({ space: 16 }) {
+          this.Parameters()
           if (this.vm.total > 0) {
-            Column() {
-              Progress({ value: this.vm.done, total: this.vm.total, type: ProgressType.Linear })
-                .height(6)
-                .width('100%')
-                .color('#0A59F7')
-              Row() {
-                Text(this.vm.done + ' / ' + this.vm.total)
-                  .fontSize(11)
-                  .fontColor('#666666')
-                Blank()
-                Text(this.vm.elapsedLabel()).fontSize(11).fontColor('#666666')
-              }
-              .width('100%')
-              .margin({ top: 4 })
+            UiScanProgress({ done: this.vm.done, total: this.vm.total, running: this.vm.isRunning,
+              cancelled: this.vm.cancelled, failed: this.vm.failed, detail: this.vm.summaryLabel() + ' · ' + this.vm.elapsedLabel() })
+          }
+          Column() {
+            if (this.wide() && this.vm.openResults.length > 0) {
+              Row({ space: 16 }) {
+                Text('端口').width(88)
+                Text('状态').width(88)
+                Text('常见服务').layoutWeight(1)
+                Text('耗时').width(104)
+              }.width('100%').padding({ top: 12, bottom: 12 }).foregroundColor(UiTheme.secondary)
             }
-            .width('100%')
-            .margin({ top: 12 })
-          }
-
-          if (!this.vm.isRunning && this.vm.total > 0) {
-            Text(this.vm.summaryLabel())
-              .fontSize(12)
-              .fontColor('#555555')
-              .margin({ top: 8 })
-          }
-
-          Divider().margin({ top: 12, bottom: 2 })
-
-          ForEach(this.vm.openResults, (result: PortResult) => {
-            this.PortRow(result)
-          }, (result: PortResult) => String(result.port))
-
-          if (!this.vm.isRunning && this.vm.total > 0 && this.vm.openResults.length === 0) {
-            Text(this.vm.scanLocalHost ? '未发现被占用的端口' : '未发现开放端口')
-              .fontSize(13)
-              .fontColor('#999999')
-              .width('100%')
-              .textAlign(TextAlign.Center)
-              .margin({ top: 30 })
-          }
-        }
-        .width('100%')
-        .padding({ left: 20, right: 20, bottom: 24 })
-      }
-      .layoutWeight(1)
-      .width('100%')
-      .align(Alignment.Top)
-      .scrollBar(BarState.Auto)
-    }
-    .width('100%')
-    .height('100%')
-    .backgroundColor('#FAFAFA')
+            ForEach(this.vm.openResults, (result: PortResult) => { this.ResultRow(result) }, (result: PortResult) => String(result.port))
+            if (this.vm.openResults.length === 0) {
+              Text(this.vm.isRunning ? '正在探测，结果将在探测结束后汇总…' : this.vm.total === 0 ? '设置目标与端口范围后开始扫描' :
+                this.vm.failed ? '扫描未完成，请检查目标与网络后重试' : this.vm.cancelled ? '扫描已停止，暂无结果' : this.vm.scanLocalHost ? '未发现被占用的端口' : '未发现开放端口')
+                .fontSize(16).fontColor(UiTheme.secondary).width('100%').padding({ top: 24, bottom: 24 })
+            }
+          }.width('100%').padding(16).backgroundColor(UiTheme.surface).borderRadius(12)
+        }.width('100%').alignItems(HorizontalAlign.Start).padding({ left: this.inset(), right: this.inset(), bottom: 24 })
+      }.width('100%').layoutWeight(1).align(Alignment.Top)
+    }.width('100%').height('100%').backgroundColor(UiTheme.background)
+      .onAreaChange((oldArea: Area, newArea: Area) => { this.contentWidth = Number(newArea.width); })
   }
 }

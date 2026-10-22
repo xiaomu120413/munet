@@ -1,128 +1,65 @@
-import { DebugViewModel } from '../viewmodel/DebugViewModel';
 import { AboutViewModel } from '../viewmodel/AboutViewModel';
+import { DebugViewModel } from '../viewmodel/DebugViewModel';
+import { UiTheme } from './UiTheme';
+import { UiPageHeader } from './UiPageHeader';
+import { UiAction } from './UiAction';
 
-/**
- * About view: version info, privacy policy placeholder and disclaimer.
- */
 @Component
 export struct AboutView {
-  @State showDiagnostics: boolean = false;
-  @State selfTest: string = '';
-  private debugVm: DebugViewModel = new DebugViewModel();
-  @State vm: AboutViewModel = new AboutViewModel();
-
+  @Prop title: string = '关于';
+  @State diagnostics: boolean = false;
+  @State diagnosticResult: string = '';
+  private vm: AboutViewModel = new AboutViewModel();
+  private debug: DebugViewModel = new DebugViewModel();
   @Builder
-  InfoRow(label: string, value: string) {
-    Row() {
-      Text(label).fontSize(12).fontColor('#888888').width(96)
-      Text(value).fontSize(13).fontColor('#333333').layoutWeight(1)
-    }
-    .width('100%')
-    .margin({ top: 8 })
-    .alignItems(VerticalAlign.Top)
+  Detail(label: string, value: string) {
+    Row({ space: 16 }) {
+      Text(label).fontSize(16).fontColor(UiTheme.secondary).width(96)
+      Text(value).fontSize(16).fontColor(UiTheme.text).layoutWeight(1).copyOption(CopyOptions.InApp)
+    }.width('100%').padding({ top: 16, bottom: 16 }).alignItems(VerticalAlign.Top)
+    Divider().color(UiTheme.divider)
   }
-
-  @Builder
-  Diagnostics() {
-    Column() {
-      Button(this.showDiagnostics ? '收起开发诊断' : '开发诊断')
-        .fontSize(13)
-        .fontColor('#59616B')
-        .backgroundColor(Color.Transparent)
-        .borderRadius(6)
-        .onClick(() => {
-          this.showDiagnostics = !this.showDiagnostics;
-        })
-      if (this.showDiagnostics) {
-        Text('仅用于开发排查').fontSize(13).fontColor('#59616B')
-        Button('运行原生探测自检')
-          .fontSize(13)
-          .margin({ top: 8 })
-          .onClick(() => {
-            this.selfTest = this.debugVm.probeSelfTest();
-          })
-        if (this.selfTest.length > 0) {
-          Text(this.selfTest).fontSize(13).fontColor('#333333').margin({ top: 8 })
-        }
-      }
-    }
-    .alignItems(HorizontalAlign.Start)
-    .width('100%')
-    .margin({ top: 16 })
-  }
-
   build() {
     Column() {
-      Row() {
-        Column() {
-          Text('关于').fontSize(24).fontWeight(FontWeight.Bold)
-          Text('版本 · 隐私 · 声明').fontSize(12).fontColor('#888888').margin({ top: 2 })
-        }
-        .alignItems(HorizontalAlign.Start)
-        Blank()
-      }
-      .width('100%')
-      .padding({ left: 20, right: 20, top: 16, bottom: 8 })
-
+      UiPageHeader({ title: this.title })
       Scroll() {
-        Column() {
-          Column() {
+        Column({ space: 24 }) {
+          Row({ space: 16 }) {
             Image($r('app.media.app_icon')).width(72).height(72).borderRadius(16)
-              .accessibilityText('木络应用图标').margin({ bottom: 12 })
-            Text($r('app.string.app_brand')).fontSize(20).fontWeight(FontWeight.Bold)
-            Text('本地网络诊断工具箱').fontSize(12).fontColor('#888888').margin({ top: 4 })
-            Divider().margin({ top: 12, bottom: 4 })
-            this.InfoRow('应用版本', this.vm.appVersion())
-            this.InfoRow('原生核心', this.vm.coreVersion())
-            this.InfoRow('包名', this.vm.bundleName())
-          }
-          .width('100%')
-          .padding(16)
-          .backgroundColor(Color.White)
-          .borderRadius(12)
-          .border({ width: 1, color: '#ECECEC' })
-
+            Column({ space: 8 }) {
+              Text('木络 · MuNet').fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
+              Text('网络状态与连接诊断').fontSize(16).fontColor(UiTheme.secondary)
+            }.alignItems(HorizontalAlign.Start).layoutWeight(1)
+          }.width('100%')
           Column() {
-            Text('隐私政策').fontSize(15).fontWeight(FontWeight.Medium)
-            Text(this.vm.privacyPolicyNote())
-              .fontSize(12)
-              .fontColor('#666666')
-              .margin({ top: 8 })
+            this.Detail('应用版本', this.vm.appVersion())
+            this.Detail('核心版本', this.vm.coreVersion())
+            this.Detail('应用标识', this.vm.bundleName())
+          }.width('100%')
+          Column({ space: 12 }) {
+            Text('隐私说明').fontSize(18).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
+            Text('扫描记录和设备档案保存在本机。扫描记录可导出；两类数据均可在记录页清空。正式隐私政策链接将在上架前补充。')
+              .fontSize(16).fontColor(UiTheme.secondary).lineHeight(25)
+          }.width('100%').alignItems(HorizontalAlign.Start)
+          Column({ space: 12 }) {
+            Text('使用说明').fontSize(18).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
+            Text(this.vm.disclaimer()).fontSize(16).fontColor(UiTheme.secondary).lineHeight(25)
+          }.width('100%').alignItems(HorizontalAlign.Start)
+          if (this.debug.isDebug()) {
+            Column({ space: 12 }) {
+              UiAction({ label: this.diagnostics ? '收起诊断信息' : '诊断信息',
+                onAction: () => { this.diagnostics = !this.diagnostics; } })
+              if (this.diagnostics) {
+                Text('仅在调试版本显示').fontSize(14).fontColor(UiTheme.secondary)
+                UiAction({ label: '运行核心自检', onAction: () => { this.diagnosticResult = this.debug.probeSelfTest(); } })
+                if (this.diagnosticResult.length > 0) {
+                  Text(this.diagnosticResult).fontSize(14).fontColor(UiTheme.secondary).copyOption(CopyOptions.InApp)
+                }
+              }
+            }.width('100%').alignItems(HorizontalAlign.Start)
           }
-          .width('100%')
-          .padding(16)
-          .backgroundColor(Color.White)
-          .borderRadius(12)
-          .border({ width: 1, color: '#ECECEC' })
-          .margin({ top: 10 })
-
-          Column() {
-            Text('使用声明').fontSize(15).fontWeight(FontWeight.Medium)
-            Text(this.vm.disclaimer())
-              .fontSize(12)
-              .fontColor('#666666')
-              .margin({ top: 8 })
-          }
-          .width('100%')
-          .padding(16)
-          .backgroundColor(Color.White)
-          .borderRadius(12)
-          .border({ width: 1, color: '#ECECEC' })
-          .margin({ top: 10 })
-          if (this.debugVm.isDebug()) {
-            this.Diagnostics()
-          }
-        }
-        .width('100%')
-        .padding({ left: 20, right: 20, bottom: 24 })
-      }
-      .layoutWeight(1)
-      .width('100%')
-      .align(Alignment.Top)
-      .scrollBar(BarState.Auto)
-    }
-    .width('100%')
-    .height('100%')
-    .backgroundColor('#FAFAFA')
+        }.width('100%').constraintSize({ maxWidth: 840 }).padding({ left: 16, right: 16, top: 8, bottom: 32 })
+      }.width('100%').layoutWeight(1).align(Alignment.TopStart)
+    }.width('100%').height('100%').backgroundColor(UiTheme.background)
   }
 }

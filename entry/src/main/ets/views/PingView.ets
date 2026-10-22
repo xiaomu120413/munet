@@ -1,4 +1,5 @@
 import { PingRecord } from '../model/ScanInfo';
+import { common } from '@kit.AbilityKit';
 import { PingViewModel } from '../viewmodel/PingViewModel';
 import { ErrorBanner } from './ErrorBanner';
 import { UiTheme } from './UiTheme';
@@ -10,7 +11,7 @@ export struct PingView {
   @State contentWidth: number = 0;
   private ports: number[] = [80, 443, 22, 3389, 8080];
   private counts: number[] = [1, 4, 10];
-  private wide(): boolean { return this.contentWidth >= 768; }
+  private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
   aboutToDisappear(): void { this.vm.leave(); }
 
@@ -45,7 +46,7 @@ export struct PingView {
                 if (value !== this.vm.smartFallback) { this.vm.toggleSmartFallback(); }
               })
           }.width('100%').constraintSize({ minHeight: 44 })
-          Text('自动尝试 443 → 80 → 22 → 8080 → 3389，任一可达即成功')
+          Text('探测 443、80、22、8080、3389，任一可达即成功')
             .fontSize(14).fontColor(UiTheme.secondary).width('100%')
         }.width(this.wide() ? '50%' : '100%').padding({ right: this.wide() ? 24 : 0, bottom: 16 })
         Column({ space: 12 }) {
@@ -67,10 +68,11 @@ export struct PingView {
           }.width('100%').constraintSize({ minHeight: 44 })
         }.width(this.wide() ? '50%' : '100%')
       }.width('100%')
-      Button(this.vm.isRunning ? '停止' : '开始', { type: ButtonType.Capsule, stateEffect: true })
+      Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始', { type: ButtonType.Capsule, stateEffect: true })
         .fontSize(16).constraintSize({ minHeight: 44 }).width(this.wide() ? 144 : '100%')
         .backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
         .fontColor($r('app.color.ui_on_accent'))
+        .enabled(!this.vm.isRunning || !this.vm.cancelled)
         .onClick(() => { if (this.vm.isRunning) { this.vm.stop(); } else { this.vm.start(); } })
     }.width('100%').alignItems(HorizontalAlign.Start).padding(16)
       .backgroundColor(UiTheme.surface).borderRadius(12)

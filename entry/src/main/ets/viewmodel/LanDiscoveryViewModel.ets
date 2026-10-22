@@ -25,6 +25,7 @@ export class LanDiscoveryViewModel {
   mdnsCount: number = 0;
   error: string = '';
   cancelled: boolean = false;
+  failed: boolean = false;
 
   private readonly discoveryRepo: DiscoveryRepository;
   private readonly netRepo: LocalNetRepository;
@@ -50,7 +51,9 @@ export class LanDiscoveryViewModel {
       return;
     }
     try {
-      this.cidr = await this.netRepo.defaultCidr();
+      const defaultCidr: string = await this.netRepo.defaultCidr();
+      if (this.cidr.length > 0 || this.isRunning) { return; }
+      this.cidr = defaultCidr;
       if (this.cidr.length === 0) {
         this.error = '未找到可扫描的 IPv4 网段';
       }
@@ -85,6 +88,7 @@ export class LanDiscoveryViewModel {
 
     this.error = '';
     this.cancelled = false;
+    this.failed = false;
     this.isRunning = true;
     this.done = 0;
     this.total = total;
@@ -144,10 +148,11 @@ export class LanDiscoveryViewModel {
           err.message);
       });
     } catch (err) {
+      this.failed = !this.cancelled;
       if (context !== undefined) {
         this.discoveryRepo.stopMdns();
       }
-      this.error = '扫描失败，请稍后重试';
+      if (!this.cancelled) { this.error = '扫描失败，请稍后重试'; }
     }
     this.isRunning = false;
     if (!succeeded) {
@@ -157,7 +162,6 @@ export class LanDiscoveryViewModel {
 
   stop(): void {
     this.cancelled = true;
-    this.isRunning = false;
     this.discoveryRepo.cancel();
   }
 

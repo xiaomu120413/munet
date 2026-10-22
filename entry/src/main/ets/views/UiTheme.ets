@@ -1,5 +1,11 @@
+import { common } from '@kit.AbilityKit';
+
 /** Semantic resources have base/dark variants and follow the system theme. */
 export class UiTheme {
+  static supportsWide(width: number, context: common.Context | undefined, threshold: number = 768): boolean {
+    const scale: number = (context as common.UIAbilityContext | undefined)?.config.fontSizeScale ?? 1;
+    return width >= threshold * Math.max(1, scale);
+  }
   static readonly background: Resource = $r('app.color.ui_background');
   static readonly surface: Resource = $r('app.color.ui_surface');
   static readonly text: Resource = $r('app.color.ui_text');

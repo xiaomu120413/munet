@@ -57,6 +57,14 @@ struct Index {
     if (this.portVm.isRunning) { this.portVm.stop(); }
     if (this.lanVm.isRunning) { this.lanVm.stop(); }
   }
+  private finishLeave(index: number): void {
+    if (this.running()) {
+      setTimeout(() => { this.finishLeave(index); }, 50);
+      return;
+    }
+    this.current = index;
+    this.confirmingLeave = false;
+  }
   private navigate(index: number): void {
     if (this.current === index || this.confirmingLeave) { return; }
     if (!this.running()) { this.current = index; return; }
@@ -65,7 +73,7 @@ struct Index {
       title: '停止当前任务并离开？', message: '已得到的结果会保留，确认后停止当前探测。', autoCancel: false,
       primaryButton: { value: '取消', action: () => { this.confirmingLeave = false; } },
       secondaryButton: { value: '停止并离开', action: () => {
-        this.stopTask(); this.confirmingLeave = false; this.current = index;
+        this.stopTask(); this.finishLeave(index);
       } }
     });
   }
@@ -94,7 +102,7 @@ struct Index {
       HistoryView({ vm: this.historyVm, onRescan: (kind: ScanKind, target: string): void => {
         this.onRescan(kind, target);
       } })
-    } else if (this.current === 5) { AboutView() }
+    } else if (this.current === 5) { AboutView({ title: this.narrowNavigation() ? '更多' : '关于' }) }
     else { ToolsView({ onSelect: (index: number): void => { this.navigate(index); } }) }
   }
 

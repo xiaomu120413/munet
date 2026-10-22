@@ -31,6 +31,7 @@ export class PortScanViewModel {
   closedCount: number = 0;
   error: string = '';
   cancelled: boolean = false;
+  failed: boolean = false;
 
   private readonly repo: ScanRepository;
   private readonly historyRepo: HistoryRepository;
@@ -120,6 +121,7 @@ export class PortScanViewModel {
 
     this.error = '';
     this.cancelled = false;
+    this.failed = false;
     this.isRunning = true;
     this.done = 0;
     this.total = ports.length * targets.length;
@@ -167,7 +169,8 @@ export class PortScanViewModel {
       const probed: number = this.cancelled ? this.done : this.total;
       this.closedCount = Math.max(0, probed - open.length);
     } catch (err) {
-      this.error = '扫描失败，请稍后重试';
+      this.failed = !this.cancelled;
+      if (!this.cancelled) { this.error = '扫描失败，请稍后重试'; }
     }
     this.isRunning = false;
 
@@ -194,7 +197,6 @@ export class PortScanViewModel {
 
   stop(): void {
     this.cancelled = true;
-    this.isRunning = false;
     this.repo.cancel();
   }
 

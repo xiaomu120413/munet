@@ -1,4 +1,5 @@
 import { promptAction } from '@kit.ArkUI';
+import { common } from '@kit.AbilityKit';
 import { IfaceInfo, LinkAddr, NicInfo, WifiInfo } from '../model/NetworkInfo';
 import { LocalNetViewModel } from '../viewmodel/LocalNetViewModel';
 import { ErrorBanner } from './ErrorBanner';
@@ -12,7 +13,7 @@ export struct LocalNetView {
   @State contentWidth: number = 0;
 
   aboutToAppear(): void { if (!this.vm.hasLoaded) { this.vm.load(); } }
-  private wide(): boolean { return this.contentWidth >= 720; }
+  private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context, 720); }
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
   private copy(value: string): void {
     this.vm.copy(value).then((ok: boolean) => {
