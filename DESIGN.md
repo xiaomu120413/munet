@@ -3,8 +3,8 @@
 > 状态：设计评审稿 v2（2026-10-17）
 > 平台：HarmonyOS NEXT / OpenHarmony 7.0（API 26），PC 优先，手机/平板自适应
 > 架构：**ArkUI（页面/存储/mDNS）+ C++ NAPI 原生核心（探测/扫描，libnettools.so）**
-> 依据：SDK 全量 d.ts 核查 + 真机（MateBook Pro HAD-W32，设备
-> `3QC0124C11000711`）实测 + 工信部/华为政策调研（见 §12）
+> 依据：SDK 全量 d.ts 核查 + 真机（MateBook Pro HAD-W32，设备 UDID 隐去）
+> 实测 + 工信部/华为政策调研（见 §12）
 
 ---
 
@@ -402,14 +402,16 @@ libnettools.probeTcp(host, port, timeoutMs) → { ok, rttMs, error }
 ```
 
 单次探测在 native 层完成（每次新建 socket，不复用）。Ping / 端口扫描 /
-子网 sweep 全部复用。并发批处理（`scanPorts` / `sweepCidr`）后续也下沉
-C++（§4.4 规划），ArkTS 只负责调度与渲染。
+子网 sweep 全部复用。并发批处理 `scanPorts` / `sweepCidr` 已在 C++ 内完成
+（§4.4），ArkTS 只负责调度与渲染。
 
-**ScanPool（并发池 + 取消）**
+**取消机制（原生代际计数 + VM 标志）**
 
-- 任务数组 + 并发上限 + `CancelToken`；每轮出队前检查取消。
-- 进度回调 `(done, total, elapsedMs)`；结果按完成顺序增量回调。
-- 三个长任务（持续 ping、端口扫描、sweep）共用；页面退出自动取消。
+- `cancelScan()` 递增 C++ 侧代际计数，在飞 worker 检测到代际变化即停止；
+  已完成结果仍随 Promise 返回（取消后只展示已探测部分）。
+- ArkTS 侧 VM 以 `isRunning` / `cancelled` 截止循环；页面
+  `aboutToDisappear` 调用 `vm.leave()`。
+- 进度通过 ThreadSafeFunction 节流回传 `(done, total)`，耗时由 UI 自行计算。
 
 **数据流**：单向。`net/` 产出 → 页面 `@State` 渲染 → `store/` 按需持久化。
 无全局状态管理，跨页共享的只有发现记录（走 store 查询）。
@@ -419,99 +421,87 @@ C++（§4.4 规划），ArkTS 只负责调度与渲染。
 
 ### 4.4 接口契约
 
+**Model（`model/*.ets`，纯类型）**
+
 ```ts
-// model/Types.ets
-export interface ProbeResult {
-  ok: boolean;
-  rttMs?: number;
-  error?: 'timeout' | 'refused' | 'unreachable' | 'dns' | 'other';
-}
-
-export interface LinkAddr { address: string; prefixLength: number; family: 'v4' | 'v6' }
-
+export interface LinkAddr { address: string; prefixLength: number; family: string }
 export interface NicInfo {
-  netId: number;
-  interfaceName: string;
-  bearerTypes: string[];          // 'WiFi' | 'Ethernet' | 'Cellular' | 'VPN' | ...
-  isDefault: boolean;
-  linkAddresses: LinkAddr[];
-  gateway?: string;
-  dns: string[];
-  domains: string;
-  mtu: number;
-  ipv4Valid?: boolean;            // API 24+
-  ipv6Valid?: boolean;
+  netId: number; interfaceName: string; bearerTypes: string[]; isDefault: boolean;
+  linkAddresses: LinkAddr[]; gateway: string; dns: string[]; domains: string;
+  mtu: number; ipv4Valid: boolean | undefined; ipv6Valid: boolean | undefined;
 }
+export interface WifiInfo { ssid: string; rssi: number; band: number;
+                            frequency: number; linkSpeed: number }
+export interface IfaceInfo { name: string; address: string; family: string;
+                             prefixLength: number; loopback: boolean; up: boolean }
+export interface ProbeResult { ok: boolean; rttMs: number; error: string }
+export interface IfaceTraffic { rxBytes: number; txBytes: number }
 
-export interface WifiInfo {
-  ssid: string; rssi: number; band: number; frequency: number; linkSpeed: number;
-}
+export interface PortResult { port: number; open: boolean; rttMs: number; error: string }
+export interface HostResult { ip: string; online: boolean; openPorts: number[] }
+export interface ListeningPort { port: number; address: string; family: string; uid: number }
+export interface PingRecord { seq: number; ok: boolean; rttMs: number; error: string;
+                              port: number; timestamp: number }
+export interface PingStats { sent: number; received: number; lossPercent: number;
+                             avgMs: number; minMs: number; maxMs: number }
+export enum PortScanMode { COMMON = 'common', WEB = 'web',
+                           TOP1024 = 'top1024', CUSTOM = 'custom' }
 
-export interface PortResult { port: number; open: boolean; rttMs?: number; service?: string }
-
-export interface HostResult {
-  ip: string;
-  online: boolean;
-  openPorts: number[];
-  hostname?: string;              // mDNS 名
-  firstSeen?: number;
-  lastSeen?: number;
-}
-
-export type ScanKind = 'ping' | 'portscan' | 'landiscovery';
-export type ScanStatus = 'done' | 'cancelled' | 'error';
-
-export interface ScanRecord {
-  id?: number; ts: number; kind: ScanKind; target: string;
-  status: ScanStatus; summary: string;   // JSON
-}
-
-export interface ScanProgress { done: number; total: number; elapsedMs: number }
-
-export class CancelToken {
-  cancelled: boolean;
-  cancel(): void;
-  throwIfCancelled(): void;
-}
+export enum ScanKind { PING = 'ping', PORT_SCAN = 'portscan',
+                       LAN_DISCOVERY = 'landiscovery' }
+export enum ScanStatus { DONE = 'done', CANCELLED = 'cancelled', ERROR = 'error' }
+export enum ExportFormat { CSV = 'csv', JSON = 'json' }
+export interface ScanRecord { id: number; ts: number; kind: ScanKind; target: string;
+                              status: ScanStatus; summary: string }
+export interface DiscoveredHost { ip: string; firstSeen: number; lastSeen: number;
+                                  hostname: string; openPorts: number[] }
 ```
 
+**Repository（UI 唯一的数据入口）**
+
 ```ts
-// net/TcpProbe.ets
-export async function probe(ip: string, port: number, timeoutMs: number): Promise<ProbeResult>
+// LocalNetRepository
+async fetchNics(): Promise<NicInfo[]>
+async fetchWifiInfo(): Promise<WifiInfo | null>
+readInterfaces(): IfaceInfo[]
+async resolveAddress(host: string): Promise<string>
+async defaultCidr(): Promise<string>
+hostCount(cidr: string): number
 
-// net/ScanPool.ets
-export async function runPool<T>(
-  tasks: Array<() => Promise<T>>,
-  concurrency: number,
-  token: CancelToken,
-  onProgress?: (p: ScanProgress) => void,
-  onResult?: (r: T) => void
-): Promise<T[]>
+// ScanRepository
+commonPorts(): number[]; webPorts(): number[]; sweepPorts(): number[]
+parsePorts(expr: string): number[]
+serviceName(port: number): string
+readLocalListeningPorts(): ListeningPort[] | null
+localScanTargets(): string[]
+async scan(host: string, ports: number[], concurrency: number, timeoutMs: number,
+           onProgress: (done: number, total: number) => void): Promise<PortResult[]>
+async sweep(cidr: string, ports: number[], concurrency: number, timeoutMs: number,
+            onProgress: (done: number, total: number) => void): Promise<HostResult[]>
+cancel(): void
 
-// net/LocalNetInfo.ets
-export async function getNics(): Promise<NicInfo[]>
-export async function getWifiInfo(): Promise<WifiInfo | null>
-export async function resolveHost(host: string): Promise<string[]>
+// DiscoveryRepository
+startMdns(context: common.Context): void
+stopMdns(): Map<string, string>
+sweepPorts(): number[]; sweep(...); cancel()
 
-// net/Subnet.ets
-export function deriveCidr(ip: string, prefix: number): string      // "192.168.1.23", 24 → "192.168.1.0/24"
-export function expandCidr(cidr: string): string[]                  // 非法时 throw
-export function parsePortExpr(expr: string): number[]               // "80,443,1000-2000"
+// HistoryRepository
+async initialize(context: common.Context): Promise<void>
+isReady(): boolean
+async addScanRecord(record: ScanRecord): Promise<void>
+async queryScanRecords(): Promise<ScanRecord[]>
+async upsertHosts(hosts: HostResult[], names: Map<string, string>): Promise<void>
+async queryHosts(): Promise<DiscoveredHost[]>
+async exportHistory(context: common.Context, format: ExportFormat): Promise<boolean>
+async clearAll(): Promise<void>
 
-// net/LanSweeper.ets
-export async function sweep(
-  cidr: string, opts: SweepOptions, token: CancelToken,
-  onProgress?: (p: ScanProgress) => void,
-  onHost?: (h: HostResult) => void
-): Promise<HostResult[]>
+// ClipboardRepository
+async copy(text: string): Promise<boolean>
 
-// store/HistoryStore.ets
-export async function init(context: Context): Promise<void>
-export async function addScanRecord(r: ScanRecord): Promise<number>
-export async function queryScanRecords(kind?: ScanKind): Promise<ScanRecord[]>
-export async function upsertDiscoveredHosts(hosts: HostResult[]): Promise<void>
-export async function queryDiscoveredHosts(): Promise<HostResult[]>
-export async function clearAll(): Promise<void>
+// SystemRepository
+coreVersion(): string
+probeSelfTest(): string
+async ifaceTraffic(nic: string): Promise<IfaceTraffic | null>
 ```
 
 **原生核心 `libnettools.so`（v0.3.0 已实现）**
@@ -554,10 +544,10 @@ connect/poll），进度经 ThreadSafeFunction 节流回传；`cancelScan` 通�
 |---|---|---|---|
 | Ping 超时 | 2000 ms | 500–5000 | Ping 页 |
 | 端口扫描超时 | 1500 ms | 500–5000 | 端口扫描页 |
-| sweep 超时 | 1000 ms | 固定常量 | LanSweeper |
+| sweep 超时 | 1000 ms | 固定常量 | DiscoveryRepository |
 | 端口扫描并发 | 128 | 10–512 | 端口扫描页 |
-| sweep 并发 | 128 | 固定常量 | LanSweeper |
-| sweep 端口组 | 80,443,22,445,3389,8080 | 固定常量 | LanSweeper |
+| sweep 并发 | 128 | 固定常量 | DiscoveryRepository |
+| sweep 端口组 | 80,443,22,445,3389,8080 | 固定常量 | DiscoveryRepository |
 | Ping 次数 | 4 | 1–999 | Ping 页 |
 | 持续 ping 间隔 | 1000 ms | 200–5000 | Ping 页 |
 | 大子网确认阈值 | 1024 主机 | 固定常量 | 页面 |
@@ -565,11 +555,11 @@ connect/poll），进度经 ThreadSafeFunction 节流回传；`cancelScan` 通�
 
 性能预算（最坏情况，实测后调参）：
 
-- /24 sweep：254×6 = 1524 次探测，128 并发 × 1s → 约 12s。
-- 1–65535 端口扫描：65535 次，128 并发 × 1.5s → 约 12.8 min（必须二次确认
-  + 可停止 + 进度显示）。
-- 任务闭包 6.5 万个约几 MB，可接受；结果列表虚拟滚动，内存只随开放端口数
-  增长。
+- `/24` sweep 实测：254 主机 × 6 端口，12.1s（真机）。
+- 1–65535 端口扫描：65535 次探测，128 并发 × 1.5s → 约 12.8 min（必须二次
+  确认 + 可停止 + 进度显示）。
+- 结果数组在 C++ 侧按端口数分配（65535 项约 1MB）；ArkTS 只保留开放端口，
+  列表虚拟滚动。
 
 ### 4.6 页面状态机
 
