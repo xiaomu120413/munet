@@ -16,6 +16,12 @@ export struct HistoryView {
   private kinds: (ScanKind | undefined)[] = [undefined, ScanKind.PING, ScanKind.PORT_SCAN, ScanKind.LAN_DISCOVERY];
   private labels: string[] = ['全部类型', 'Ping', '端口扫描', '局域网'];
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
+  private stackedHeader(): boolean {
+    return this.contentWidth < UiTheme.labelWidth(280, this.getUIContext().getHostContext() as common.Context);
+  }
+  private stackedTabs(): boolean {
+    return this.contentWidth < UiTheme.labelWidth(240, this.getUIContext().getHostContext() as common.Context);
+  }
   private busy(): boolean { return this.vm.isLoading || this.vm.isExporting || this.vm.isClearing; }
   aboutToAppear(): void { this.vm.load().then(() => { this.restore(); }); }
   private restore(): void {
@@ -100,10 +106,9 @@ export struct HistoryView {
     }.width('100%').padding({ top: 20, bottom: 20 })
     Divider().color(UiTheme.divider)
   }
-  build() {
-    Column() {
-      Row({ space: 8 }) {
-        Text('记录').fontSize(24).fontWeight(FontWeight.Medium).fontColor(UiTheme.text).layoutWeight(1)
+  @Builder
+  HeaderActions() {
+    Row({ space: 8 }) {
         UiAction({ label: '刷新', icon: $r('sys.symbol.arrow_clockwise'), actionEnabled: !this.busy(), onAction: () => { this.vm.load(); } })
         if (this.wide()) {
           if (!this.vm.showHosts) {
@@ -117,18 +122,51 @@ export struct HistoryView {
         } else {
           UiAction({ label: '更多', actionEnabled: !this.busy(), onAction: () => { this.more(); } })
         }
-      }.width('100%').padding({ left: 16, right: 16, top: 16, bottom: 16 })
-      Row({ space: 8 }) {
+    }.justifyContent(FlexAlign.End)
+  }
+  @Builder
+  HistoryTab(hosts: boolean) {
+    if (!hosts) {
         Button('扫描记录', { stateEffect: true }).height(44).fontSize(16)
           .id('history-scans')
           .backgroundColor(this.vm.showHosts ? UiTheme.surface : UiTheme.selected)
-          .fontColor(this.vm.showHosts ? UiTheme.secondary : UiTheme.accent).layoutWeight(1)
+          .fontColor(this.vm.showHosts ? UiTheme.secondary : UiTheme.accent)
+          .width(this.stackedTabs() ? '100%' : 'auto').layoutWeight(this.stackedTabs() ? 0 : 1)
           .accessibilitySelected(!this.vm.showHosts).onClick(() => { this.switchView(false); })
+    } else {
         Button('设备档案', { stateEffect: true }).height(44).fontSize(16)
           .id('history-hosts')
           .backgroundColor(this.vm.showHosts ? UiTheme.selected : UiTheme.surface)
-          .fontColor(this.vm.showHosts ? UiTheme.accent : UiTheme.secondary).layoutWeight(1)
+          .fontColor(this.vm.showHosts ? UiTheme.accent : UiTheme.secondary)
+          .width(this.stackedTabs() ? '100%' : 'auto').layoutWeight(this.stackedTabs() ? 0 : 1)
           .accessibilitySelected(this.vm.showHosts).onClick(() => { this.switchView(true); })
+    }
+  }
+  build() {
+    Column() {
+      Column({ space: 8 }) {
+        if (this.stackedHeader()) {
+          Text('记录').fontSize(24).fontWeight(FontWeight.Medium).fontColor(UiTheme.text).width('100%')
+          Row() { this.HeaderActions() }.width('100%').justifyContent(FlexAlign.End)
+        } else {
+          Row({ space: 8 }) {
+            Text('记录').fontSize(24).fontWeight(FontWeight.Medium).fontColor(UiTheme.text).layoutWeight(1)
+            this.HeaderActions()
+          }.width('100%')
+        }
+      }.width('100%').padding({ left: 16, right: 16, top: 16, bottom: 16 })
+      Column() {
+        if (this.stackedTabs()) {
+          Column({ space: 8 }) {
+            this.HistoryTab(false)
+            this.HistoryTab(true)
+          }.width('100%')
+        } else {
+          Row({ space: 8 }) {
+            this.HistoryTab(false)
+            this.HistoryTab(true)
+          }.width('100%')
+        }
       }.width('100%').padding({ left: 16, right: 16, bottom: 16 })
       if (!this.vm.showHosts) {
         Row() {
