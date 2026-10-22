@@ -1,6 +1,6 @@
 import { common } from '@kit.AbilityKit';
 import { fileIo as fs, picker } from '@kit.CoreFileKit';
-import { hilog } from '@kit.PerformanceAnalysisKit';
+import { Logger } from './Logger';
 import { ExportFormat, ScanRecord } from '../model/HistoryInfo';
 import { buildExportFileName, recordsToCsv, recordsToJson } from './HistoryExportFormat';
 
@@ -30,7 +30,7 @@ export async function exportHistory(context: common.Context, records: ScanRecord
     fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE | fs.OpenMode.TRUNC);
   try {
     fs.writeSync(file.fd, content);
-    hilog.info(0x0000, 'NetTools', 'history exported %{public}d bytes as %{public}s',
+    Logger.info('history exported %{public}d bytes as %{public}s',
       content.length, format);
   } finally {
     fs.closeSync(file);

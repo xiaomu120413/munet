@@ -1,5 +1,5 @@
 import { common } from '@kit.AbilityKit';
-import { hilog } from '@kit.PerformanceAnalysisKit';
+import { Logger } from '../services/Logger';
 import { ScanKind, ScanStatus } from '../model/HistoryInfo';
 import { HostResult } from '../model/ScanInfo';
 import { DiscoveryRepository } from '../repository/DiscoveryRepository';
@@ -140,11 +140,11 @@ export class LanDiscoveryViewModel {
         status: status,
         summary: summary
       }).catch((err: Error) => {
-        hilog.error(0x0000, 'NetTools', 'discovery history write failed: %{public}s',
+        Logger.error('discovery history write failed: %{public}s',
           err.message);
       });
       this.historyRepo.upsertHosts(online, this.names).catch((err: Error) => {
-        hilog.error(0x0000, 'NetTools', 'host archive upsert failed: %{public}s',
+        Logger.error('host archive upsert failed: %{public}s',
           err.message);
       });
     } catch (err) {

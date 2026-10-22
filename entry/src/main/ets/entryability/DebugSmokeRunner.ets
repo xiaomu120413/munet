@@ -1,13 +1,10 @@
 import { common, Want } from '@kit.AbilityKit';
-import { hilog } from '@kit.PerformanceAnalysisKit';
+import { Logger } from '../services/Logger';
 import BuildProfile from 'BuildProfile';
 import { ScanRecord } from '../model/HistoryInfo';
 import { HistoryRepository } from '../repository/HistoryRepository';
 import { DebugViewModel } from '../viewmodel/DebugViewModel';
 import { PingViewModel } from '../viewmodel/PingViewModel';
-
-const DOMAIN: number = 0x0000;
-const TAG: string = 'NetTools';
 
 /**
  * Debug-only headless smoke tests, triggered by Want parameters on start:
@@ -64,16 +61,15 @@ function runHistory(params: Record<string, Object>, context: common.Context): bo
   repo.initialize(context).then(() => {
     return repo.queryScanRecords();
   }).then((records: ScanRecord[]) => {
-    hilog.info(DOMAIN, TAG, 'headless history records=%{public}d', records.length);
+    Logger.info('headless history records=%{public}d', records.length);
     const limit: number = Math.min(records.length, 5);
     for (let i = 0; i < limit; i++) {
       const record: ScanRecord = records[i];
-      hilog.info(DOMAIN, TAG,
-        'headless history item: kind=%{public}s target=%{public}s status=%{public}s summary=%{public}s',
+      Logger.info('headless history item: kind=%{public}s target=%{public}s status=%{public}s summary=%{public}s',
         record.kind, record.target, record.status, record.summary);
     }
   }).catch((err: Error) => {
-    hilog.error(DOMAIN, TAG, 'headless history failed: %{public}s', err.message);
+    Logger.error('headless history failed: %{public}s', err.message);
   });
   return true;
 }
@@ -85,9 +81,9 @@ function runTraffic(params: Record<string, Object>): boolean {
   }
   const debugVm: DebugViewModel = new DebugViewModel();
   debugVm.runHeadlessTraffic(nic).then((summary: string) => {
-    hilog.info(DOMAIN, TAG, 'headless stats result: %{public}s', summary);
+    Logger.info('headless stats result: %{public}s', summary);
   }).catch((err: Error) => {
-    hilog.error(DOMAIN, TAG, 'headless stats failed: %{public}s', err.message);
+    Logger.error('headless stats failed: %{public}s', err.message);
   });
   return true;
 }
@@ -97,7 +93,7 @@ function runListeners(params: Record<string, Object>): boolean {
     return false;
   }
   const debugVm: DebugViewModel = new DebugViewModel();
-  hilog.info(DOMAIN, TAG, 'headless listeners result: %{public}s',
+  Logger.info('headless listeners result: %{public}s',
     debugVm.runHeadlessListeners());
   return true;
 }
@@ -128,18 +124,17 @@ function runPing(params: Record<string, Object>): boolean {
   vm.setTarget(host);
   vm.setCount(count);
   vm.selectPort(port);
-  hilog.info(DOMAIN, TAG, 'headless ping start host=%{public}s port=%{public}d count=%{public}d',
+  Logger.info('headless ping start host=%{public}s port=%{public}d count=%{public}d',
     host, port, count);
   vm.start().then(() => {
     const parts: string[] = [];
     for (const record of vm.records) {
       parts.push(record.ok ? record.rttMs + 'ms' : record.error);
     }
-    hilog.info(DOMAIN, TAG,
-      'headless ping result: sent=%{public}d recv=%{public}d loss=%{public}d%% seq=[%{public}s]',
+    Logger.info('headless ping result: sent=%{public}d recv=%{public}d loss=%{public}d%% seq=[%{public}s]',
       vm.stats.sent, vm.stats.received, vm.stats.lossPercent, parts.join(', '));
   }).catch((err: Error) => {
-    hilog.error(DOMAIN, TAG, 'headless ping failed: %{public}s', err.message);
+    Logger.error('headless ping failed: %{public}s', err.message);
   });
   return true;
 }
@@ -153,11 +148,11 @@ function runSweep(params: Record<string, Object>): boolean {
   const ports: string = portsText === undefined ? '80,443,22,445,3389,8080' : portsText;
 
   const debugVm: DebugViewModel = new DebugViewModel();
-  hilog.info(DOMAIN, TAG, 'headless sweep start cidr=%{public}s ports=%{public}s', cidr, ports);
+  Logger.info('headless sweep start cidr=%{public}s ports=%{public}s', cidr, ports);
   debugVm.runHeadlessSweep(cidr, ports).then((summary: string) => {
-    hilog.info(DOMAIN, TAG, 'headless sweep result: %{public}s', summary);
+    Logger.info('headless sweep result: %{public}s', summary);
   }).catch((err: Error) => {
-    hilog.error(DOMAIN, TAG, 'headless sweep failed: %{public}s', err.message);
+    Logger.error('headless sweep failed: %{public}s', err.message);
   });
   return true;
 }
@@ -168,11 +163,11 @@ function runProbe(params: Record<string, Object>): void {
   if (host === undefined || ports === undefined) {
     return;
   }
-  hilog.info(DOMAIN, TAG, 'headless probe start host=%{public}s ports=%{public}s', host, ports);
+  Logger.info('headless probe start host=%{public}s ports=%{public}s', host, ports);
   const debugVm: DebugViewModel = new DebugViewModel();
   debugVm.runHeadlessProbe(host, ports).then((summary: string) => {
-    hilog.info(DOMAIN, TAG, 'headless probe result: %{public}s', summary);
+    Logger.info('headless probe result: %{public}s', summary);
   }).catch((err: Error) => {
-    hilog.error(DOMAIN, TAG, 'headless probe failed: %{public}s', err.message);
+    Logger.error('headless probe failed: %{public}s', err.message);
   });
 }

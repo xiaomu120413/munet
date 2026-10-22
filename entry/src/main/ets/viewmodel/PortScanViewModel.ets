@@ -1,4 +1,4 @@
-import { hilog } from '@kit.PerformanceAnalysisKit';
+import { Logger } from '../services/Logger';
 import { ScanKind, ScanStatus } from '../model/HistoryInfo';
 import { PortResult, PortScanMode } from '../model/ScanInfo';
 import { HistoryRepository } from '../repository/HistoryRepository';
@@ -189,7 +189,7 @@ export class PortScanViewModel {
         status: status,
         summary: summary
       }).catch((err: Error) => {
-        hilog.error(0x0000, 'NetTools', 'portscan history write failed: %{public}s',
+        Logger.error('portscan history write failed: %{public}s',
           err.message);
       });
     }
