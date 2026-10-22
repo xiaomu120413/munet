@@ -68,18 +68,17 @@ ohpm install --all
 export DEVECO_SDK_HOME="C:\Program Files\Huawei\DevEco Studio\sdk"
 ./hvigorw assembleHap --mode module -p product=default debuggable
 
-# 2) 签名（每个设备 UDID 单独签一次；工具在仓库根的 tools/ 下）
-cd ..
-bash tools/sign-local.sh nettools/entry/build/default/outputs/default/entry-default-unsigned.hap \
-    nettools/entry-default-signed.hap <UDID> com.mu.nettools
+# 2) 签名（每个设备 UDID 单独签一次；脚本与材料在同级 thirty 工作区，不入本仓库）
+bash ../thirty/tools/sign-local.sh entry/build/default/outputs/default/entry-default-unsigned.hap \
+    entry-default-signed.hap <UDID> com.mu.nettools
 
 # 3) 安装 + 启动
-MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r nettools/entry-default-signed.hap
+MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-default-signed.hap
 MSYS_NO_PATHCONV=1 hdc -t <UDID> shell "aa start -a EntryAbility -b com.mu.nettools -m entry"
 
 # 4) 单元测试（ohosTest / hypium）
 ./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
-bash tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
+bash ../thirty/tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
     entry-ohosTest-signed.hap <UDID> com.mu.nettools
 MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-ohosTest-signed.hap
 MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \

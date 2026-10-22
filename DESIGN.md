@@ -278,7 +278,7 @@ IP              状态   端口              主机名
 ### 4.2 工程结构与命名规范
 
 ```
-nettools/                          ← thirty/nettools/，嵌套独立 git 仓库
+nettools/                          ← 独立仓库（与 thirty/ 平级）
 ├── AppScope/
 ├── entry/src/main/
 │   ├── ets/
@@ -674,9 +674,10 @@ CREATE TABLE discovered_host (
    failed`、`null jsAbilityObj`、永久卡启动图）。改过 ets 或首次失败后，
    先 `rm -rf entry/build .hvigor` 再构建，并 `unzip -l` 确认包含
    `ets/modules.abc`。
-4. **签名**：`bash tools/sign-local.sh <unsigned.hap> <out.hap> <UDID>
-   com.mu.nettools`（profile 按 UDID + bundleName 动态生成；开发期也可用
-   AGC 自动签名）。**每个设备 UDID 需单独签一次**。
+4. **签名**：`bash ../thirty/tools/sign-local.sh <unsigned.hap> <out.hap> <UDID>
+   com.mu.nettools`（脚本与材料位于同级 thirty 工作区，不入本仓库；profile
+   按 UDID + bundleName 动态生成；开发期也可用 AGC 自动签名）。
+   **每个设备 UDID 需单独签一次**。
 5. **部署**：`hdc -t <UDID> install -r <hap>` →
    `aa start -a EntryAbility -b com.mu.nettools -m entry`。
 6. **无头冒烟（调试构建，仅 BuildProfile.DEBUG 生效）**：设备被其他窗口占用
@@ -691,7 +692,7 @@ CREATE TABLE discovered_host (
 
    ```bash
    ./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
-   bash tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
+   bash ../thirty/tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
        entry-ohosTest-signed.hap <UDID> com.mu.nettools
    hdc -t <UDID> install -r entry-ohosTest-signed.hap
    hdc -t <UDID> shell "aa test -b com.mu.nettools -m entry_test \
@@ -699,13 +700,13 @@ CREATE TABLE discovered_host (
    ```
 
    结果看 `OHOS_REPORT_RESULT: Tests run: N, Failure: 0, Error: 0`。
-4. **验证（优先 MCP，比手搓 hdc 快）**：
+8. **验证（优先 MCP，比手搓 hdc 快）**：
    - `build_app` / `install_app` / `run_app` / `screenshot` / `get_ui_tree` /
      `click` / `swipe` / `input_text` / `logs_query`。
    - 网络类结论必须在**真机真实网络环境**下验证（模拟器无意义）。
    - 本机信息页与 `hdc shell ifconfig` / `ip addr` 对照核对 IP/网关/DNS。
    - 任何 UI 结论以截图 + OCR（必要时像素探针）+ 真实注入点击为准。
-5. **日志**：`hilog` 过滤应用 tag；错误路径必须打点（不打印敏感地址全文，
+9. **日志**：`hilog` 过滤应用 tag；错误路径必须打点（不打印敏感地址全文，
    打掩码）。
 
 ## 10. 里程碑与验收矩阵
