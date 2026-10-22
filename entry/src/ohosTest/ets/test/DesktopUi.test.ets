@@ -28,11 +28,11 @@ export default function desktopUiTest() {
         let item: Component = await driver.findComponent(ON.id('nav-' + page).inWindow('com.mu.nettools'));
         if (await bar.isScrollable()) {
           const b: Rect = await bar.getBounds();
-          // Use real mouse wheel events to reach offscreen desktop navigation.
+          // A short window may require vertical scrolling in the left navigation.
           for (let i: number = 0; i < 5; i++) {
             if (item !== null) {
               const bounds: Rect = await item.getBounds();
-              if (bounds.right - bounds.left > 70 && bounds.left >= b.left && bounds.right <= b.right) { break; }
+              if (bounds.bottom - bounds.top > 50 && bounds.top >= b.top && bounds.bottom <= b.bottom) { break; }
             }
             await driver.mouseScroll({ x: Math.round((b.left + b.right) / 2), y: Math.round((b.top + b.bottom) / 2) }, page > 1, 2);
             item = await driver.findComponent(ON.id('nav-' + page).inWindow('com.mu.nettools'));
@@ -74,6 +74,11 @@ export default function desktopUiTest() {
           for (const page of [0, 1, 2, 3, 4, 5]) {
             await nav(page);
             const root: Rect = await (await find('app-shell')).getBounds();
+            const sidebar: Rect = await (await find('desktop-navigation')).getBounds();
+            expect(Math.abs(sidebar.left - root.left) <= 2).assertTrue();
+            expect(Math.abs(sidebar.top - root.top) <= 2).assertTrue();
+            expect(sidebar.right < root.right - 100 * density).assertTrue();
+            expect(Math.abs((sidebar.right - sidebar.left) / density - (width < 840 ? 72 : 192)) < 2).assertTrue();
             expect(await driver.findComponent(ON.id('bottom-navigation')) === null).assertTrue();
             if (page === 1) {
               const input: Component = await find('ping-target');

@@ -29,7 +29,6 @@ struct Index {
   @State historyVm: HistoryViewModel = new HistoryViewModel();
   private readonly desktop: boolean = deviceInfo.deviceType === '2in1' || deviceInfo.deviceType === 'pc';
   private confirmingLeave: boolean = false;
-  private desktopScroller: Scroller = new Scroller();
   private navItems: NavItem[] = [
     { title: '本机网络', icon: $r('sys.symbol.worldclock') },
     { title: 'Ping', icon: $r('sys.symbol.waveform_path_ecg_square') },
@@ -44,7 +43,8 @@ struct Index {
     { title: '记录', icon: $r('sys.symbol.list_bullet') },
     { title: '更多', icon: $r('sys.symbol.ellipsis_circle') }
   ];
-  private sideNavigation(): boolean { return !this.desktop && this.windowWidth >= 840; }
+  private sideNavigation(): boolean { return this.desktop || this.windowWidth >= 840; }
+  private compactNavigation(): boolean { return this.desktop && this.windowWidth < 840; }
   private narrowNavigation(): boolean { return !this.desktop && this.windowWidth < 840; }
   private isTool(): boolean { return this.current >= 1 && this.current <= 3; }
   private selectedBottom(): number {
@@ -108,17 +108,26 @@ struct Index {
   }
 
   @Builder
-  NavigationItem(item: NavItem, index: number, side: boolean) {
+  NavigationItem(item: NavItem, index: number) {
     Button({ type: ButtonType.Normal, stateEffect: true }) {
+      if (this.compactNavigation()) {
+        Column({ space: 6 }) {
+          SymbolGlyph(item.icon).fontSize(22)
+            .fontColor([this.current === index ? UiTheme.accent : UiTheme.secondary])
+          Text(item.title).fontSize(12)
+            .fontColor(this.current === index ? UiTheme.accent : UiTheme.text).textAlign(TextAlign.Center)
+        }.width('100%').padding({ left: 4, right: 4, top: 12, bottom: 12 }).constraintSize({ minHeight: 64 })
+      } else {
       Row({ space: 12 }) {
-        if (side) { SymbolGlyph(item.icon).fontSize(22)
-          .fontColor([this.current === index ? UiTheme.accent : UiTheme.secondary]) }
+        SymbolGlyph(item.icon).fontSize(22)
+          .fontColor([this.current === index ? UiTheme.accent : UiTheme.secondary])
         Text(item.title).fontSize(16).fontWeight(this.current === index ? FontWeight.Medium : FontWeight.Regular)
           .fontColor(this.current === index ? UiTheme.accent : UiTheme.text)
-      }.width(side ? '100%' : 'auto')
+      }.width('100%')
         .padding({ left: 16, right: 16, top: 12, bottom: 12 }).constraintSize({ minHeight: 48 })
+      }
     }
-    .borderRadius(side ? 24 : 8)
+    .borderRadius(this.compactNavigation() ? 12 : 24)
     .backgroundColor(this.current === index ? UiTheme.selected : Color.Transparent)
     .id('nav-' + index).accessibilitySelected(this.current === index)
     .accessibilityText(item.title + (this.current === index ? '，已选中' : ''))
@@ -129,32 +138,21 @@ struct Index {
   SideNav() {
     Scroll() {
       Column({ space: 8 }) {
-      Text($r('app.string.app_brand')).fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
-        .width('100%').padding({ left: 16, top: 16, bottom: 24 })
+      if (this.compactNavigation()) {
+        Image($r('app.media.app_icon')).width(40).height(40).borderRadius(10)
+          .accessibilityText($r('app.string.app_brand')).margin({ top: 16, bottom: 16 })
+      } else {
+        Text($r('app.string.app_brand')).fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
+          .width('100%').padding({ left: 16, top: 16, bottom: 24 })
+      }
       ForEach(this.navItems, (item: NavItem, index: number) => {
-        this.NavigationItem(item, index, true)
+        this.NavigationItem(item, index)
       }, (item: NavItem) => item.title)
       }.width('100%').padding({ left: 8, right: 8, bottom: 16 })
-    }.id('tablet-navigation').width(192).height('100%').align(Alignment.TopStart)
+    }.id(this.desktop ? 'desktop-navigation' : 'tablet-navigation')
+      .width(this.compactNavigation() ? 72 : 192).height('100%').align(Alignment.TopStart)
       .scrollBar(BarState.Auto).backgroundColor(UiTheme.background)
-  }
-
-  @Builder
-  TopNav() {
-    Scroll(this.desktopScroller) {
-      Row({ space: 4 }) {
-        ForEach(this.navItems, (item: NavItem, index: number) => {
-          this.NavigationItem(item, index, false)
-        }, (item: NavItem) => item.title)
-      }.width('auto').padding({ left: 16, right: 16, top: 4, bottom: 4 })
-    }.id('desktop-navigation').width('100%').scrollable(ScrollDirection.Horizontal).scrollBar(BarState.Auto)
-      .onAxisEvent((event: AxisEvent) => {
-        // A mouse wheel usually emits a vertical axis even over this horizontal bar.
-        if (event.getHorizontalAxisValue() === 0 && event.getVerticalAxisValue() !== 0) {
-          this.desktopScroller.scrollBy(-event.getVerticalAxisValue(), 0);
-        } else { event.propagation(); }
-      })
-      .align(Alignment.Start).backgroundColor(UiTheme.surface)
+      .border({ width: { right: 1 }, color: UiTheme.divider })
   }
 
   @Builder
@@ -182,7 +180,6 @@ struct Index {
       // Content stays at the same tree position when navigation changes shape.
       Flex({ direction: this.sideNavigation() ? FlexDirection.Row : FlexDirection.Column }) {
         if (this.sideNavigation()) { this.SideNav() }
-        else if (this.desktop) { this.TopNav() }
         Column() {
           if (this.narrowNavigation() && this.isTool()) {
             Row() {

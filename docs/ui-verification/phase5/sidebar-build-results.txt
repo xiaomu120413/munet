@@ -1,0 +1,15 @@
+PC sidebar application build:
+> hvigor Finished :entry:default@CollectDebugSymbol... after 1 ms
+> hvigor Finished :entry:assembleHap... after 1 ms
+> hvigor BUILD SUCCESSFUL in 1 s 302 ms
+
+33 tasks in total: 17 executed, 16 up-to-date
+PC sidebar test build:
+> hvigor Finished :entry:ohosTest@CollectDebugSymbol... after 5 ms
+> hvigor Finished :entry:assembleHap... after 1 ms
+> hvigor BUILD SUCCESSFUL in 2 s 360 ms
+
+34 tasks in total: 18 executed, 16 up-to-date
+Signed PC HAP SHA256:
+BF4A3DDBFACF17121A95B088BA66588BEB4BDD55FFE276462698D652440F5782
+Not installed on device: PC is in use by another task.
