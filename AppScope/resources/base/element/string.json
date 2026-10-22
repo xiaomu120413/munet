@@ -2,7 +2,11 @@
   "string": [
     {
       "name": "app_name",
-      "value": "NetTools"
+      "value": "木络"
+    },
+    {
+      "name": "app_brand",
+      "value": "木络 · MuNet"
     }
   ]
 }

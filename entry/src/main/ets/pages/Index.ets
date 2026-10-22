@@ -118,7 +118,7 @@ struct Index {
   @Builder
   SideNav() {
     Column({ space: 8 }) {
-      Text('NetTools').fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
+      Text($r('app.string.app_brand')).fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
         .width('100%').padding({ left: 16, top: 16, bottom: 24 })
       ForEach(this.navItems, (item: NavItem, index: number) => {
         this.NavigationItem(item, index, true)

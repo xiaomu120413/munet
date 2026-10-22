@@ -1,4 +1,6 @@
-# NetTools（网络工具箱）
+# 木络 · MuNet
+
+原项目名NetTools。应用图标与名称已切换为木络；设计与改造进度见[品牌资源](docs/brand-2026-10-22/README.md)和[UI改造计划](docs/UI-MIGRATION.md)。
 
 HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口扫描 / 局域网
 设备发现 / 扫描记录。整体设计见 [DESIGN.md](DESIGN.md)。

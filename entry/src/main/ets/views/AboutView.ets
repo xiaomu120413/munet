@@ -67,7 +67,9 @@ export struct AboutView {
       Scroll() {
         Column() {
           Column() {
-            Text('NetTools').fontSize(20).fontWeight(FontWeight.Bold)
+            Image($r('app.media.app_icon')).width(72).height(72).borderRadius(16)
+              .accessibilityText('木络应用图标').margin({ bottom: 12 })
+            Text($r('app.string.app_brand')).fontSize(20).fontWeight(FontWeight.Bold)
             Text('本地网络诊断工具箱').fontSize(12).fontColor('#888888').margin({ top: 4 })
             Divider().margin({ top: 12, bottom: 4 })
             this.InfoRow('应用版本', this.vm.appVersion())

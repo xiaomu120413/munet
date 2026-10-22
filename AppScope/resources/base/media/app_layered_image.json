@@ -1,0 +1,6 @@
+{
+  "layered-image": {
+    "background": "$media:munet_background",
+    "foreground": "$media:munet_foreground"
+  }
+}
