@@ -12,6 +12,9 @@ export struct PingView {
   private ports: number[] = [80, 443, 22, 3389, 8080];
   private counts: number[] = [1, 4, 10];
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
+  private wideParameters(): boolean {
+    return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context, 960);
+  }
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
   private stacked(): boolean { return this.contentWidth < 320; }
   aboutToDisappear(): void { this.vm.leave(); }
@@ -38,6 +41,7 @@ export struct PingView {
       Text('端口').fontSize(16).fontColor(UiTheme.text).width(this.stacked() ? '100%' : 76)
         .margin({ bottom: this.stacked() ? 8 : 0 })
       Select([{ value: '80' }, { value: '443' }, { value: '22' }, { value: '3389' }, { value: '8080' }])
+        .id('ping-port')
         .value(this.vm.smartFallback ? '自动回退' : String(this.vm.selectedPort))
         .selected(this.ports.indexOf(this.vm.selectedPort)).font({ size: 16 })
         .enabled(!this.vm.isRunning && !this.vm.smartFallback)
@@ -92,7 +96,7 @@ export struct PingView {
   StartButton() {
     Button(this.vm.isRunning ? (this.vm.cancelled ? '正在停止' : '停止') : '开始', { type: ButtonType.Capsule, stateEffect: true })
       .id('ping-start')
-      .fontSize(16).constraintSize({ minHeight: 44 }).width(this.wide() ? 144 : '100%')
+      .fontSize(16).constraintSize({ minHeight: 44 }).width(this.wideParameters() ? 144 : '100%')
       .backgroundColor(this.vm.isRunning ? UiTheme.danger : UiTheme.accent)
       .fontColor($r('app.color.ui_on_accent'))
       .enabled(!this.vm.isRunning || !this.vm.cancelled)
@@ -102,7 +106,7 @@ export struct PingView {
   @Builder
   Parameters() {
     Column({ space: 24 }) {
-      if (this.wide()) {
+      if (this.wideParameters()) {
         Row({ space: 24 }) {
           Column() { this.TargetField() }.layoutWeight(5)
           Column() { this.PortField() }.layoutWeight(3)

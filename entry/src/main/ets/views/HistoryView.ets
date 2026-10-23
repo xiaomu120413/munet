@@ -10,6 +10,9 @@ export struct HistoryView {
   @ObjectLink vm: HistoryViewModel;
   onRescan: (kind: ScanKind, target: string) => void = () => {};
   @State contentWidth: number = 0;
+  @State contentHeight: number = 0;
+  @State actionsOpen: boolean = false;
+  private pendingAction: () => void = () => {};
   private scroller: Scroller = new Scroller();
   private confirming: boolean = false;
   private restoring: boolean = false;
@@ -50,14 +53,39 @@ export struct HistoryView {
   }
   private more(): void {
     if (this.busy()) { return; }
-    const sheets: SheetInfo[] = [];
-    if (!this.vm.showHosts && this.vm.hasRecords()) {
-      sheets.push({ title: '导出全部扫描记录 · CSV', action: () => { this.export(ExportFormat.CSV); } });
-      sheets.push({ title: '导出全部扫描记录 · JSON', action: () => { this.export(ExportFormat.JSON); } });
-    }
-    sheets.push({ title: '清空全部记录与档案', action: () => { this.clear(); } });
-    this.getUIContext().showActionSheet({ title: '记录操作',
-      message: this.vm.showHosts ? '清空操作会同时删除扫描记录和设备档案。' : '导出包含全部扫描记录，不受类型筛选影响。', sheets: sheets });
+    this.actionsOpen = true;
+  }
+  private closeActions(action: () => void): void {
+    this.pendingAction = action;
+    this.actionsOpen = false;
+  }
+  @Builder
+  MobileActions() {
+    Scroll() {
+      Column({ space: 12 }) {
+        Text('记录操作').fontSize(20).fontWeight(FontWeight.Medium).fontColor(UiTheme.text).width('100%')
+        Text(this.vm.showHosts ? '清空操作会同时删除扫描记录和设备档案。' : '导出包含全部扫描记录，不受类型筛选影响。')
+          .fontSize(14).fontColor(UiTheme.secondary).width('100%').margin({ bottom: 8 })
+        if (!this.vm.showHosts && this.vm.hasRecords()) {
+          Button('导出全部扫描记录 · CSV', { type: ButtonType.Normal, stateEffect: true })
+            .id('history-sheet-csv').width('100%').constraintSize({ minHeight: 56 }).padding(12)
+            .fontSize(16).fontColor(UiTheme.accent).backgroundColor(UiTheme.selected).borderRadius(12)
+            .onClick(() => { this.closeActions(() => { this.export(ExportFormat.CSV); }); })
+          Button('导出全部扫描记录 · JSON', { type: ButtonType.Normal, stateEffect: true })
+            .id('history-sheet-json').width('100%').constraintSize({ minHeight: 56 }).padding(12)
+            .fontSize(16).fontColor(UiTheme.accent).backgroundColor(UiTheme.selected).borderRadius(12)
+            .onClick(() => { this.closeActions(() => { this.export(ExportFormat.JSON); }); })
+        }
+        Button('清空全部记录与档案', { type: ButtonType.Normal, stateEffect: true })
+          .id('history-sheet-clear').width('100%').constraintSize({ minHeight: 56 }).padding(12)
+          .fontSize(16).fontColor(UiTheme.danger).backgroundColor(UiTheme.surface).borderRadius(12)
+          .onClick(() => { this.closeActions(() => { this.clear(); }); })
+        Button('取消', { type: ButtonType.Normal, stateEffect: true })
+          .id('history-sheet-cancel').width('100%').constraintSize({ minHeight: 56 }).padding(12)
+          .fontSize(16).fontColor(UiTheme.text).backgroundColor(UiTheme.surface).borderRadius(12)
+          .onClick(() => { this.actionsOpen = false; })
+      }.width('100%').padding(24)
+    }.width('100%').constraintSize({ maxHeight: Math.max(160, this.contentHeight * 0.8) })
   }
   @Builder
   ExportMenu() {
@@ -121,9 +149,17 @@ export struct HistoryView {
             .id('history-more')
             .backgroundColor(UiTheme.selected).enabled(!this.busy()).bindMenu(this.Actions)
         } else {
-          UiAction({ label: '更多', actionEnabled: !this.busy(), onAction: () => { this.more(); } })
+          UiAction({ label: '更多', actionEnabled: !this.busy(), onAction: () => { this.more(); } }).id('history-more')
         }
     }.justifyContent(FlexAlign.End)
+      .bindSheet($$this.actionsOpen, this.MobileActions, {
+        height: SheetSize.FIT_CONTENT, dragBar: true, showClose: false,
+        onDisappear: () => {
+          const action: () => void = this.pendingAction;
+          this.pendingAction = () => {};
+          action();
+        }
+      })
   }
   @Builder
   HistoryTab(hosts: boolean) {
@@ -227,6 +263,9 @@ export struct HistoryView {
           else { this.vm.recordOffset = this.scroller.currentOffset().yOffset; }
         })
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
-      .onAreaChange((_old: Area, area: Area) => { this.contentWidth = Number(area.width); })
+      .onAreaChange((_old: Area, area: Area) => {
+        this.contentWidth = Number(area.width);
+        this.contentHeight = Number(area.height);
+      })
   }
 }

@@ -5,6 +5,7 @@ import uiMigrationTest from './UiMigration.test';
 import responsiveUiTest from './ResponsiveUi.test';
 import windowUiTest from './WindowUi.test';
 import desktopUiTest from './DesktopUi.test';
+import touchUiTest from './TouchUi.test';
 
 export default function testsuite() {
   netToolsUnitTest();
@@ -14,4 +15,5 @@ export default function testsuite() {
   responsiveUiTest();
   windowUiTest();
   desktopUiTest();
+  touchUiTest();
 }

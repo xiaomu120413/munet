@@ -13,14 +13,6 @@ export struct AboutView {
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
   private vm: AboutViewModel = new AboutViewModel();
   private debug: DebugViewModel = new DebugViewModel();
-  @Builder
-  Detail(label: string, value: string) {
-    Row({ space: 16 }) {
-      Text(label).fontSize(16).fontColor(UiTheme.secondary).width(96)
-      Text(value).fontSize(16).fontColor(UiTheme.text).layoutWeight(1).copyOption(CopyOptions.InApp)
-    }.width('100%').padding({ top: 16, bottom: 16 }).alignItems(VerticalAlign.Top)
-    Divider().color(UiTheme.divider)
-  }
   build() {
     Column() {
       UiPageHeader({ title: this.title, inset: this.inset() })
@@ -29,15 +21,17 @@ export struct AboutView {
           Row({ space: 16 }) {
             Image($r('app.media.app_icon')).width(72).height(72).borderRadius(16)
             Column({ space: 8 }) {
-              Text('木络 · MuNet').fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
+              Text('木络').fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
               Text('网络状态与连接诊断').fontSize(16).fontColor(UiTheme.secondary)
             }.alignItems(HorizontalAlign.Start).layoutWeight(1)
           }.width('100%')
-          Column() {
-            this.Detail('应用版本', this.vm.appVersion())
-            this.Detail('核心版本', this.vm.coreVersion())
-            this.Detail('应用标识', this.vm.bundleName())
-          }.width('100%')
+          Text('木络是一款本地网络诊断工具，帮助你查看网络状态、检查连接和发现局域网设备。')
+            .fontSize(16).fontColor(UiTheme.text).lineHeight(25).width('100%')
+          Column({ space: 12 }) {
+            Text('可以做什么').fontSize(18).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
+            Text('查看本机网络与 Wi-Fi 信息；通过 TCP 探测连接、扫描端口；发现局域网设备，并保存和导出扫描记录。')
+              .fontSize(16).fontColor(UiTheme.secondary).lineHeight(25)
+          }.width('100%').alignItems(HorizontalAlign.Start)
           Column({ space: 12 }) {
             Text('使用说明').fontSize(18).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
             Text(this.vm.disclaimer()).fontSize(16).fontColor(UiTheme.secondary).lineHeight(25)

@@ -142,7 +142,7 @@ struct Index {
         Image($r('app.media.app_icon')).width(40).height(40).borderRadius(10)
           .accessibilityText($r('app.string.app_brand')).margin({ top: 16, bottom: 16 })
       } else {
-        Text($r('app.string.app_brand')).fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
+        Text('木络').fontSize(22).fontWeight(FontWeight.Medium).fontColor(UiTheme.text)
           .width('100%').padding({ left: 16, top: 16, bottom: 24 })
       }
       ForEach(this.navItems, (item: NavItem, index: number) => {

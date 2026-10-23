@@ -33,8 +33,8 @@ HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口�
   IP/端口/最近发现）、**端口扫描「扫描本机」模式**（127.0.0.1/::1/本机 IPv4
   逐地址探测去重，实测找出 4 个占用端口）、关于页、回车启动、窄屏底部标签
   导航、x86_64 ABI。
-- ❌ 流量统计：`GET_NETWORK_STATS` 真机实测 `denied`（system_basic），
-  普通应用不可用，已放弃。
+- ⏳ 流量统计：此前 `GET_NETWORK_STATS` 真机实测 `denied`（system_basic），
+  当前版本未接入；拟扩展时先核对AGC受限权限申请资格，见[权限清单](docs/PERMISSIONS.md)。
 - ❌ `/proc/net/tcp` 本机监听表：应用沙箱 `denied`，改走 connect 扫描近似。
 - ✅ **单元测试**：ohosTest（hypium）覆盖 `Subnet` 与 `HistoryExportFormat`，
   原有记录为6/6；当前完整桌面专项包含14项单元测试与1项综合测试，结果和边界见下方最新验收。
@@ -42,6 +42,8 @@ HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口�
 ## 目录
 
 最新UI对照与验证见[阶段8报告](docs/ui-verification/phase8/README.md)，发布候选产物和剩余条件见[发布准备](docs/RELEASE-READINESS.md)。PC采用左侧导航、宽屏横排参数；窄窗与大字号回退单列。关于页隐私说明已按用户要求删除，诊断入口仅Debug可见。文档和候选产物不表示已向应用市场送审。
+
+2026-10-23末版更新：手机／平板模拟器完整专项与平板窄窗专项均15/15通过；深色、最大字体、716vp分屏及全屏恢复已复核。手机操作面板改为至少56vp的原生按钮；首页侧栏只显示木络，关于改为基础介绍，不显示版本与标识。见[阶段9归档](docs/ui-verification/phase9/README.md)及[权限申请清单](docs/PERMISSIONS.md)。旧能力矩阵的受限权限结论为历史实测，不代表API 26所有接口均不可申请。
 
 ```
 nettools/

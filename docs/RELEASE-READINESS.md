@@ -1,13 +1,13 @@
 # 木络0.4.0发布准备
 
-2026-10-22。当前准备的是可复核的代码提交与Release候选产物，未创建市场发布单、上传或送审。保留包名`com.mu.nettools`、版本`0.4.0`／`1000004`，正式送审前仍需与AGC已有版本核对，不假设此前已经发布。
+2026-10-23 更新。当前准备的是可复核的代码提交与Release候选产物，未创建市场发布单、上传或送审。保留包名`com.mu.nettools`、版本`0.4.0`／`1000004`，正式送审前仍需与AGC已有版本核对，不假设此前已经发布。最新手机／平板模拟器验收见[阶段9](ui-verification/phase9/README.md)，权限申请见[清单](PERMISSIONS.md)。
 
 ## 候选产物
 
-- `artifacts/release/0.4.0/munet-0.4.0-unsigned.app`：未签名Release应用包。
-- `artifacts/release/0.4.0/munet-0.4.0-unsigned.hap`：未签名Release主模块。
+- `artifacts/release/0.4.0/munet-0.4.0-20261023-unsigned.app`：本轮未签名Release应用包。
+- `artifacts/release/0.4.0/munet-0.4.0-20261023-unsigned.hap`：本轮未签名Release主模块；原10月22日候选保留。
 - PC本地签名的Release HAP仅用于已连接设备验收，使用设备绑定调试签名，不能当作正式市场签名。
-- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；检查结果及SHA-256见[产物清单](ui-verification/phase8/release-manifest.json)。
+- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；检查结果及SHA-256见[产物清单](ui-verification/phase9/release-manifest.json)。
 
 Release构建命令（DevEco Studio运行环境）：
 
@@ -29,7 +29,7 @@ python scripts/check_release.py --hap entry/build/default/outputs/default/entry-
 2. Ping为TCP连通性探测；关闭端口／防火墙拦截不表示主机离线。服务名是常见端口用途，不是服务指纹。
 3. 扫描记录及发现过的设备档案保存在本机；导出CSV／JSON仅在用户选择系统保存位置后写入文件。清空同时删除两类记录，确认文案明确范围。
 4. 声明权限只有INTERNET、GET_NETWORK_INFO、GET_WIFI_INFO；没有账户、云同步或流量统计功能。
-5. Release隐藏诊断入口，Debug无界面探测参数在Release不执行。关于页的隐私说明已按用户要求删除，没有补造政策URL。
+5. Release隐藏诊断入口，Debug无界面探测参数在Release不执行。关于页按用户要求保留基础介绍，移除版本、应用标识与核心版本；隐私段落未恢复，没有补造政策URL。首页侧栏只显示木络。
 
 这份数据说明供准备资料核对，不能替代开发者最终确认的隐私政策或市场申报内容。
 
@@ -38,7 +38,7 @@ python scripts/check_release.py --hap entry/build/default/outputs/default/entry-
 - 关联正确AGC应用，提供正式发布证书／签名配置，对最终正式签名包再次检查与安装验证。
 - 核对AGC已有版本号、正式应用介绍、适用设备和上传页要求的图标及真实截图；设计稿不能充当宣传截图。
 - 由开发者确认对外数据处理说明、政策内容与联系方式。应用内隐私段落按用户要求删除，不在本轮重新加入占位文字。
-- 连接手机和平板复验最终提交源码；历史验收保留，但不冒充本轮最新版本的复验。完整读屏语音听测仍待完成。
+- 手机和平板末版模拟器验收已完成，见阶段9；真实Wi-Fi／局域网兼容性和完整读屏语音听测仍需实机／人工，不将模拟器当成真机证据。
 - 构建存在既有SDK弃用／异常处理提示，保留完整日志；无编译错误不等同于已满足全部市场检查。
 
 逐页对照、修复和本轮设备证据见[阶段8报告](ui-verification/phase8/README.md)。
