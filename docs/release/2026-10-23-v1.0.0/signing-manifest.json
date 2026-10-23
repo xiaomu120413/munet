@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-23",
+  "source_parent_commit": "6dc4fb064b5fd2182a238d0d47b3e5059289dfb4",
+  "source_state": "working_tree_including_version_and_user_privacy_metadata",
+  "bundle": "com.munet.app",
+  "version": "1.0.0",
+  "versionCode": 1000000,
+  "formal_release_signing_verified": true,
+  "sdk_verify_app_success": true,
+  "sdk_verify_hap_success": true,
+  "market_submission_ready": false,
+  "device_tests_rerun": false,
+  "privacy_hosting_metadata_embedded": true,
+  "metadata": [
+    {
+      "name": "avoid_cutout",
+      "value": "true"
+    },
+    {
+      "name": "appgallery_privacy_hosted",
+      "value": "1"
+    },
+    {
+      "name": "appgallery_privacy_link_privacy_statement",
+      "value": "https://agreement-drcn.hispace.dbankcloud.cn/index.html?lang=zh&agreementId=2067524291418708672"
+    }
+  ],
+  "profile_sha256": "a2da159fd3d6934ea1feb79e88d6a8654564fc9daef6d5013f50700ccdc53ac7",
+  "permissions": [
+    "ohos.permission.GET_NETWORK_INFO",
+    "ohos.permission.GET_WIFI_INFO",
+    "ohos.permission.INTERNET"
+  ],
+  "runtime_common_files_equal": true,
+  "source_sha256": {
+    "AppScope/app.json5": "e6ff52c57d263a21324988fb2b0cd71f72732b2e279480f2be3eed1c90950143",
+    "entry/build-profile.json5": "a716b7db221e84ef1667ff37d4b0aa4a495308640ce201397c14d790ba993e59",
+    "oh-package.json5": "91405093d9735a72d8fbac6e8e34e5e6160a75a502c4f39cd73e0708e8692b11",
+    "hvigorfile.ts": "561d3af07f6c82dbb7bb20bc1b6f719d0d83d0ca6b0131657b8fab55e255b7b4",
+    "AppScope/resources/en_US/element/string.json": "6b115cb88c31c7c6b1b485065556124d425b0f0adbcd682ce1dc7d57ece3caf7",
+    "AppScope/resources/base/element/string.json": "943657552072616b5beb722b175191e04ef28d141f19675ce25812aef9d943eb",
+    "AppScope/resources/base/media/app_icon.png": "9e3750d4481f10c986b3a749a2ebb589d6502830b1b8e8720a52e402f6b9cafb",
+    "AppScope/resources/base/media/app_layered_image.json": "3377570030407dd39b7c8287a5c47125f172f5a340e50b074885aac7f1ac7fc4",
+    "AppScope/resources/base/media/munet_background.svg": "e34943c6440d6edb14355fe198cb654e82897420828288ce273a15dd377bad62",
+    "AppScope/resources/base/media/munet_foreground.png": "ffdb47a611fe5ccc1f831f41c53a051bea0d93e650fa7cf0d507f223c16e111d",
+    "AppScope/resources/base/profile/configuration.json": "13284c8c8721eea78531ccdd47cb9bff0211edf9080b1a42a2794db78237050f",
+    "entry/src/main/module.json5": "4f8d118eee1018988c0c6f311be901cdf37832f6a1574b7d5a935529828fd115",
+    "entry/src/main/cpp/CMakeLists.txt": "6759ac3a9021ae855da0a665a8910a70b9f87c5078c8c641d0c7731ddf712298",
+    "entry/src/main/cpp/napi_init.cpp": "c7ddc078be72610738f6c307aaac3c7df232cbdf3937717888b03187d1f8e8ba",
+    "entry/src/main/resources/dark/element/color.json": "4c3e438aeece3d43862d693fcca43fb0feb1bfcae684acf917b918ccf57640b2",
+    "entry/src/main/resources/base/element/color.json": "7215ea24024063ac75b41e7cd17f80a771dc5acbe853f5e1baaf0dd313f7f902",
+    "entry/src/main/resources/base/element/string.json": "821f0b74001bf235ba7237fa073a48ac5a5c77b9cfac2400cb7497292d80e4ce",
+    "entry/src/main/resources/base/media/layered_image.json": "8303b713dc663e1c7ff1774dd0078b1b6856035b2e7ae90cfab4456b62711b18",
+    "entry/src/main/resources/base/media/startIcon.png": "9e3750d4481f10c986b3a749a2ebb589d6502830b1b8e8720a52e402f6b9cafb",
+    "entry/src/main/resources/base/profile/main_pages.json": "f21984fb1d5096f0db41314da0bb94c573e7ad018e5afae3044f8d5ff71b0bfc",
+    "entry/src/main/ets/entryability/DebugSmokeRunner.ets": "577f8a784181f82c41b6ad1afbcb1e4ee1031b612fa6f8bd876b57f6181425ce",
+    "entry/src/main/ets/entryability/EntryAbility.ets": "fc9d9912fe2fcce551021853fa60b0266738631583cb2c0982726e26f5fa8e3e",
+    "entry/src/main/ets/model/HistoryInfo.ets": "90dc45172cb59936ca218f113e334560597419eb26a67b9c6c757645fc34b225",
+    "entry/src/main/ets/model/NetworkInfo.ets": "689082de1cdd3b22e1b38c01b222f5dc994a8a18ccd57b339948b1fc3df5d2d6",
+    "entry/src/main/ets/model/ScanInfo.ets": "5be50deae5dbc90af298861d3e3b9d36f1043ea2b5ddb7d27c171123e9b893e2",
+    "entry/src/main/ets/net/LocalNetInfo.ets": "fcf6486a19925916a33df75c595c79a8d75df79c990e65fa27b64170bdf2a51c",
+    "entry/src/main/ets/net/MdnsDiscovery.ets": "1454b56a49445fcc035688dcbdd36c88f7d33d2cde76af0643981b3f9b4353cd",
+    "entry/src/main/ets/net/NativeCore.ets": "345c6c66d29235abcfee7d8af1a2ce3227dadbdc14eefe2010c52e6a036a1ea9",
+    "entry/src/main/ets/net/PortPresets.ets": "5e4f5a8fee084678a1452d6b55af7ac400fe0ab7c641c2326736b98ea87c6c45",
+    "entry/src/main/ets/net/ServiceNames.ets": "6d6a1b28934f56fce1781bf0cd3b72f6d0eff36e8318099abd4892ca4feaa130",
+    "entry/src/main/ets/net/Subnet.ets": "b6a7146808ef93c31958c5f76a9aeea4b0093b641df500cf94e3e9abdd04e3ba",
+    "entry/src/main/ets/pages/Index.ets": "2e3bff0341e688e963960ad74d8b2de38e3d1be978572e30bca3777ff3272690",
+    "entry/src/main/ets/repository/ClipboardRepository.ets": "e3b0b8a3d12cd8b7f344b39178dc4881a08d090d4d4fd93ddd1801ea37fc437c",
+    "entry/src/main/ets/repository/DiscoveryRepository.ets": "d05ea26505e7b7c36345c346d8c31c27d72625594bab34c07f8ece2bbef81d44",
+    "entry/src/main/ets/repository/HistoryRepository.ets": "126cee7885909fdf267e50ef5ad3cc7c42608c786a8640f39f51a4f91fac2b01",
+    "entry/src/main/ets/repository/LocalNetRepository.ets": "79799432b941ee183a0b7836ae221d275466f4d64cee6f04cec692f093613111",
+    "entry/src/main/ets/repository/ScanRepository.ets": "61038cdac31101809cef6d0ef74b562959b684a5b18aa8d6e6e00b1fb4ccd7ae",
+    "entry/src/main/ets/repository/SystemRepository.ets": "1db87436b8b3f451001760ed2dfaa0967dd7edc057e3b4a524ee3ed74ec86bca",
+    "entry/src/main/ets/services/Clipboard.ets": "214f64605c9546f9c4ce73f62d6f3145d07baacbdb97efc6b9f4213eb148269a",
+    "entry/src/main/ets/services/HistoryExporter.ets": "59469fc0aeb3f2c9662e51539646c125d3a135ce2a8203015c5715754f74139e",
+    "entry/src/main/ets/services/HistoryExportFormat.ets": "e610dce48676c80d9d49f00c7a621112656e94dabe189188ea5de9a2240efc15",
+    "entry/src/main/ets/services/Logger.ets": "e913cc48f935d3efeda8145201734beeabe4bd9fadaf9ce64c167839a3ad1dd1",
+    "entry/src/main/ets/store/HistoryStore.ets": "de2fda7c7a6ea7a0851891af4ba0ec5bda645395099cf9cc52f9147e41ef497b",
+    "entry/src/main/ets/viewmodel/AboutViewModel.ets": "256d036fb29ff29829083b5361d8d49b501d81c0f9140ff797b48014bd9b3dc5",
+    "entry/src/main/ets/viewmodel/DebugViewModel.ets": "dd4267593c202f0cb1caf798439a9d1834d7e4d692d245b7a565c04ec8f3a235",
+    "entry/src/main/ets/viewmodel/HistoryViewModel.ets": "4823bbd76ea8023ae5371512075920891fe1d2225e48fe4abbc4eb8d5fa51b53",
+    "entry/src/main/ets/viewmodel/LanDiscoveryViewModel.ets": "2250574cc725bf683018bf6e66cd74eca1211150bd4bc49fabc7268e8da94f45",
+    "entry/src/main/ets/viewmodel/LocalNetViewModel.ets": "13d4f97333a4f5b8c4543bd7069ee7bcdd5879ebe149d813811540b9e0fc4a52",
+    "entry/src/main/ets/viewmodel/PingViewModel.ets": "06163839c7c202f8662c6b9fbbb55a917a7fbd0dca1793b3db9baacb42275d70",
+    "entry/src/main/ets/viewmodel/PortScanViewModel.ets": "dae17b411a0a031e07748a25f0cfb4a5fe7f0ffcc0b6447fa40350fb1e9bca03",
+    "entry/src/main/ets/views/AboutView.ets": "75cb3badcb2b3bb4a48bcc0d8e037a373b4bd3bff8dfd2de5f824a6e55f93b5d",
+    "entry/src/main/ets/views/ErrorBanner.ets": "bf4462bce4136eff05961ef023720352f76bee7c5f237c7e16427665aad245ed",
+    "entry/src/main/ets/views/HistoryView.ets": "4b491f2368704d20a49df7b2a4d807d9379bae308dac1ff0fe2da9355f6b159e",
+    "entry/src/main/ets/views/LanDiscoveryView.ets": "2438adf456a524d5708a3f28c343d4e5b63f773000811ca46a5473c7673ec409",
+    "entry/src/main/ets/views/LocalNetView.ets": "7a516967851b1e2e8807cdcc41631f819691da5e3d2c32f9c35ab8d99930abb8",
+    "entry/src/main/ets/views/PingView.ets": "cafaa43868819c0179b0dc94a9f92849ff42df33f005d61c17c4663403c27d75",
+    "entry/src/main/ets/views/PortScanView.ets": "6cf3b7cf759a7a9847abf04dcf008797ca6eb4a580c5bf000b37d9bace531b28",
+    "entry/src/main/ets/views/ToolsView.ets": "6ffc1230833beccf772a6ec7da9f9ea78e15cf4877dece09468a5ceb2614ee50",
+    "entry/src/main/ets/views/UiAction.ets": "0b265476bea7aa7288791a218a78fd56f4ee28576c6c2cc837839de2eafc7dac",
+    "entry/src/main/ets/views/UiPageHeader.ets": "c881e41e3139666d43ca1b89d4906d83d5fda64a5d99a4e2554a72608733755a",
+    "entry/src/main/ets/views/UiScanProgress.ets": "e5ac52d67793d02dae23ede83083ad8e3a954dee3be119b1755d7d0b2016d347",
+    "entry/src/main/ets/views/UiTheme.ets": "c24849a4347eb595d6f9f54fe5622a0fb1a4964b9ccd4b8be07397abde4bdd84",
+    "entry/src/main/cpp/types/libnettools/index.d.ts": "0c816e8d15ba1a54290ffdd5b4c13dcd18688bee47f3327e1fc71f1d29f892c5",
+    "entry/src/main/cpp/types/libnettools/oh-package.json5": "7e76d5bb7a9ec003884cd2b6a6b5ef599c0f70d480824ffefa31f9aab8fae268"
+  },
+  "artifacts": {
+    "MuNet-1.0.0-release-signed.app": {
+      "bytes": 3066422,
+      "sha256": "043f371ddc7c9e026edec46cb7c654922af1ff65d1b8dfb841523459ec76f51c"
+    },
+    "MuNet-1.0.0-release-signed.hap": {
+      "bytes": 5592508,
+      "sha256": "d40917ec51d68e4ffb051988f5336c6d6a0b78148811da6122b7e4c27ca3b927"
+    }
+  }
+}

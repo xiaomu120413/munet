@@ -1,12 +1,12 @@
 {
   "date": "2026-10-23",
-  "baseline_commit": "dcf9e01",
+  "baseline_commit": "6dc4fb064b5fd2182a238d0d47b3e5059289dfb4",
   "bundle": "com.munet.app",
   "previous_bundle": "com.muge.munet",
-  "version": "0.4.0",
-  "versionCode": 1000004,
-  "runtime_only_bundle_configuration_changed": true,
-  "runtime_sources_verified": 63,
+  "version": "1.0.0",
+  "versionCode": 1000000,
+  "runtime_only_bundle_configuration_changed": false,
+  "runtime_sources_verified": 64,
   "test_sources_verified": 12,
   "permissions": [
     "ohos.permission.GET_NETWORK_INFO",
@@ -14,13 +14,13 @@
     "ohos.permission.INTERNET"
   ],
   "artifacts": {
-    "MuNet-0.4.0-release-signed.app": {
-      "bytes": 3066416,
-      "sha256": "4b864463130eb38a7fd2b7f18ddd4b97186146fc26ed18befec9c13c736d0c5d"
+    "MuNet-1.0.0-release-signed.app": {
+      "bytes": 3066422,
+      "sha256": "043f371ddc7c9e026edec46cb7c654922af1ff65d1b8dfb841523459ec76f51c"
     },
-    "MuNet-0.4.0-release-signed.hap": {
-      "bytes": 5592493,
-      "sha256": "30d55efdf451245956604c6fcff167dfd55975a6c36a24ee9610623eeecac3ad"
+    "MuNet-1.0.0-release-signed.hap": {
+      "bytes": 5592508,
+      "sha256": "d40917ec51d68e4ffb051988f5336c6d6a0b78148811da6122b7e4c27ca3b927"
     }
   },
   "tests": {
@@ -80,17 +80,17 @@
     "final_signed_package_quality_and_store_visuals"
   ],
   "sources": {
-    "runtime_manifest": "docs/release/2026-10-23-munet-app/release-manifest.json",
+    "runtime_manifest": "docs/release/2026-10-23-v1.0.0/signing-manifest.json",
     "test_manifest": "docs/release/2026-10-23-munet-app/verification-manifest.json"
   },
   "material_sha256": {
-    "DATA-MAP.md": "eb33bf9ed66e2dc2c36741031be6c895c8f863b5bc10caa251fff250feef20b4",
-    "OWNER-CHECKLIST.md": "0945c47df3903e43d49e97c71f96946571c8719e3d94c962200cfcde68d94c9c",
+    "DATA-MAP.md": "6f1a217cd63c7f942e24e6255317dea130830aec3b9de95c87f56fcc9fe1f50f",
+    "OWNER-CHECKLIST.md": "d4d9a75e1dc85fdb27fc8847fcad11b6f5329d999f79881db4cb91323a53f29b",
     "PERMISSIONS.md": "162cb69ac69e1307d8a275b87877ee0d0d169506334be7417a7b1250a5a11b5b",
-    "README.md": "053641e95f9205da2b617fec91af7d2907e42c8eebbc31cc556167580a87a7c8",
+    "README.md": "3849471c43ac15e34fb4812b49f13dcfa040487c717218f28610cfc6663123f7",
     "SCREENSHOTS.md": "7a6de8dda9d69d2f308d0a6a3c7222c5177d26766c710d8a9fa52c221fd6bac2",
-    "SOURCES.md": "88cb7825d851feedad98cab94f1dbf9c3b515cc0302cc980d1a9db4fda474d04",
-    "STORE-LISTING.md": "e972912268d850d23cbe4d91827fd07a270cfef46b52ae28b5569370eaea74f0"
+    "SOURCES.md": "0e2cbc810dd90b68796841d04ba18779b04689005dcacd2a672968cc982dbe58",
+    "STORE-LISTING.md": "b6cb6efc77089f0065dc6fb639614957f6296e1b56c5a2bc7bc72f3df4d35260"
   },
   "unsigned_artifacts_from_previous_acceptance": {
     "munet-0.4.0-20261023-munet-app-unsigned.hap": {
@@ -102,7 +102,13 @@
       "sha256": "5d2c4ac48377c9bfb1001c05a4d6a8f3ffc8a3fc2164bd0c6184a14353d33da2"
     }
   },
-  "formal_signing_manifest": "docs/release/2026-10-23-formal-signing/signing-manifest.json",
+  "formal_signing_manifest": "docs/release/2026-10-23-v1.0.0/signing-manifest.json",
   "new_MuNet_csr_matches_existing_certificate": false,
-  "new_MuNet_key_used": false
+  "new_MuNet_key_used": false,
+  "privacy_policy_url_provided": true,
+  "privacy_hosting_metadata_embedded": true,
+  "privacy_policy_contents_verified": false,
+  "device_tests_rerun": false,
+  "test_baseline_version": "0.4.0",
+  "test_baseline_versionCode": 1000004
 }

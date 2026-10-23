@@ -4,7 +4,7 @@ HarmonyOS NEXT 本地网络诊断工具箱：查看本机网络信息、TCP Ping
 
 - 应用包名：`com.munet.app`（MuGe 系列）
 - 显示名：木络；英文名：MuNet
-- 当前版本：`0.4.0` / `1000004`
+- 当前版本：`1.0.0` / `1000000`
 - 原名：NetTools
 
 ## 功能
@@ -18,7 +18,7 @@ HarmonyOS NEXT 本地网络诊断工具箱：查看本机网络信息、TCP Ping
 
 ## 当前状态
 
-版本处于上架准备阶段：正式发布签名已完成并验签，代码与界面验收见[验证记录](docs/verification/README.md)。**尚未向应用市场提交审核**；隐私政策、主体／资质、后台应用身份与最终正式包质量验证仍需补齐，详见[上架资料](docs/release/2026-10-23-submission/README.md)和[发布准备](docs/RELEASE-READINESS.md)。
+版本处于上架准备阶段：1.0.0正式发布签名已完成并验签，用户新增的AGC托管隐私声明链接已写入包内，见[打包记录](docs/release/2026-10-23-v1.0.0/README.md)。代码与界面验收见[验证记录](docs/verification/README.md)。**尚未向应用市场提交审核**；政策正文与主体／联系信息、资质、后台应用身份及最终正式包质量验证仍需核对，详见[上架资料](docs/release/2026-10-23-submission/README.md)和[发布准备](docs/RELEASE-READINESS.md)。
 
 已知边界：
 

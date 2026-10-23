@@ -1,15 +1,15 @@
-# 木络0.4.0发布准备
+# 木络1.0.0发布准备
 
-最新上架资料统一到[com.munet.app资料入口](release/2026-10-23-submission/README.md)，待办理事项见[开发者清单与回填表](release/2026-10-23-submission/OWNER-CHECKLIST.md)。代码验收见[更名验收](release/2026-10-23-munet-app/README.md)，三端最终综合运行各19/19。**正式发布签名已完成并验证，暂不能直接送审**，仍待后台版本核对、隐私配置、资质及正式包质量验证。签名方式与新CSR不匹配情况见[签名报告](release/2026-10-23-formal-signing/README.md)。
+最新上架资料统一到[com.munet.app资料入口](release/2026-10-23-submission/README.md)，待办理事项见[开发者清单与回填表](release/2026-10-23-submission/OWNER-CHECKLIST.md)。代码验收见[更名验收](release/2026-10-23-munet-app/README.md)，三端最终综合运行各19/19。**正式发布签名已完成并验证，暂不能直接送审**，仍待后台版本核对、隐私配置、资质及正式包质量验证。签名方式与新CSR不匹配情况见[签名报告](release/2026-10-23-v1.0.0/README.md)。
 
-2026-10-23 更新。当前准备的是可复核的代码提交与Release候选产物，未创建市场发布单、上传或送审。包名现为`com.munet.app`（由`com.muge.munet`更换，最初为`com.mu.nettools`）、版本`0.4.0`／`1000004`，正式送审前仍需与AGC核对，不假设此前已经发布。旧包手机／平板模拟器验收见[阶段9](verification/phase9/README.md)，旧包PC实机验收见[阶段10](verification/phase10/README.md)，权限申请见[清单](PERMISSIONS.md)。
+2026-10-23 更新。当前准备的是可复核的代码提交与Release候选产物，未创建市场发布单、上传或送审。包名现为`com.munet.app`（由`com.muge.munet`更换，最初为`com.mu.nettools`）、版本`1.0.0`／`1000000`，正式送审前仍需与AGC核对，不假设此前已经发布。旧包手机／平板模拟器验收见[阶段9](verification/phase9/README.md)，旧包PC实机验收见[阶段10](verification/phase10/README.md)，权限申请见[清单](PERMISSIONS.md)。
 
 ## 候选产物
 
-- `artifacts/release/0.4.0/MuNet-0.4.0-release-signed.app`：复用MuMark证书／密钥和木络新发布Profile的正式签名APP。
-- `artifacts/release/0.4.0/MuNet-0.4.0-release-signed.hap`：正式签名主模块，和APP分别通过SDK验签。
+- `artifacts/release/1.0.0/MuNet-1.0.0-release-signed.app`：复用MuMark证书／密钥和木络新发布Profile的正式签名APP。
+- `artifacts/release/1.0.0/MuNet-1.0.0-release-signed.hap`：正式签名主模块，和APP分别通过SDK验签。
 - PC本地签名的Release HAP仅用于已连接设备验收，使用设备绑定调试签名，不能当作正式市场签名。
-- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；正式包SHA及标准APP／HAP容器差异见[签名清单](release/2026-10-23-formal-signing/signing-manifest.json)。下方脚本用于未签名候选检查，正式包另由SDK验签及共有运行文件比较验证。
+- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；正式包SHA及标准APP／HAP容器差异见[签名清单](release/2026-10-23-v1.0.0/signing-manifest.json)。下方脚本用于未签名候选检查，正式包另由SDK验签及共有运行文件比较验证。
 
 Release构建命令（DevEco Studio运行环境）：
 
