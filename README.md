@@ -2,9 +2,9 @@
 
 当前包名 `com.munet.app`（MuGe 系列），显示名“木络”。最新检查见[更名与重新安装验收](docs/release/2026-10-23-munet-app/README.md)；此前[包名变更记录](docs/release/2026-10-23-bundle-layout/README.md)保留。旧包 `com.muge.munet`、`com.mu.nettools` 的数据保留，暂未提供跨包迁移。
 
-新包名上架资料、权限范围及开发者回填清单统一见[上架资料入口](docs/release/2026-10-23-submission/README.md)。当前资料和未签名候选已准备，仍待真实后台资料、发布签名及正式包质量验证后送审。
+新包名上架资料、权限范围及开发者回填清单统一见[上架资料入口](docs/release/2026-10-23-submission/README.md)。[正式发布签名已完成并验证](docs/release/2026-10-23-formal-signing/README.md)，仍待隐私、资质及正式包质量验证后送审。
 
-原项目名NetTools。应用图标与名称已切换为木络；设计与改造进度见[品牌资源](docs/brand-2026-10-22/README.md)和[UI改造计划](docs/UI-MIGRATION.md)。
+原项目名NetTools。应用图标与名称已切换为木络；设计与改造进度见[品牌资源](docs/brand/README.md)和[UI改造计划](docs/UI-MIGRATION.md)。
 
 HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口扫描 / 局域网
 设备发现 / 扫描记录。整体设计见 [DESIGN.md](DESIGN.md)。

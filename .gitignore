@@ -15,3 +15,6 @@ local.properties
 # Verification screenshots
 /shots/
 /entry/.cxx
+
+# Local signing material and profiles
+/sign_tools/

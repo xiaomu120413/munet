@@ -14,13 +14,13 @@
     "ohos.permission.INTERNET"
   ],
   "artifacts": {
-    "munet-0.4.0-20261023-munet-app-unsigned.hap": {
-      "bytes": 5502132,
-      "sha256": "18a5173f1d58cc7e091a796d23ae7dcacd298e3bdf80c5698610060571e3bd44"
+    "MuNet-0.4.0-release-signed.app": {
+      "bytes": 3066416,
+      "sha256": "4b864463130eb38a7fd2b7f18ddd4b97186146fc26ed18befec9c13c736d0c5d"
     },
-    "munet-0.4.0-20261023-munet-app-unsigned.app": {
-      "bytes": 3051809,
-      "sha256": "5d2c4ac48377c9bfb1001c05a4d6a8f3ffc8a3fc2164bd0c6184a14353d33da2"
+    "MuNet-0.4.0-release-signed.hap": {
+      "bytes": 5592493,
+      "sha256": "30d55efdf451245956604c6fcff167dfd55975a6c36a24ee9610623eeecac3ad"
     }
   },
   "tests": {
@@ -50,7 +50,7 @@
     }
   },
   "icon_sources": {
-    "docs/brand-2026-10-22/munet-icon-v1.png": {
+    "docs/brand/munet-icon-v1.png": {
       "size": [
         1254,
         1254
@@ -58,7 +58,7 @@
       "mode": "RGB",
       "sha256": "9e3750d4481f10c986b3a749a2ebb589d6502830b1b8e8720a52e402f6b9cafb"
     },
-    "docs/brand-2026-10-22/munet-foreground.png": {
+    "docs/brand/munet-foreground.png": {
       "size": [
         1254,
         1254
@@ -67,7 +67,7 @@
       "sha256": "ffdb47a611fe5ccc1f831f41c53a051bea0d93e650fa7cf0d507f223c16e111d"
     }
   },
-  "formal_release_signing_verified": false,
+  "formal_release_signing_verified": true,
   "market_submission_ready": false,
   "backend_application_identity_verified": false,
   "privacy_policy_owner_and_url_provided": false,
@@ -75,7 +75,6 @@
   "final_signed_package_quality_verified": false,
   "remaining": [
     "developer_backend_application_identity_and_version",
-    "formal_release_signing",
     "operator_contacts_privacy_policy_and_configuration",
     "filing_qualifications_distribution_and_ownership",
     "final_signed_package_quality_and_store_visuals"
@@ -86,11 +85,24 @@
   },
   "material_sha256": {
     "DATA-MAP.md": "eb33bf9ed66e2dc2c36741031be6c895c8f863b5bc10caa251fff250feef20b4",
-    "OWNER-CHECKLIST.md": "6ca7686cf6e1df1c4662ecbfa54b77e51c4b212c518d0760a4fca90471a08a10",
+    "OWNER-CHECKLIST.md": "0945c47df3903e43d49e97c71f96946571c8719e3d94c962200cfcde68d94c9c",
     "PERMISSIONS.md": "162cb69ac69e1307d8a275b87877ee0d0d169506334be7417a7b1250a5a11b5b",
-    "README.md": "3235ee32e20eb4e028e7dcb765fb43ce0aaa3ec23dfcf486bf69c5617865dbbf",
-    "SCREENSHOTS.md": "4ae3c02ef7164bdadfaa4c1112e89ed794db5a71af50ab594fb92d33585ab83a",
-    "SOURCES.md": "cda526d8871a12eead4df6128517bb3686408120ca1a7f557ee79592ae9cb5ae",
-    "STORE-LISTING.md": "b54cd046ba8c61ba2a80cafd3d31901d0b42f9a5e5c6f5bcb2540199b0aa213e"
-  }
+    "README.md": "053641e95f9205da2b617fec91af7d2907e42c8eebbc31cc556167580a87a7c8",
+    "SCREENSHOTS.md": "7a6de8dda9d69d2f308d0a6a3c7222c5177d26766c710d8a9fa52c221fd6bac2",
+    "SOURCES.md": "88cb7825d851feedad98cab94f1dbf9c3b515cc0302cc980d1a9db4fda474d04",
+    "STORE-LISTING.md": "e972912268d850d23cbe4d91827fd07a270cfef46b52ae28b5569370eaea74f0"
+  },
+  "unsigned_artifacts_from_previous_acceptance": {
+    "munet-0.4.0-20261023-munet-app-unsigned.hap": {
+      "bytes": 5502132,
+      "sha256": "18a5173f1d58cc7e091a796d23ae7dcacd298e3bdf80c5698610060571e3bd44"
+    },
+    "munet-0.4.0-20261023-munet-app-unsigned.app": {
+      "bytes": 3051809,
+      "sha256": "5d2c4ac48377c9bfb1001c05a4d6a8f3ffc8a3fc2164bd0c6184a14353d33da2"
+    }
+  },
+  "formal_signing_manifest": "docs/release/2026-10-23-formal-signing/signing-manifest.json",
+  "new_MuNet_csr_matches_existing_certificate": false,
+  "new_MuNet_key_used": false
 }

@@ -15,8 +15,9 @@
 - AppScope/app.json5：com.munet.app、MuGe、0.4.0／1000004。
 - entry/src/main/module.json5：手机／平板／2in1，只有三项普通网络权限。
 - build-profile.json5：最低API22、目标API26，正式签名配置为空；不能把本地调试Profile当正式发布材料。
+- 正式签名后来在仓库外隔离快照中复用MuMark加密配置完成；已核验用户提供的木络app_gallery发布Profile及APP／HAP签名，见[签名报告](../2026-10-23-formal-signing/README.md)。工作区不保存密钥或口令。
 - [SDK权限定义](../../ui-verification/phase9/sdk-permissions.json)和[接口位置](../../ui-verification/phase9/sdk-network-api.json)：等级、授权方式及版本依据；这些是API定义证据，不把旧包权限实测套用于新包授权。
 - [最新验收](../2026-10-23-munet-app/README.md)：默认18项测试及平台UI综合用例的真实运行结果，来源为PC实机及手机／平板模拟器。
 - scripts/check_release.py及[发布产物复核](submission-inventory.json)：unsigned APP／HAP、运行源码和测试证据哈希。
 
-没有取得运营主体、后台APP ID、正式证书／Profile、政策URL或备案结果，不制作虚构值。正式包上架前仍需补最终质量与素材；该资料包的状态始终是准备完成、等待开发者资料，不是已经上传或审核通过。
+已取得并验证木络发布Profile及复用证书，未登录开发者后台。运营主体、政策URL和备案结果等仍待补齐，不制作虚构值。正式包上架前仍需补最终质量与素材；资料包不是已经上传或审核通过的凭证。
