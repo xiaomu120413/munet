@@ -16,6 +16,8 @@
 
 用户随后生成了MuNet.p12和MuNet.csr。新CSR的公钥与现有MuNetRelease.cer不匹配，也不同于原MuMark CSR，因此本次签名没有使用新MuNet密钥库。
 
+按用户要求，已将未使用的`sign_tools/MuNet.p12`、`sign_tools/MuNet.csr`及其对应的`sign_tools/material`目录移入回收站。当前项目签名目录仅保留`MuNetRelease.cer`和`MuNetRelease.p7b`；继续使用原MuMark密钥库及本机加密签名配置，已签名发布包不受影响。上述本机材料均被Git忽略，本次仅提交清理记录，不提交密钥或口令。
+
 如继续复用原MuMark证书，沿用原密钥配置即可；若要切换到新MuNet密钥，需先用新CSR在开发者中心申请对应证书，并重新生成com.munet.app的发布Profile，再重新签名。仅重命名或生成.p12／.csr不能使旧证书与新密钥匹配。
 
 ## 输出
