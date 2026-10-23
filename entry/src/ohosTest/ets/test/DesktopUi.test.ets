@@ -14,6 +14,9 @@ export default function desktopUiTest() {
       const driver: Driver = Driver.create();
       const server: socket.TCPSocketServer = socket.constructTCPSocketServerInstance();
       let listening: boolean = false;
+      let stage: string = 'launch';
+      const prefix: string = params['-s capturePrefix'] ?? params['capturePrefix'] ?? '';
+      const visualOnly: boolean = (params['-s desktopVisualOnly'] ?? params['desktopVisualOnly']) === '1';
       const find = async (id: string): Promise<Component> => {
         const node: Component = await driver.waitForComponent(ON.id(id).inWindow('com.mu.nettools'), 4000);
         if (node === null) { throw new Error('Missing desktop control: ' + id); }
@@ -43,9 +46,16 @@ export default function desktopUiTest() {
         await mouse(item);
         await driver.delayMs(250);
       };
+      const focus = async (id: string): Promise<Component> => {
+        const node: Component = await find(id);
+        for (let i: number = 0; i < 45 && !await node.isFocused(); i++) { await driver.triggerKey(2049); }
+        expect(await node.isFocused()).assertTrue();
+        return node;
+      };
       await delegator.startAbility({ bundleName: 'com.mu.nettools', moduleName: 'entry', abilityName: 'EntryAbility' });
       await find('app-shell');
-      const app: UiWindow = await driver.findWindow({ bundleName: 'com.mu.nettools', focused: true });
+      const app: UiWindow = await driver.findWindow({ bundleName: 'com.mu.nettools' });
+      if (app === null) { throw new Error('Desktop application window unavailable'); }
       const original: Rect = await app.getBounds();
       const density: number = display.getDefaultDisplaySync().densityPixels;
       const initial: Rect = await (await find('app-shell')).getBounds();
@@ -53,8 +63,10 @@ export default function desktopUiTest() {
       const frameHeight: number = original.bottom - original.top - (initial.bottom - initial.top);
       const capture = async (name: string): Promise<void> => {
         const bounds: Rect = await app.getBounds();
-        await delegator.print('capture=' + name + ' bounds=' + JSON.stringify(bounds));
-        expect(await driver.screenCap(delegator.getAppContext().cacheDir + '/munet-' + name + '.png')).assertTrue();
+        await driver.delayMs(250);
+        const root: Rect = await (await find('app-shell')).getBounds();
+        await delegator.print('capture=' + prefix + name + ' bounds=' + JSON.stringify(bounds) + ' root=' + JSON.stringify(root));
+        expect(await driver.screenCap(delegator.getAppContext().cacheDir + '/munet-' + prefix + name + '.png')).assertTrue();
       };
       const resize = async (width: number, height: number): Promise<void> => {
         await app.resize(Math.round(width * density + frameWidth), Math.round(height * density + frameHeight), ResizeDirection.RIGHT_DOWN);
@@ -69,7 +81,8 @@ export default function desktopUiTest() {
         await (await find('ping-target')).inputText('127.0.0.1');
         // Escape dismisses the input method without navigating out of the tool.
         await driver.triggerKey(2070);
-        for (const width of [320, 390, 600, 834, 1194, 1440]) {
+        stage = 'window-matrix';
+        for (const width of visualOnly ? [320, 1440] : [320, 390, 600, 834, 1194, 1440]) {
           await resize(width, 620);
           for (const page of [0, 1, 2, 3, 4, 5]) {
             await nav(page);
@@ -78,7 +91,9 @@ export default function desktopUiTest() {
             expect(Math.abs(sidebar.left - root.left) <= 2).assertTrue();
             expect(Math.abs(sidebar.top - root.top) <= 2).assertTrue();
             expect(sidebar.right < root.right - 100 * density).assertTrue();
-            expect(Math.abs((sidebar.right - sidebar.left) / density - (width < 840 ? 72 : 192)) < 2).assertTrue();
+            const actual: number = (root.right - root.left) / density;
+            expect(Math.abs(actual - width) < 2).assertTrue();
+            expect(Math.abs((sidebar.right - sidebar.left) / density - (actual < 840 ? 72 : 192)) < 2).assertTrue();
             expect(await driver.findComponent(ON.id('bottom-navigation')) === null).assertTrue();
             if (page === 1) {
               const input: Component = await find('ping-target');
@@ -89,9 +104,24 @@ export default function desktopUiTest() {
               expect(start !== null).assertTrue();
               await (await find('ping-content')).scrollToTop();
             }
+            if (page === 5) {
+              await driver.assertComponentExist(ON.text('可以做什么').inWindow('com.mu.nettools'));
+              for (const label of ['木络 · MuNet', '应用版本', '应用标识', '核心版本', '诊断信息', '隐私说明']) {
+                expect(await driver.findComponent(ON.text(label).inWindow('com.mu.nettools')) === null).assertTrue();
+              }
+            }
             await capture('pc-' + width + '-page-' + page);
+            if (page === 4) {
+              await mouse(await find('history-hosts'));
+              expect(await driver.findComponent(ON.id('history-filter')) === null).assertTrue();
+              expect(await driver.findComponent(ON.id('history-export')) === null).assertTrue();
+              await capture('pc-' + width + '-hosts');
+              await mouse(await find('history-scans'));
+            }
           }
         }
+        if (visualOnly) { return; }
+        stage = 'short-window';
         await resize(834, 360);
         await nav(1);
         const start: Component = await (await find('ping-content')).scrollSearch(ON.id('ping-start'));
@@ -99,22 +129,43 @@ export default function desktopUiTest() {
         const shortRoot: Rect = await (await find('app-shell')).getBounds();
         expect(button.top >= shortRoot.top && button.bottom <= shortRoot.bottom).assertTrue();
         await capture('pc-short-ping');
+        await nav(5);
+        await driver.assertComponentExist(ON.text('可以做什么'));
+        await capture('pc-short-about');
         await resize(1440, 750);
+        await nav(1);
         await (await find('ping-content')).scrollToTop();
         server.on('connect', (connection: socket.TCPSocketConnection) => { connection.close().catch(() => {}); });
         await server.listen({ address: '127.0.0.1', port: 8080, family: 1 });
         listening = true;
-        await mouse(await find('ping-continuous'));
+        stage = 'keyboard-input';
+        await mouse(await find('ping-target'));
+        await driver.triggerCombineKeys(2072, 2017); // Ctrl+A
+        await driver.triggerKey(2055); // Backspace
+        expect(await (await find('ping-target')).getText()).assertEqual('');
+        await (await find('ping-target')).inputText('127.0.0.1');
+        await driver.triggerKey(2054); // Enter submits the field.
+        await driver.delayMs(300);
+        await driver.waitForComponent(ON.id('ping-start').text('开始'), 12000);
+        const submitted: string = await (await find('ping-summary')).getText();
+        expect(Number(submitted.split(/\s+/)[3]) > 0).assertTrue();
+        await capture('pc-keyboard-enter-results');
+        await focus('ping-continuous');
+        await driver.triggerKey(2050); // Space toggles the native switch.
+        await capture('pc-keyboard-space-toggle');
+        stage = 'running-resize';
         await mouse(await find('ping-start'));
         await driver.delayMs(1800);
         expect(await (await find('ping-target')).isEnabled()).assertFalse();
         await resize(600, 620);
+        await (await find('ping-content')).scrollSearch(ON.id('ping-start'));
         expect(await (await find('ping-start')).getText()).assertEqual('停止');
         expect(await (await find('ping-target')).getText()).assertEqual('127.0.0.1');
         await capture('pc-narrow-ping-running');
         await mouse(await find('ping-start'));
         await driver.waitForComponent(ON.id('ping-start').text('开始'), 6000);
         await resize(1440, 750);
+        stage = 'real-port-and-lan';
         await nav(2);
         await (await find('port-target')).inputText('127.0.0.1');
         await driver.triggerKey(2070);
@@ -130,19 +181,38 @@ export default function desktopUiTest() {
         await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.mu.nettools'));
         await capture('pc-lan-results');
         await nav(4);
+        stage = 'keyboard-menu';
         await mouse(await find('history-scans'));
         const exportButton: Component = await find('history-export');
-        for (let i: number = 0; i < 30 && !await exportButton.isFocused(); i++) { await driver.triggerKey(2049); }
+        await focus('history-export');
+        await driver.triggerCombineKeys(2047, 2049); // Shift+Tab reverses focus.
+        expect(await exportButton.isFocused()).assertFalse();
+        await driver.triggerKey(2049);
         expect(await exportButton.isFocused()).assertTrue();
         await driver.triggerKey(2054);
         await driver.assertComponentExist(ON.text('导出全部扫描记录 · JSON'));
         await capture('pc-keyboard-export-menu');
         await driver.triggerKey(2070);
+        await driver.delayMs(600); // Menu dismissal restores native focus asynchronously.
         expect(await driver.findComponent(ON.text('导出全部扫描记录 · JSON')) === null).assertTrue();
         expect(await (await find('history-export')).isFocused()).assertTrue();
         await capture('pc-keyboard-focus-return');
+        stage = 'narrow-desktop-menu';
+        await resize(390, 620);
+        await mouse(await find('history-more'));
+        await driver.assertComponentExist(ON.text('导出全部扫描记录 · JSON'));
+        // A PC keeps anchored native menus even when its result layout is narrow.
+        expect(await driver.findComponent(ON.id('history-sheet-json')) === null).assertTrue();
+        await capture('pc-narrow-menu');
+        await driver.triggerKey(2070);
+        await driver.delayMs(400);
+        await resize(1440, 750);
         await mouse(await find('history-hosts'));
         await capture('pc-hosts');
+      } catch (error) {
+        await delegator.print('desktop failed stage=' + stage + ' error=' + String(error));
+        await capture('pc-failure');
+        throw new Error(String(error));
       } finally {
         const stop: Component = await driver.findComponent(ON.id('ping-start').text('停止'));
         if (stop !== null) { await stop.click(); await driver.delayMs(1500); }

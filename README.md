@@ -45,6 +45,8 @@ HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口�
 
 2026-10-23末版更新：手机／平板模拟器完整专项与平板窄窗专项均15/15通过；深色、最大字体、716vp分屏及全屏恢复已复核。手机操作面板改为至少56vp的原生按钮；首页侧栏只显示木络，关于改为基础介绍，不显示版本与标识。见[阶段9归档](docs/ui-verification/phase9/README.md)及[权限申请清单](docs/PERMISSIONS.md)。旧能力矩阵的受限权限结论为历史实测，不代表API 26所有接口均不可申请。
 
+2026-10-23 PC补验：MateBook当前Release六档真实窗口、七页设计对照、短窗、运行中缩放和键鼠综合专项15/15通过；深色与最大字体专项各15/15通过。修复PC窄窗记录页误用手机Sheet，改为原生锚定菜单；补查复制粘贴、方向键选择、非法端口、重测回填、导出取消及清空取消，保留用户数据。见[阶段10归档](docs/ui-verification/phase10/README.md)。
+
 ```
 nettools/
 ├── AppScope/                     # bundle: com.mu.nettools

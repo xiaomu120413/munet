@@ -1,4 +1,5 @@
 import { common } from '@kit.AbilityKit';
+import { deviceInfo } from '@kit.BasicServicesKit';
 import { DiscoveredHost, ExportFormat, ScanKind, ScanRecord } from '../model/HistoryInfo';
 import { HistoryViewModel } from '../viewmodel/HistoryViewModel';
 import { UiTheme } from './UiTheme';
@@ -17,6 +18,7 @@ export struct HistoryView {
   private confirming: boolean = false;
   private restoring: boolean = false;
   private kinds: (ScanKind | undefined)[] = [undefined, ScanKind.PING, ScanKind.PORT_SCAN, ScanKind.LAN_DISCOVERY];
+  private readonly desktop: boolean = deviceInfo.deviceType === '2in1' || deviceInfo.deviceType === 'pc';
   private labels: string[] = ['全部类型', 'Ping', '端口扫描', '局域网'];
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
@@ -101,6 +103,16 @@ export struct HistoryView {
     }
   }
   @Builder
+  DesktopActions() {
+    Menu() {
+      if (!this.vm.showHosts && this.vm.hasRecords()) {
+        MenuItem({ content: '导出全部扫描记录 · CSV' }).onClick(() => { this.export(ExportFormat.CSV); })
+        MenuItem({ content: '导出全部扫描记录 · JSON' }).onClick(() => { this.export(ExportFormat.JSON); })
+      }
+      MenuItem({ content: '清空全部记录与档案' }).onClick(() => { this.clear(); })
+    }
+  }
+  @Builder
   ScanRow(record: ScanRecord) {
     if (this.wide()) {
       Row({ space: 16 }) {
@@ -148,6 +160,10 @@ export struct HistoryView {
           Button('更多', { stateEffect: true }).height(44).fontSize(14).fontColor(UiTheme.accent)
             .id('history-more')
             .backgroundColor(UiTheme.selected).enabled(!this.busy()).bindMenu(this.Actions)
+        } else if (this.desktop) {
+          Button('更多', { stateEffect: true }).height(44).fontSize(14).fontColor(UiTheme.accent)
+            .id('history-more')
+            .backgroundColor(UiTheme.selected).enabled(!this.busy()).bindMenu(this.DesktopActions)
         } else {
           UiAction({ label: '更多', actionEnabled: !this.busy(), onAction: () => { this.more(); } }).id('history-more')
         }
