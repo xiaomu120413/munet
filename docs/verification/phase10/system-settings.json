@@ -1,9 +1,0 @@
-{
-  "date": "2026-10-23",
-  "device": "MateBook Pro HAD-W32",
-  "source": "Native Settings UI tree; actual settings applied before each device test",
-  "initial": { "font_slider": "2.000000", "weight_slider": "1.000000", "display_slider": "1.000000", "dark_all_day": false, "dark_schedule": false },
-  "dark_test": { "dark_all_day": true, "dark_schedule": false, "font_slider": "2.000000" },
-  "large_test": { "dark_all_day": false, "font_slider": "5.000000", "apply_clicked": true, "weight_slider": "1.000000", "display_slider": "1.000000" },
-  "restored": { "font_slider": "2.000000", "weight_slider": "1.000000", "display_slider": "1.000000", "dark_all_day": false, "dark_schedule": false }
-}

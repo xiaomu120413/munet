@@ -1,9 +1,0 @@
-﻿Manual export observations, 2026-10-22, MatePad Pro
-8 records present at time of export; system save picker used for both files.
-CSV: munet-acceptance-20261022.csv appeared in the subsequent system picker listing.
-JSON: munet-acceptance-20261022.json save completed.
-The following application log lines were read using hdc shell hilog -x -T NetTools:
-10-22 11:57:26.463 38947 38947 I A00000/com.mu.nettools/NetTools: history exported 863 bytes as csv
-10-22 11:58:42.984 38947 38947 I A00000/com.mu.nettools/NetTools: history exported 1346 bytes as json
-The log number is content.length (UTF-16 length), despite the logger saying bytes.
-HDC cannot read the user document storage; exported files were not independently parsed.

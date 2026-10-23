@@ -1,21 +1,28 @@
-# 木络1.0.0发布准备
+# 木络 1.0.0 发布准备
 
-最新上架资料统一到[com.munet.app资料入口](release/2026-10-23-submission/README.md)，待办理事项见[开发者清单与回填表](release/2026-10-23-submission/OWNER-CHECKLIST.md)。代码验收见[更名验收](release/2026-10-23-munet-app/README.md)，三端最终综合运行各19/19。**正式发布签名已完成并验证，暂不能直接送审**，仍待后台版本核对、隐私配置、资质及正式包质量验证。签名方式与新CSR不匹配情况见[签名报告](release/2026-10-23-v1.0.0/README.md)。
+包名 `com.munet.app`（由 `com.muge.munet` 更换，最初为 `com.mu.nettools`），版本 `1.0.0` / `1000000`，显示名木络，英文名 MuNet。
 
-2026-10-23 更新。当前准备的是可复核的代码提交与Release候选产物，未创建市场发布单、上传或送审。包名现为`com.munet.app`（由`com.muge.munet`更换，最初为`com.mu.nettools`）、版本`1.0.0`／`1000000`，正式送审前仍需与AGC核对，不假设此前已经发布。旧包手机／平板模拟器验收见[阶段9](verification/phase9/README.md)，旧包PC实机验收见[阶段10](verification/phase10/README.md)，权限申请见[清单](PERMISSIONS.md)。
+**正式发布签名已完成并验签；尚未提交应用市场审核。** 仍需核对后台应用身份与版本、隐私政策正文与主体／联系信息、资质，并对正式签名包做最终质量验证。
 
-## 候选产物
+## 发布包
 
-发布交付目录统一为项目根目录`dist/`，不再使用`artifacts/release/`。构建日志及私有验签材料仍留在忽略目录，发布包不提交Git。
+发布交付目录为项目根目录 `dist/`，不进入 Git：
 
-默认打包命令：`python scripts/package_release.py`。需要先在本机配置正式签名；若使用仓库外的签名构建快照，传入`--project <快照路径>`。脚本执行正式构建、SDK验签后，将APP、HAP及`release-manifest.json`统一导出到本项目`dist/`。对已构建的快照可加`--skip-build`，仍会执行验签。
+- `dist/MuNet-1.0.0-release-signed.app`：正式发布签名 APP。
+- `dist/MuNet-1.0.0-release-signed.hap`：正式签名主模块，与 APP 分别通过 SDK 验签。
+- `dist/release-manifest.json`：产物清单与 SHA。
 
-- `dist/MuNet-1.0.0-release-signed.app`：复用MuMark证书／密钥和木络新发布Profile的正式签名APP。
-- `dist/MuNet-1.0.0-release-signed.hap`：正式签名主模块，和APP分别通过SDK验签。
-- PC本地签名的Release HAP仅用于已连接设备验收，使用设备绑定调试签名，不能当作正式市场签名。
-- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；正式包SHA及标准APP／HAP容器差异见[签名清单](release/2026-10-23-v1.0.0/signing-manifest.json)。下方脚本用于未签名候选检查，正式包另由SDK验签及共有运行文件比较验证。
+默认打包命令：
 
-Release构建命令（DevEco Studio运行环境）：
+```powershell
+python scripts/package_release.py
+```
+
+需先在本机配置正式签名；使用仓库外的签名构建快照时传入 `--project <快照路径>`。脚本执行正式构建与 SDK 验签后，将 APP、HAP 和清单导出到 `dist/`；对已构建的快照可加 `--skip-build`，仍会验签。
+
+签名材料、Profile、密钥库和本机签名配置放在忽略目录 `sign_tools/` 或仓库外，不提交 Git。
+
+## Release 构建与检查
 
 ```powershell
 $env:DEVECO_SDK_HOME='C:\Program Files\Huawei\DevEco Studio\sdk'
@@ -27,26 +34,22 @@ python scripts/check_release.py --hap entry/build/default/outputs/default/entry-
 
 APP 产物名取自工程目录名；本地目录不叫 `munet` 时，按 `build/outputs/default/` 下实际文件名替换。
 
-检查脚本验证：`debug=false`、Release构建模式、包名与版本、entry随应用安装、仅三项声明权限、非空ArkTS字节码、arm64-v8a／x86_64的真实ELF架构、无测试资源／测试模块，以及APP内HAP与独立HAP运行文件一致。打包器可重排`pack.info`格式，但内容必须相同。已确认Debug产物会被拒绝。清单中的源码SHA可用于核对候选包对应的源文件。
-
-主模块`deliveryWithInstall`修正为true，使其随应用安装；含义参考[OpenHarmony官方模块配置说明](https://raw.githubusercontent.com/openharmony/docs/master/en/application-dev/quick-start/module-configuration-file.md)。签名配置仍由本地正式材料提供，不将私钥写进工程。
+`scripts/check_release.py` 验证：`debug=false`、Release 构建模式、包名与版本、entry 随应用安装、仅三项声明权限、非空 ArkTS 字节码、arm64-v8a／x86_64 的真实 ELF 架构、无测试资源／测试模块，以及 APP 内 HAP 与独立 HAP 运行文件一致。Debug 产物会被拒绝。
 
 ## 产品行为与数据
 
-1. 网络页面展示系统网卡及Wi-Fi信息，接口有地址不表示互联网可达。
-2. Ping为TCP连通性探测；关闭端口／防火墙拦截不表示主机离线。服务名是常见端口用途，不是服务指纹。
-3. 扫描记录及发现过的设备档案保存在本机；导出CSV／JSON仅在用户选择系统保存位置后写入文件。清空同时删除两类记录，确认文案明确范围。
-4. 声明权限只有INTERNET、GET_NETWORK_INFO、GET_WIFI_INFO；没有账户、云同步或流量统计功能。
-5. Release隐藏诊断入口，Debug无界面探测参数在Release不执行。关于页按用户要求保留基础介绍，移除版本、应用标识与核心版本；隐私段落未恢复，没有补造政策URL。首页侧栏只显示木络。
+1. 网络页面展示系统网卡及 Wi-Fi 信息；接口有地址不表示互联网可达。
+2. Ping 为 TCP 连通性探测；关闭端口／防火墙拦截不表示主机离线。服务名是常见端口用途，不是服务指纹。
+3. 扫描记录及发现过的设备档案保存在本机；导出 CSV／JSON 仅在用户选择系统保存位置后写入文件。清空同时删除两类记录，确认文案明确范围。
+4. 声明权限只有 INTERNET、GET_NETWORK_INFO、GET_WIFI_INFO；没有账户、云同步或流量统计功能。
+5. Release 隐藏诊断入口，Debug 无界面探测参数在 Release 不执行。关于页保留基础介绍，移除版本、应用标识与核心版本；隐私声明使用 AGC 托管链接并写入包内，政策正文与联系方式仍需确认。首页侧栏只显示木络。
 
-这份数据说明供准备资料核对，不能替代开发者最终确认的隐私政策或市场申报内容。
+本页是发布核对清单，不能替代开发者最终确认的隐私政策或市场申报内容。
 
 ## 提交市场前仍需完成
 
-- 正式发布证书／Profile已按com.munet.app核验并签包；关联正确AGC应用，继续对正式签名包进行平台质量验证。
-- 核对AGC已有版本号、正式应用介绍、适用设备和上传页要求的图标及真实截图；设计稿不能充当宣传截图。
-- 由开发者确认对外数据处理说明、政策内容与联系方式。应用内隐私段落按用户要求删除，不在本轮重新加入占位文字。
-- 新包名手机和平板模拟器及PC实机验收已完成，见全页面布局稳定性记录；真实Wi-Fi／局域网兼容性、API22机型和完整读屏语音听测仍需实机／人工，不将模拟器当成真机证据。
-- 构建存在既有SDK弃用／异常处理提示，保留完整日志；无编译错误不等同于已满足全部市场检查。
-
-当前新包名最终验证见[全页面布局稳定性记录](release/2026-10-23-munet-app/README.md)。旧包PC逐页设计对照见[阶段10报告](verification/phase10/README.md)，旧包手机／平板见[阶段9报告](verification/phase9/README.md)，均保留为当时的历史证据。
+- 在 AGC 核对应用身份、包名、版本号、适用设备与上传页要求。
+- 确认隐私政策正文、主体／联系信息与资质材料；应用内不加入占位文案。
+- 对正式签名包补做平台质量与兼容性验证，包括真实 Wi-Fi／局域网场景、API 22 机型和读屏。
+- 核对商店介绍、图标与真实截图；设计稿不能充当宣传截图。
+- 保留构建日志；无编译错误不等同于已满足全部市场检查。

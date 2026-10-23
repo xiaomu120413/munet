@@ -339,10 +339,12 @@ munet/                             ← 独立仓库（与 thirty/ 平级）
 │   ├── resources/
 │   └── ohosTest/                  # hypium 单元测试（Subnet / 导出序列化）
 ├── docs/                          # 文档入口：docs/README.md
-│   ├── design/                    # 冻结 UI 规范与图稿
-│   ├── verification/              # 按阶段归档的验证证据
-│   ├── release/                   # 按日期归档的发布资料
-│   └── brand/                     # 品牌源图与提示词
+│   ├── DESIGN.md                  # 整体设计（本文）
+│   ├── PERMISSIONS.md             # 权限清单
+│   ├── RELEASE-READINESS.md       # 发布准备
+│   ├── UI-MIGRATION.md            # UI 改造记录
+│   ├── UI-DESIGN-UPDATES.md       # UI 补充决定
+│   └── design/                    # 冻结 UI 规范与图稿
 ├── scripts/check_release.py       # Release 产物检查
 ├── sign_tools/                    # 本地签名材料（.gitignore）
 └── hvigor 配置

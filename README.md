@@ -19,7 +19,7 @@ HarmonyOS NEXT 本地网络诊断工具箱：查看本机网络信息、TCP Ping
 
 ## 当前状态
 
-版本处于上架准备阶段：1.0.0正式发布签名已完成并验签，用户新增的AGC托管隐私声明链接已写入包内，见[打包记录](docs/release/2026-10-23-v1.0.0/README.md)。代码与界面验收见[验证记录](docs/verification/README.md)。**尚未向应用市场提交审核**；政策正文与主体／联系信息、资质、后台应用身份及最终正式包质量验证仍需核对，详见[上架资料](docs/release/2026-10-23-submission/README.md)和[发布准备](docs/RELEASE-READINESS.md)。
+版本处于上架准备阶段：`1.0.0` 正式发布签名已完成并验签，AGC 托管隐私声明链接已写入包内。**尚未向应用市场提交审核**；政策正文与主体／联系信息、资质、后台应用身份及最终正式包质量验证仍需核对，详见[发布准备](docs/RELEASE-READINESS.md)。
 
 已知边界：
 
@@ -55,10 +55,12 @@ munet/
 │   └── cpp/                      # C++ 原生核心与 NAPI 类型
 ├── entry/src/ohosTest/           # hypium 测试
 ├── docs/                         # 文档入口见 docs/README.md
-│   ├── design/                   # 冻结 UI 规范与图稿
-│   ├── verification/             # 按阶段归档的验证证据
-│   ├── release/                  # 按日期归档的发布资料
-│   └── brand/                    # 品牌源图与提示词
+│   ├── DESIGN.md                 # 整体设计
+│   ├── PERMISSIONS.md            # 权限清单
+│   ├── RELEASE-READINESS.md      # 发布准备
+│   ├── UI-MIGRATION.md           # UI 改造记录
+│   ├── UI-DESIGN-UPDATES.md      # UI 补充决定
+│   └── design/                   # 冻结 UI 规范与图稿
 ├── scripts/check_release.py      # Release 产物检查
 └── sign_tools/                   # 本地签名材料（不入库）
 ```
@@ -95,9 +97,9 @@ MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
 
 - [文档索引](docs/README.md)
 - [整体设计](docs/DESIGN.md)
-- [验证记录](docs/verification/README.md)
-- [发布与上架资料](docs/release/README.md)
 - [权限清单](docs/PERMISSIONS.md)
+- [发布准备](docs/RELEASE-READINESS.md)
+- [UI 改造记录](docs/UI-MIGRATION.md)
 
 ## 构建注意事项
 
