@@ -11,6 +11,36 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def local_signing_project():
+    """Keep encrypted signing config and private build inputs in ignored sign_tools."""
+    signing = ROOT / 'sign_tools/signing-config.json'
+    if not signing.is_file():
+        return ROOT
+    project = ROOT / 'sign_tools/build-project'
+    project.mkdir(exist_ok=True)
+    names = subprocess.check_output(['git', 'ls-files', '--cached', '--others', '--exclude-standard'],
+                                    cwd=ROOT, text=True).splitlines()
+    for name in names:
+        if name.startswith(('docs/', '.git')):
+            continue
+        source = ROOT / name
+        if source.is_file():
+            dest = project / name
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, dest)
+    modules = project / 'oh_modules'
+    if not modules.exists():
+        import _winapi
+        _winapi.CreateJunction(str(ROOT / 'oh_modules'), str(modules))
+    config = json.loads((ROOT / 'build-profile.json5').read_text(encoding='utf-8-sig'))
+    sign = json.loads(signing.read_text(encoding='utf-8'))
+    config['app']['signingConfigs'] = [sign]
+    for product in config['app']['products']:
+        product['signingConfig'] = sign['name']
+    (project / 'build-profile.json5').write_text(json.dumps(config, indent=2), encoding='utf-8')
+    return project
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--project', type=Path, default=ROOT,
@@ -18,6 +48,8 @@ def main():
     parser.add_argument('--skip-build', action='store_true', help='Export an already built release')
     args = parser.parse_args()
     project = args.project.resolve()
+    if project == ROOT:
+        project = local_signing_project()
     studio = Path(os.environ.get('DEVECO_STUDIO_HOME', 'C:/Program Files/Huawei/DevEco Studio'))
     if not args.skip_build:
         env = os.environ.copy()
@@ -37,7 +69,7 @@ def main():
         if actual.get('debug') is not False or actual.get('buildMode') != 'release':
             raise ValueError('Expected a release package')
     # Verify before exporting, and keep certificate/Profile output out of dist.
-    private = ROOT / 'artifacts/signing/dist-verification'
+    private = ROOT / 'sign_tools/verification'
     private.mkdir(parents=True, exist_ok=True)
     for source in (app, hap):
         result = subprocess.run([str(studio / 'jbr/bin/java.exe'), '-jar',
