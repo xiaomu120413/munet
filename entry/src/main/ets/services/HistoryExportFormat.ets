@@ -21,7 +21,7 @@ export function buildExportFileName(format: ExportFormat): string {
   const now: Date = new Date();
   const stamp: string = String(now.getFullYear()) + pad(now.getMonth() + 1) + pad(now.getDate()) +
     '-' + pad(now.getHours()) + pad(now.getMinutes());
-  return 'nettools-history-' + stamp + '.' + (format === ExportFormat.CSV ? 'csv' : 'json');
+  return 'munet-history-' + stamp + '.' + (format === ExportFormat.CSV ? 'csv' : 'json');
 }
 
 function csvEscape(value: string): string {

@@ -25,157 +25,157 @@
 > hvigor [32mUP-TO-DATE :entry:default@CacheNativeLibs...  [39m
 > hvigor [32mFinished :entry:default@CompileResource... after 250 ms [39m
 > hvigor [32mFinished :entry:default@BuildJS... after 2 ms [39m
-> hvigor [33mWARN: [33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/services/HistoryExporter.ets:29:28
+> hvigor [33mWARN: [33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/services/HistoryExporter.ets:29:28
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/services/HistoryExporter.ets:32:8
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/services/HistoryExporter.ets:32:8
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/services/HistoryExporter.ets:36:8
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/services/HistoryExporter.ets:36:8
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:41:63
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:41:63
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:42:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:42:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:50:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:50:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:51:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:51:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:52:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:52:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:93:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:93:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:94:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:94:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:104:58
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:104:58
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:108:20
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:108:20
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:110:21
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:110:21
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:110:39
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:110:39
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:111:21
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:111:21
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:111:39
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:111:39
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:112:32
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:112:32
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:112:52
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:112:52
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:113:25
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:113:25
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:113:45
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:113:45
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:114:36
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:114:36
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:114:56
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:114:56
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:115:26
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:115:26
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:115:46
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:115:46
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:118:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:118:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:141:59
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:141:59
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:143:14
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:143:14
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:154:17
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:154:17
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:163:17
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:163:17
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:173:58
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:173:58
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:176:20
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:176:20
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:177:41
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:177:41
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:177:61
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:177:61
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:189:21
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:189:21
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:189:41
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:189:41
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:190:28
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:190:28
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:190:46
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:190:46
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:191:27
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:191:27
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:191:45
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:191:45
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:192:27
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:192:27
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:192:47
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:192:47
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:196:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:196:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:205:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:205:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/store/HistoryStore.ets:206:13
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:206:13
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/net/LocalNetInfo.ets:24:57
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/net/LocalNetInfo.ets:24:57
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/net/LocalNetInfo.ets:127:54
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/net/LocalNetInfo.ets:127:54
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/net/LocalNetInfo.ets:128:52
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/net/LocalNetInfo.ets:128:52
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/views/HistoryView.ets:45:45
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/views/HistoryView.ets:45:45
  Function may throw exceptions. Special handling is required.
 [39m[39m
-[33mWARN: [33m[33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/views/HistoryView.ets:277:10
+[33mWARN: [33m[33mArkTS:WARN File: <repo>/entry/src/main/ets/views/HistoryView.ets:277:10
  'onScroll' has been deprecated.
 [39m[39m
-[33mWARN: [33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/views/HistoryView.ets:166:14
- The current component id "history-more" is duplicate with C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/views/HistoryView.ets:162:14.[39m[39m
-[33mWARN: [33mArkTS:WARN File: C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/views/HistoryView.ets:169:100
- The current component id "history-more" is duplicate with C:/Users/mu/Desktop/code/nettools/entry/src/main/ets/views/HistoryView.ets:162:14.[39m[39m
+[33mWARN: [33mArkTS:WARN File: <repo>/entry/src/main/ets/views/HistoryView.ets:166:14
+ The current component id "history-more" is duplicate with <repo>/entry/src/main/ets/views/HistoryView.ets:162:14.[39m[39m
+[33mWARN: [33mArkTS:WARN File: <repo>/entry/src/main/ets/views/HistoryView.ets:169:100
+ The current component id "history-more" is duplicate with <repo>/entry/src/main/ets/views/HistoryView.ets:162:14.[39m[39m
 [39m
 > hvigor [32mFinished :entry:default@CompileArkTS... after 2 s 235 ms [39m
 > hvigor [32mFinished :entry:default@GeneratePkgModuleJson... after 2 ms [39m
@@ -185,7 +185,7 @@
 > hvigor [32mFinished :entry:default@PackageHap... after 392 ms [39m
 > hvigor [32mFinished :entry:default@PackingCheck... after 3 ms [39m
 > hvigor [33mWARN: Will skip sign 'hos_hap'. No signingConfigs profile is configured in current project.
-             If needed, configure the signingConfigs in C:\Users\mu\Desktop\code\nettools\build-profile.json5.[39m
+             If needed, configure the signingConfigs in <home>\Desktop\code\nettools\build-profile.json5.[39m
 > hvigor [32mFinished :entry:default@SignHap... after 2 ms [39m
 > hvigor [32mFinished :entry:default@CollectDebugSymbol... after 3 ms [39m
 > hvigor [32mFinished :entry:assembleHap... after 1 ms [39m
@@ -195,7 +195,7 @@
 > hvigor [32mFinished ::PackageApp... after 668 ms [39m
 > hvigor [32mFinished ::SignPackagesFromApp... after 2 ms [39m
 > hvigor [33mWARN: Will skip sign 'app'. No signingConfigs profile is configured in current project.
-             If needed, configure the signingConfigs in C:\Users\mu\Desktop\code\nettools\build-profile.json5.[39m
+             If needed, configure the signingConfigs in <home>\Desktop\code\nettools\build-profile.json5.[39m
 > hvigor [32mFinished ::SignApp... after 1 ms [39m
 > hvigor [32mFinished ::assembleApp... after 1 ms [39m
 > hvigor [32mBUILD SUCCESSFUL in 3 s 925 ms [39m

@@ -1,7 +1,7 @@
 import { hilog } from '@kit.PerformanceAnalysisKit';
 
 const DOMAIN: number = 0x0000;
-const TAG: string = 'NetTools';
+const TAG: string = 'MuNet';
 
 /** Shared application logging configuration. Keep sensitive data out of messages. */
 export class Logger {

@@ -2,5 +2,5 @@
   "name": "libnettools.so",
   "types": "./index.d.ts",
   "version": "",
-  "description": "NetTools native core type declarations."
+  "description": "MuNet native core type declarations."
 }

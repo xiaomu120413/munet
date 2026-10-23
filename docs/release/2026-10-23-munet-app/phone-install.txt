@@ -1,5 +1,5 @@
-[Info]App install path:C:\Users\mu\Desktop\code\nettools\artifacts\release\0.4.0\munet-app-phone-main-local.hap msg:install bundle successfully. 
+[Info]App install path:<home>\Desktop\code\nettools\artifacts\release\0.4.0\munet-app-phone-main-local.hap msg:install bundle successfully.
 AppMod finish
 
-[Info]App install path:C:\Users\mu\Desktop\code\nettools\artifacts\release\0.4.0\munet-app-phone-test-local.hap msg:install bundle successfully. 
+[Info]App install path:<home>\Desktop\code\nettools\artifacts\release\0.4.0\munet-app-phone-test-local.hap msg:install bundle successfully.
 AppMod finish

@@ -1,4 +1,4 @@
-// NetTools native core.
+// MuNet (formerly NetTools) native core.
 //
 // Exposes the probing primitives used by ping, port scanning and LAN sweeps:
 // a non-blocking TCP connect raced against a timeout, a batch scanner with

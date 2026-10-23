@@ -1,8 +1,10 @@
-# 网络工具箱（NetTools）整体设计
+# 木络（MuNet）整体设计
+
+> 命名：产品对外名称已统一为**木络 / MuNet**，应用包名 `com.munet.app`；原名 NetTools。原生库 `libnettools.so`、数据库 `nettools.db` 和日志 tag 沿用旧名，用于保持构建与已安装数据的兼容。
 
 > 2026-10-23 权限复核：本文能力矩阵保留历史实测结果。当前 API 26 SDK 另提供受 GET_IP_MAC_INFO 控制的邻居表／系统端口查询，以及新的网络探测与路由追踪接口；“没有公共 API／普通应用永远拿不到”不作为最新结论。当前版本未接入这些扩展，具体版本、权限和申请边界以[权限清单](docs/PERMISSIONS.md)为准。
 
-> UI重新设计（2026-10-22）：见[整套UI归档](docs/ui-redesign-2026-10-22/README.md)及[完整UI规范](docs/ui-redesign-2026-10-22/UI-SPEC.md)。新文档在视觉、导航和多端布局方面替代下文旧版§3的设计；其状态为设计稿，尚未据此完成整套代码实现。原架构、平台能力与业务实现说明保留。
+> UI重新设计（2026-10-22）：见[整套UI归档](docs/design/README.md)及[完整UI规范](docs/design/UI-SPEC.md)。新文档在视觉、导航和多端布局方面替代下文旧版§3的设计；其状态为设计稿，尚未据此完成整套代码实现。原架构、平台能力与业务实现说明保留。
 
 > 状态：设计评审稿 v2（2026-10-17）
 > 平台：HarmonyOS NEXT / OpenHarmony 7.0（API 26），PC 优先，手机/平板自适应
@@ -251,7 +253,7 @@ IP              状态   端口              主机名
 - Data Source 抛原始错误（BusinessError 等）；Repository 透传或归一化；
   VM 捕获后写 `error` 字段（用户可读文案），并尽量保留可展示的降级数据。
 - View 只渲染错误条，不判断错误类型。
-- 错误日志用 hilog，tag 固定 `NetTools`，不打印敏感数据。
+- 错误日志用 hilog，tag 固定 `MuNet`，不打印敏感数据。
 
 #### 4.1.6 依赖注入与可测试性
 
@@ -282,7 +284,7 @@ IP              状态   端口              主机名
 ### 4.2 工程结构与命名规范
 
 ```
-nettools/                          ← 独立仓库（与 thirty/ 平级）
+munet/                             ← 独立仓库（与 thirty/ 平级）
 ├── AppScope/
 ├── entry/src/main/
 │   ├── ets/
@@ -336,6 +338,13 @@ nettools/                          ← 独立仓库（与 thirty/ 平级）
 │   ├── module.json5               # 权限：INTERNET + GET_NETWORK_INFO + GET_WIFI_INFO
 │   ├── resources/
 │   └── ohosTest/                  # hypium 单元测试（Subnet / 导出序列化）
+├── docs/                          # 文档入口：docs/README.md
+│   ├── design/                    # 冻结 UI 规范与图稿
+│   ├── verification/              # 按阶段归档的验证证据
+│   ├── release/                   # 按日期归档的发布资料
+│   └── brand/                     # 品牌源图与提示词
+├── scripts/check_release.py       # Release 产物检查
+├── sign_tools/                    # 本地签名材料（.gitignore）
 └── hvigor 配置
 ```
 
@@ -638,18 +647,9 @@ CREATE TABLE discovered_host (
 
 ## 8. 工程参数与命名
 
-- **应用名：待定，必须品牌化**（"网络工具箱"这类类别词会被商店名称规则与
-  备案规则驳回，见 §12）。候选（需在 AGC 创建应用时查重，并查商标）：
-
-  | 候选 | 英文 | 意象 |
-  |---|---|---|
-  | 网镜 | Netscope | 透视网络 |
-  | 网迹 | NetTrace | 追踪网络痕迹 |
-  | 探针盒子 | ProbeBox | 工具感 |
-  | 鲨眼 | SharkEye | 与 OhShark 品牌呼应 |
-
-- bundle：`com.munet.app`（可改；若改名，包名不必跟随，但备案/软著需一致
-  的是应用名，不是包名）。
+- **应用名：木络（MuNet）**，2026-10-23 起对外统一；原名 NetTools。
+  bundle 为 `com.munet.app`，包名与展示名可独立变更；备案／软著需一致的是
+  应用名，不是包名。
 - DevEco 标准工程，单 entry 模块（规模不需要 HAR 拆分）。
 - compatibleSdkVersion `6.0.2(22)`，targetSdkVersion `26.0.0`（实测 API 22
   平板可安装运行；`getConnectionProperties` 等所需 API 在 22 上均可用）。
@@ -681,7 +681,7 @@ CREATE TABLE discovered_host (
    - 子网 sweep：`aa start ... --ps netprobe.sweep.cidr 192.168.1.0/24`
      （可选 `--ps netprobe.sweep.ports 80,443`）
    - 历史查询：`aa start ... --ps netprobe.history 1`
-   - 读取：`hilog -x | grep 'headless'`（tag `NetTools`）
+   - 读取：`hilog -x | grep 'headless'`（tag `MuNet`）
 7. **单元测试（ohosTest / hypium）**：
 
    ```bash

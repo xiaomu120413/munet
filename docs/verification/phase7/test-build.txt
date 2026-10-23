@@ -1,0 +1,270 @@
+> hvigor UP-TO-DATE :entry:ohosTest@PreBuild...
+> hvigor Finished :entry:ohosTest@CreateModuleInfo... after 1 ms
+> hvigor Finished :entry:ohosTest@GenerateMetadata... after 2 ms
+> hvigor Finished :entry:ohosTest@ConfigureCmake... after 1 ms
+> hvigor Finished :entry:ohosTest@MergeProfile... after 5 ms
+> hvigor Finished :entry:ohosTest@CreateBuildProfile... after 3 ms
+> hvigor Finished :entry:ohosTest@PreCheckSyscap... after 1 ms
+> hvigor Finished :entry:ohosTest@GeneratePkgContextInfo... after 3 ms
+> hvigor Finished :entry:ohosTest@GeneratePkgSdkInfo... after 3 ms
+> hvigor Finished :entry:ohosTest@ProcessIntegratedHsp... after 1 ms
+> hvigor Finished :entry:ohosTest@BuildNativeWithCmake... after 1 ms
+> hvigor Finished :entry:ohosTest@MakePackInfo... after 3 ms
+> hvigor Finished :entry:ohosTest@SyscapTransform... after 2 ms
+> hvigor Finished :entry:ohosTest@ProcessProfile... after 73 ms
+> hvigor Finished :entry:ohosTest@ProcessRouterMap... after 4 ms
+> hvigor Finished :entry:ohosTest@ProcessShareConfig... after 3 ms
+> hvigor Finished :entry:ohosTest@ProcessStartupConfig... after 2 ms
+> hvigor Finished :entry:ohosTest@BuildNativeWithNinja... after 1 ms
+> hvigor Finished :entry:ohosTest@ProcessResource... after 4 ms
+> hvigor Finished :entry:ohosTest@GenerateLoaderJson... after 9 ms
+> hvigor Finished :entry:ohosTest@ProcessLibs... after 3 ms
+node.exe : > hvigor WARN: Warning: 'start_window_background' conflict, first declared.
+所在位置 行:5 字符: 1
++ & 'C:/Program Files/Huawei/DevEco Studio/tools/node/node.exe' 'C:/Pro ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (> hvigor W...first declared.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+at <home>\Desktop\code\nettools\entry\src\ohosTest\resources\base\element\color.json
+but declared again.
+at <home>\Desktop\code\nettools\entry\src\main\resources\base\element\color.json
+
+> hvigor Finished :entry:ohosTest@CompileResource... after 290 ms
+> hvigor Finished :entry:ohosTest@DoNativeStrip... after 3 ms
+> hvigor Finished :entry:ohosTest@OhosTestBuildJS... after 4 ms
+> hvigor Finished :entry:ohosTest@CacheNativeLibs... after 7 ms
+> hvigor WARN: WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/net/Loca
+lNetInfo.ets:24:57
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/net/LocalNetInfo.ets:127:54
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/net/LocalNetInfo.ets:128:52
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/services/HistoryExporter.ets
+:29:28
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/services/HistoryExporter.ets
+:32:8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/services/HistoryExporter.ets
+:36:8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:41:63
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:42:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:50:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:51:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:52:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:93:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:94:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:104:5
+8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:108:2
+0
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:110:2
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:110:3
+9
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:111:2
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:111:3
+9
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:112:3
+2
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:112:5
+2
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:113:2
+5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:113:4
+5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:114:3
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:114:5
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:115:2
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:115:4
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:118:1
+3
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:141:5
+9
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:143:1
+4
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:154:1
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:163:1
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:173:5
+8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:176:2
+0
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:177:4
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:177:6
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:189:2
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:189:4
+1
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:190:2
+8
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:190:4
+6
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:191:2
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:191:4
+5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:192:2
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:192:4
+7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:196:1
+3
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:205:1
+3
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/main/ets/store/HistoryStore.ets:206:1
+3
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/test/WindowUi.test.ets:4
+6:19
+ This API is unavailable to phone(earlier than API level 23).
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/test/WindowUi.test.ets:4
+8:21
+ This API is unavailable to phone(earlier than API level 23).
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/test/WindowUi.test.ets:7
+0:19
+ This API is unavailable to phone(earlier than API level 23).
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/test/WindowUi.test.ets:7
+1:19
+ This API is unavailable to phone(earlier than API level 23).
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/test/DesktopUi.test.ets:
+60:19
+ This API is unavailable to phone(earlier than API level 23).
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/test/DesktopUi.test.ets:
+67:19
+ This API is unavailable to phone(earlier than API level 23).
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/test/DesktopUi.test.ets:
+150:19
+ This API is unavailable to phone(earlier than API level 23).
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/test/DesktopUi.test.ets:
+151:19
+ This API is unavailable to phone(earlier than API level 23).
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/testrunner/OpenHarmonyTe
+stRunner.ets:35:76
+ 'createModuleContext' has been deprecated.
+
+WARN: ArkTS:WARN File: <repo>/entry/src/ohosTest/ets/testrunner/OpenHarmonyTe
+stRunner.ets:65:81
+ 'decodeWithStream' has been deprecated.
+
+
+> hvigor Finished :entry:ohosTest@OhosTestCompileArkTS... after 2 s 177 ms
+> hvigor Finished :entry:ohosTest@OhosTestCopyMockConfigJson... after 1 ms
+> hvigor Finished :entry:ohosTest@GeneratePkgModuleJson... after 3 ms
+> hvigor Finished :entry:ohosTest@ProcessCompiledResources... after 1 ms
+> hvigor Finished :entry:ohosTest@PackageHap... after 327 ms
+> hvigor Finished :entry:ohosTest@PackingCheck... after 2 ms
+> hvigor WARN: Will skip sign 'hos_hap'. No signingConfigs profile is configured in current project.
+             If needed, configure the signingConfigs in <home>\Desktop\code\nettools\build-profile.json5.
+> hvigor Finished :entry:ohosTest@SignHap... after 1 ms
+> hvigor Finished :entry:ohosTest@CollectDebugSymbol... after 1 ms
+> hvigor Finished :entry:assembleHap... after 1 ms
+> hvigor BUILD SUCCESSFUL in 3 s 67 ms
+
+34 tasks in total: 33 executed, 1 up-to-date
