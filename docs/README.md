@@ -7,6 +7,7 @@
 | 文档 | 内容 |
 |---|---|
 | [README](../README.md) | 产品简介、功能状态、构建与部署 |
+| [BUILD](BUILD.md) | 本地打包、签名材料与输出目录约定 |
 | [DESIGN](DESIGN.md) | 架构、分层、接口契约、数据模型与合规边界 |
 | [RELEASE-READINESS](RELEASE-READINESS.md) | 当前版本、发布包与送审前待办 |
 | [PERMISSIONS](PERMISSIONS.md) | 已声明权限与可扩展权限的申请边界 |
@@ -19,7 +20,8 @@
 | 目录 | 用途 |
 |---|---|
 | `docs/design/` | 冻结的 UI 设计规范与图稿，视觉与布局的最终依据 |
-| `artifacts/`（本地忽略） | 签名、构建与发布产物，不进入 Git |
+| `dist/`（本地忽略） | 正式签名的 APP、HAP 与发布清单，不进入 Git |
+| `artifacts/`（本地忽略） | 构建检查与临时产物，不进入 Git |
 | `sign_tools/`（本地忽略） | 证书、Profile、密钥与签名配置，不进入 Git |
 
 历史阶段的验证截图、发布快照和品牌过程文件已由维护者清理，不再随仓库分发；需要时从本机 `artifacts/` 或版本发布记录中查找。

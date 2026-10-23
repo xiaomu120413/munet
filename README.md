@@ -55,13 +55,14 @@ munet/
 │   └── cpp/                      # C++ 原生核心与 NAPI 类型
 ├── entry/src/ohosTest/           # hypium 测试
 ├── docs/                         # 文档入口见 docs/README.md
+│   ├── BUILD.md                  # 本地打包与签名约定
 │   ├── DESIGN.md                 # 整体设计
 │   ├── PERMISSIONS.md            # 权限清单
 │   ├── RELEASE-READINESS.md      # 发布准备
 │   ├── UI-MIGRATION.md           # UI 改造记录
 │   ├── UI-DESIGN-UPDATES.md      # UI 补充决定
 │   └── design/                   # 冻结 UI 规范与图稿
-├── scripts/check_release.py      # Release 产物检查
+├── scripts/                      # 发布检查与打包脚本
 └── sign_tools/                   # 本地签名材料（不入库）
 ```
 
@@ -94,6 +95,7 @@ MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
 ## 文档
 
 - [文档索引](docs/README.md)
+- [本地打包](docs/BUILD.md)
 - [整体设计](docs/DESIGN.md)
 - [权限清单](docs/PERMISSIONS.md)
 - [发布准备](docs/RELEASE-READINESS.md)
@@ -103,5 +105,5 @@ MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
 
 1. **增量打包可能漏 `ets/modules.abc`**：首次 CompileArkTS 失败后，增量 HAP 可能缺字节码，真机表现为 `JsRuntime: run script failed` / `null jsAbilityObj` / 卡启动图。先核对 HAP 内 `ets/modules.abc` 非空，再清理构建目录重建；Release 用 `scripts/check_release.py` 复核。
 2. **OHM 类型依赖名必须一致**：`entry/oh-package.json5` 中必须是 `"libnettools.so": "file:./src/main/cpp/types/libnettools"`，key 要与类型包 `name` 相同，否则 ArkTS 导入退化为 any 并报 `arkts-no-any-unknown`。
-3. **签名与 UDID 绑定**：debug profile 的 `device-ids` 由签名脚本按参数生成，换设备需重签；UDID 用 `hdc shell bm get --udid` 获取。
+3. **调试与发布签名分开**：调试签名在 DevEco 中按连接设备配置；发布签名使用 `sign_tools/` 本机材料和 `scripts/package_release.py`，不要混用。UDID 用 `hdc shell bm get --udid` 获取。
 4. **验证纪律**：UI 结论以截图／OCR 为准，不只看日志；网络结论必须在真机真实网络环境下验证。

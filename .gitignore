@@ -7,15 +7,14 @@
 /entry/build
 /entry/.preview
 /entry/oh_modules
+/entry/.cxx
 *.hap
+*.app
+/shots/
 /artifacts/
 /dist/
 __pycache__/
 local.properties
-
-# Verification screenshots
-/shots/
-/entry/.cxx
 
 # Local signing material and profiles
 /sign_tools/
