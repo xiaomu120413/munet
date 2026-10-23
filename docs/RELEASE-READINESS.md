@@ -18,8 +18,10 @@ $env:DEVECO_SDK_HOME='C:\Program Files\Huawei\DevEco Studio\sdk'
 $env:JAVA_HOME='C:\Program Files\Huawei\DevEco Studio\jbr'
 $env:Path="$env:JAVA_HOME\bin;C:\Program Files\Huawei\DevEco Studio\tools\node;$env:Path"
 & 'C:/Program Files/Huawei/DevEco Studio/tools/node/node.exe' 'C:/Program Files/Huawei/DevEco Studio/tools/hvigor/bin/hvigorw.js' assembleApp --mode project -p product=default -p buildMode=release
-python scripts/check_release.py --hap entry/build/default/outputs/default/entry-default-unsigned.hap --app build/outputs/default/nettools-default-unsigned.app --output artifacts/release-manifest.json
+python scripts/check_release.py --hap entry/build/default/outputs/default/entry-default-unsigned.hap --app build/outputs/default/munet-default-unsigned.app --output artifacts/release-manifest.json
 ```
+
+APP 产物名取自工程目录名；本地目录不叫 `munet` 时，按 `build/outputs/default/` 下实际文件名替换。
 
 检查脚本验证：`debug=false`、Release构建模式、包名与版本、entry随应用安装、仅三项声明权限、非空ArkTS字节码、arm64-v8a／x86_64的真实ELF架构、无测试资源／测试模块，以及APP内HAP与独立HAP运行文件一致。打包器可重排`pack.info`格式，但内容必须相同。已确认Debug产物会被拒绝。清单中的源码SHA可用于核对候选包对应的源文件。
 
