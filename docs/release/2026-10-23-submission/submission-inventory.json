@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-23",
+  "baseline_commit": "f80c019",
+  "bundle": "com.muge.munet",
+  "version": "0.4.0",
+  "versionCode": 1000004,
+  "runtime_source_unchanged_from_accepted_candidate": true,
+  "runtime_sources_verified": 63,
+  "test_sources_verified": 12,
+  "permissions": [
+    "ohos.permission.GET_NETWORK_INFO",
+    "ohos.permission.GET_WIFI_INFO",
+    "ohos.permission.INTERNET"
+  ],
+  "artifacts": {
+    "munet-0.4.0-20261023-all-pages-unsigned.hap": {
+      "bytes": 5502218,
+      "sha256": "99ba79582361534fd33e0573a548a24c3eb04de8b5ae58b4ed91fe6fcf27f540"
+    },
+    "munet-0.4.0-20261023-all-pages-unsigned.app": {
+      "bytes": 3051778,
+      "sha256": "1397afa843cc806484544dfe9b6b5ef5c342629cd96a930d4b9650e5306ce45a"
+    }
+  },
+  "tests": {
+    "docs/release/2026-10-23-all-page-stability/matebook-unit-tests.txt": {
+      "passed": 18,
+      "sha256": "2b5516ee27d032adee812fba8cc2331934fb02e5e2ab41af864b97df65744dd6"
+    },
+    "docs/release/2026-10-23-all-page-stability/matebook-ui-tests.txt": {
+      "passed": 19,
+      "sha256": "b531ee6f15f70d58aa51c845d3ce7be7e1a12cf3818e8cc13d6343b30217ce80"
+    },
+    "docs/release/2026-10-23-all-page-stability/phone-unit-tests.txt": {
+      "passed": 18,
+      "sha256": "77b7690319c7f801cf56754381f0108b612fab809e1da330e3eb3ae4c8df8a55"
+    },
+    "docs/release/2026-10-23-all-page-stability/phone-ui-tests.txt": {
+      "passed": 19,
+      "sha256": "48187e317c6a8e72d33c75665e7ca917ef0115b17ac2840ba48d90fa4477c650"
+    },
+    "docs/release/2026-10-23-all-page-stability/tablet-unit-tests.txt": {
+      "passed": 18,
+      "sha256": "d74a0725ad1770bc67f6d3f44f64bd716709b412db3d3c452573c35ea4e6f64d"
+    },
+    "docs/release/2026-10-23-all-page-stability/tablet-ui-tests.txt": {
+      "passed": 19,
+      "sha256": "e05219faccde990cb05b13924688de936d88017cd0bf71caa967f311537c1899"
+    }
+  },
+  "icon_sources": {
+    "docs/brand-2026-10-22/munet-icon-v1.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "sha256": "9e3750d4481f10c986b3a749a2ebb589d6502830b1b8e8720a52e402f6b9cafb"
+    },
+    "docs/brand-2026-10-22/munet-foreground.png": {
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "ffdb47a611fe5ccc1f831f41c53a051bea0d93e650fa7cf0d507f223c16e111d"
+    }
+  },
+  "formal_release_signing_verified": false,
+  "market_submission_ready": false,
+  "backend_application_identity_verified": false,
+  "privacy_policy_owner_and_url_provided": false,
+  "filing_and_category_qualifications_verified": false,
+  "final_signed_package_quality_verified": false,
+  "remaining": [
+    "developer_backend_application_identity_and_version",
+    "formal_release_signing",
+    "operator_contacts_privacy_policy_and_configuration",
+    "filing_qualifications_distribution_and_ownership",
+    "final_signed_package_quality_and_store_visuals"
+  ],
+  "sources": {
+    "runtime_manifest": "docs/release/2026-10-23-all-page-stability/release-manifest.json",
+    "test_manifest": "docs/release/2026-10-23-all-page-stability/verification-manifest.json"
+  },
+  "material_sha256": {
+    "DATA-MAP.md": "0528dcfebcf14fa93ae55e9101f7f909ef8e8382d1e849671d68b2df78adc404",
+    "OWNER-CHECKLIST.md": "3e989d9ab08ddf83b5dfd25376e9d6aaf2efc3ce403f46b87f21dfb99b868cc7",
+    "PERMISSIONS.md": "1c98b09666fcbdd0db2191391626b4d44f4af0fc493c7beaf8540a0471a09e18",
+    "README.md": "2b5d5361a80b0efd67511a17a378ae75dd4bce9b261e137222b77752eddac552",
+    "SCREENSHOTS.md": "fccf3118e91408fc4e70428b83f4b81bc53834c75cee07ebff818c797e62212d",
+    "SOURCES.md": "32780d96dbc4494a279d66f5adeaeab5a6cd4ee449550b6ebd36efe8f88e8d57",
+    "STORE-LISTING.md": "6886abe23770c2d6282714c56dddd8d2e08e07961a4e9f487cb58f02438ac26c"
+  }
+}

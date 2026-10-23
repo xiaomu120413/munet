@@ -1,6 +1,6 @@
 # 木络0.4.0发布准备
 
-最新检查见[全页面布局稳定性记录](release/2026-10-23-all-page-stability/README.md)。办理资料请用[新包名清单](release/2026-10-23-bundle-layout/USER-ACTIONS.md)。旧包名归档不能用于新包签名或上架。**目前仍可准备资料，暂不能送审**，待正式签名、隐私配置、资质与正式包质量验证。
+最新上架资料统一到[com.muge.munet资料入口](release/2026-10-23-submission/README.md)，待办理事项见[开发者清单与回填表](release/2026-10-23-submission/OWNER-CHECKLIST.md)。代码验收见[全页面布局稳定性记录](release/2026-10-23-all-page-stability/README.md)，三端最终综合运行各19/19。旧包名归档不能用于新包签名或上架。**资料和unsigned候选已准备，暂不能正式送审**，仍待后台身份、正式签名、隐私配置、资质与正式包质量验证。
 
 2026-10-23 更新。当前准备的是可复核的代码提交与Release候选产物，未创建市场发布单、上传或送审。包名现为`com.muge.munet`（由`com.mu.nettools`更换）、版本`0.4.0`／`1000004`，正式送审前仍需与AGC核对，不假设此前已经发布。旧包手机／平板模拟器验收见[阶段9](ui-verification/phase9/README.md)，旧包PC实机验收见[阶段10](ui-verification/phase10/README.md)，权限申请见[清单](PERMISSIONS.md)。
 
@@ -40,7 +40,7 @@ python scripts/check_release.py --hap entry/build/default/outputs/default/entry-
 - 关联正确AGC应用，提供正式发布证书／签名配置，对最终正式签名包再次检查与安装验证。
 - 核对AGC已有版本号、正式应用介绍、适用设备和上传页要求的图标及真实截图；设计稿不能充当宣传截图。
 - 由开发者确认对外数据处理说明、政策内容与联系方式。应用内隐私段落按用户要求删除，不在本轮重新加入占位文字。
-- 手机和平板末版模拟器验收已完成，见阶段9；真实Wi-Fi／局域网兼容性和完整读屏语音听测仍需实机／人工，不将模拟器当成真机证据。
+- 新包名手机和平板模拟器及PC实机验收已完成，见全页面布局稳定性记录；真实Wi-Fi／局域网兼容性、API22机型和完整读屏语音听测仍需实机／人工，不将模拟器当成真机证据。
 - 构建存在既有SDK弃用／异常处理提示，保留完整日志；无编译错误不等同于已满足全部市场检查。
 
-最新PC逐页对照、修复和设备证据见[阶段10报告](ui-verification/phase10/README.md)，手机／平板见[阶段9报告](ui-verification/phase9/README.md)；阶段8保留为当时的历史候选。
+当前新包名最终验证见[全页面布局稳定性记录](release/2026-10-23-all-page-stability/README.md)。旧包PC逐页设计对照见[阶段10报告](ui-verification/phase10/README.md)，旧包手机／平板见[阶段9报告](ui-verification/phase9/README.md)，均保留为当时的历史证据。

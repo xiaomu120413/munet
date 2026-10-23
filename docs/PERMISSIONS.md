@@ -1,6 +1,6 @@
 # 木络权限与申请清单
 
-首版仍无需额外ACL。正式签名、开发者账号权限与商店资料需要另行准备，见[开发者办理清单](release/2026-10-23/USER-ACTIONS.md)，不要把这些发布配置与应用运行权限混为一谈。
+首版仍无需额外ACL。正式签名、开发者账号权限与商店资料需要另行准备，见[当前新包名办理清单](release/2026-10-23-submission/OWNER-CHECKLIST.md)及[上架资料入口](release/2026-10-23-submission/README.md)，不要把这些发布配置与应用运行权限混为一谈。
 
 核对日期：2026-10-23。包名 `com.muge.munet`。依据本工程声明、DevEco Studio 当前 API 26 SDK 的权限资源及 API 注释；SDK 摘录见[权限证据](ui-verification/phase9/sdk-permissions.json)与[接口位置](ui-verification/phase9/sdk-network-api.json)。
 
