@@ -87,7 +87,7 @@
     "DATA-MAP.md": "6f1a217cd63c7f942e24e6255317dea130830aec3b9de95c87f56fcc9fe1f50f",
     "OWNER-CHECKLIST.md": "d4d9a75e1dc85fdb27fc8847fcad11b6f5329d999f79881db4cb91323a53f29b",
     "PERMISSIONS.md": "162cb69ac69e1307d8a275b87877ee0d0d169506334be7417a7b1250a5a11b5b",
-    "README.md": "3849471c43ac15e34fb4812b49f13dcfa040487c717218f28610cfc6663123f7",
+    "README.md": "8d9fbc63e1ca82c51eae72a1ee1adb22fcd88ea96701c69025e1002309777ccf",
     "SCREENSHOTS.md": "7a6de8dda9d69d2f308d0a6a3c7222c5177d26766c710d8a9fa52c221fd6bac2",
     "SOURCES.md": "0e2cbc810dd90b68796841d04ba18779b04689005dcacd2a672968cc982dbe58",
     "STORE-LISTING.md": "b6cb6efc77089f0065dc6fb639614957f6296e1b56c5a2bc7bc72f3df4d35260"
@@ -110,5 +110,6 @@
   "privacy_policy_contents_verified": false,
   "device_tests_rerun": false,
   "test_baseline_version": "0.4.0",
-  "test_baseline_versionCode": 1000004
+  "test_baseline_versionCode": 1000004,
+  "release_output_directory": "dist"
 }

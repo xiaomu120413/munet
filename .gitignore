@@ -9,6 +9,7 @@
 /entry/oh_modules
 *.hap
 /artifacts/
+/dist/
 __pycache__/
 local.properties
 

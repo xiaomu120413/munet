@@ -30,10 +30,9 @@
 
 本轮使用按com.munet.app重新构建的候选；旧包的构建、签名及测试记录不作为新包验收证据：
 
-- artifacts/release/1.0.0/MuNet-1.0.0-release-signed.app
-- artifacts/release/1.0.0/MuNet-1.0.0-release-signed.hap
+- dist/MuNet-1.0.0-release-signed.app
+- dist/MuNet-1.0.0-release-signed.hap
 - [复核清单](submission-inventory.json)：最新签名产物、源码清单入口、此前0.4.0验收日志及品牌源图SHA；本轮版本及隐私元数据变更已在包内核对。
-- 整理包：artifacts/release/1.0.0/munet-com.munet.app-store-materials-20261023.zip。包含文案、权限／材料清单、品牌源文件、验收证据及正式签名候选；不含独立签名材料、密钥库、口令或私钥。正式签名包自身按格式包含证书及Profile，资料ZIP不是市场上传格式。
 
 旧包com.muge.munet、com.mu.nettools的历史归档不修改，也不能作为新包签名依据。新旧包是独立安装身份，现无跨包数据导入／自动迁移功能。
 

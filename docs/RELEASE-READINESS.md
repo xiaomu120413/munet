@@ -6,8 +6,12 @@
 
 ## 候选产物
 
-- `artifacts/release/1.0.0/MuNet-1.0.0-release-signed.app`：复用MuMark证书／密钥和木络新发布Profile的正式签名APP。
-- `artifacts/release/1.0.0/MuNet-1.0.0-release-signed.hap`：正式签名主模块，和APP分别通过SDK验签。
+发布交付目录统一为项目根目录`dist/`，不再使用`artifacts/release/`。构建日志及私有验签材料仍留在忽略目录，发布包不提交Git。
+
+默认打包命令：`python scripts/package_release.py`。需要先在本机配置正式签名；若使用仓库外的签名构建快照，传入`--project <快照路径>`。脚本执行正式构建、SDK验签后，将APP、HAP及`release-manifest.json`统一导出到本项目`dist/`。对已构建的快照可加`--skip-build`，仍会执行验签。
+
+- `dist/MuNet-1.0.0-release-signed.app`：复用MuMark证书／密钥和木络新发布Profile的正式签名APP。
+- `dist/MuNet-1.0.0-release-signed.hap`：正式签名主模块，和APP分别通过SDK验签。
 - PC本地签名的Release HAP仅用于已连接设备验收，使用设备绑定调试签名，不能当作正式市场签名。
 - 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；正式包SHA及标准APP／HAP容器差异见[签名清单](release/2026-10-23-v1.0.0/signing-manifest.json)。下方脚本用于未签名候选检查，正式包另由SDK验签及共有运行文件比较验证。
 

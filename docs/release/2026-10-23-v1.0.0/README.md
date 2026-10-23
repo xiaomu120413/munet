@@ -11,7 +11,7 @@
 
 ## 上传文件
 
-上传`artifacts/release/1.0.0/MuNet-1.0.0-release-signed.app`。独立HAP留作模块核验；[签名及文件SHA清单](signing-manifest.json)记录正式输出。
+上传`dist/MuNet-1.0.0-release-signed.app`。独立HAP留作模块核验；[签名及文件SHA清单](signing-manifest.json)记录正式输出。
 
 包内隐私声明链接：
 
