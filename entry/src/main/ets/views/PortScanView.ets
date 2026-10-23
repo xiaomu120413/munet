@@ -170,7 +170,7 @@ export struct PortScanView {
   }
   build() {
     Column() {
-      UiPageHeader({ title: '端口扫描', inset: this.inset() })
+      UiPageHeader({ contentWidth: this.contentWidth, title: '端口扫描', inset: this.inset() })
       Scroll() {
         Column({ space: 16 }) {
           this.Parameters()

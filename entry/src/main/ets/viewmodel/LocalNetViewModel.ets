@@ -39,17 +39,26 @@ export class LocalNetViewModel {
     this.error = '';
     try {
       const nics: NicInfo[] = await this.repo.fetchNics();
-      this.nics = nics;
-      this.ifaces = this.repo.readInterfaces();
-
+      const ifaces: IfaceInfo[] = this.repo.readInterfaces();
       const defaultNic: NicInfo | undefined =
         nics.find((nic: NicInfo): boolean => nic.isDefault);
+      // Keep the previous snapshot visible while Wi-Fi details are pending.
+      // Publishing null before awaiting them collapses a wide page to one column.
+      let wifi: WifiInfo | null = null;
+      let wifiError: string = '';
+      if (defaultNic !== undefined && defaultNic.bearerTypes.includes('Wi-Fi')) {
+        try { wifi = await this.repo.fetchWifiInfo(); }
+        catch (err) { wifiError = 'Wi-Fi 信息暂不可用，其他网络信息仍可查看'; }
+      }
+      this.nics = nics;
+      this.ifaces = ifaces;
+      this.wifi = wifi;
+      this.error = wifiError;
       if (defaultNic === undefined) {
         this.isConnected = false;
         this.statusTitle = '当前无网络连接';
         this.statusDetail = '';
         this.statusNote = '';
-        this.wifi = null;
       } else {
         const bearer: string =
           defaultNic.bearerTypes.length > 0 ? defaultNic.bearerTypes.join(' · ') : '未知网络';
@@ -57,11 +66,6 @@ export class LocalNetViewModel {
         this.statusTitle = bearer + ' · ' + defaultNic.interfaceName;
         this.statusDetail = this.primaryAddress(defaultNic);
         this.statusNote = defaultNic.gateway.length > 0 ? '网关 ' + defaultNic.gateway : '';
-        this.wifi = null;
-        if (defaultNic.bearerTypes.includes('Wi-Fi')) {
-          try { this.wifi = await this.repo.fetchWifiInfo(); }
-          catch (err) { this.error = 'Wi-Fi 信息暂不可用，其他网络信息仍可查看'; }
-        }
       }
     } catch (err) {
       this.error = '读取网络信息失败，请稍后重试';

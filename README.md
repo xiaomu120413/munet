@@ -1,6 +1,6 @@
 # 木络 · MuNet
 
-当前包名 `com.muge.munet`（MuGe 系列），显示名“木络”。包名变更及布局跳变修复见[记录](docs/release/2026-10-23-bundle-layout/README.md)；旧包名 `com.mu.nettools` 的数据保留，暂未提供跨包迁移。
+当前包名 `com.muge.munet`（MuGe 系列），显示名“木络”。最新检查见[全页面布局稳定性记录](docs/release/2026-10-23-all-page-stability/README.md)；[包名变更记录](docs/release/2026-10-23-bundle-layout/README.md)保留。旧包名 `com.mu.nettools` 的数据保留，暂未提供跨包迁移。
 
 原项目名NetTools。应用图标与名称已切换为木络；设计与改造进度见[品牌资源](docs/brand-2026-10-22/README.md)和[UI改造计划](docs/UI-MIGRATION.md)。
 

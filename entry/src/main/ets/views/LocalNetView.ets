@@ -10,7 +10,8 @@ import { UiPageHeader } from './UiPageHeader';
 @Component
 export struct LocalNetView {
   @ObjectLink vm: LocalNetViewModel;
-  @State contentWidth: number = 0;
+  // The shell supplies the width before the first content frame.
+  @Prop contentWidth: number = 0;
 
   aboutToAppear(): void { if (!this.vm.hasLoaded) { this.vm.load(); } }
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context, 720); }
@@ -165,7 +166,7 @@ export struct LocalNetView {
 
   build() {
     Column() {
-      UiPageHeader({ title: '本机网络', inset: this.inset(), actionLabel: this.vm.isLoading ? '刷新中' : '刷新',
+      UiPageHeader({ contentWidth: this.contentWidth, title: '本机网络', inset: this.inset(), actionLabel: this.vm.isLoading ? '刷新中' : '刷新',
         actionEnabled: !this.vm.isLoading, onAction: (): void => { this.vm.load(); } })
       if (this.vm.error.length > 0) {
         ErrorBanner({ message: this.vm.error, onClose: (): void => { this.vm.dismissError(); } })
@@ -203,6 +204,5 @@ export struct LocalNetView {
           .padding({ left: this.inset(), right: this.inset(), bottom: 24 })
       }.layoutWeight(1).width('100%').align(Alignment.Top).scrollBar(BarState.Auto)
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
-      .onAreaChange((oldArea: Area, newArea: Area) => { this.contentWidth = Number(newArea.width); })
   }
 }

@@ -98,16 +98,16 @@ struct Index {
 
   @Builder
   Content() {
-    if (this.current === 0) { LocalNetView({ vm: this.localVm }) }
-    else if (this.current === 1) { PingView({ vm: this.pingVm }) }
+    if (this.current === 0) { LocalNetView({ contentWidth: this.contentWidth(), vm: this.localVm }) }
+    else if (this.current === 1) { PingView({ contentWidth: this.contentWidth(), vm: this.pingVm }) }
     else if (this.current === 2) { PortScanView({ contentWidth: this.contentWidth(), vm: this.portVm }) }
     else if (this.current === 3) { LanDiscoveryView({ contentWidth: this.contentWidth(), vm: this.lanVm }) }
     else if (this.current === 4) {
       HistoryView({ contentWidth: this.contentWidth(), vm: this.historyVm, onRescan: (kind: ScanKind, target: string): void => {
         this.onRescan(kind, target);
       } })
-    } else if (this.current === 5) { AboutView({ title: this.narrowNavigation() ? '更多' : '关于' }) }
-    else { ToolsView({ onSelect: (index: number): void => { this.navigate(index); } }) }
+    } else if (this.current === 5) { AboutView({ contentWidth: this.contentWidth(), title: this.narrowNavigation() ? '更多' : '关于' }) }
+    else { ToolsView({ contentWidth: this.contentWidth(), onSelect: (index: number): void => { this.navigate(index); } }) }
   }
 
   @Builder
@@ -180,6 +180,8 @@ struct Index {
 
   build() {
     Column() {
+      // Measure the shell before mounting width-dependent navigation and pages.
+      if (this.windowWidth > 0) {
       // Content stays at the same tree position when navigation changes shape.
       Flex({ direction: this.sideNavigation() ? FlexDirection.Row : FlexDirection.Column }) {
         if (this.sideNavigation()) { this.SideNav() }
@@ -196,7 +198,12 @@ struct Index {
           .padding({ top: this.desktop ? 40 : 0 })
       }.width('100%').layoutWeight(1)
       if (this.narrowNavigation()) { this.BottomNav() }
+      }
     }.id('app-shell').width('100%').height('100%').backgroundColor(UiTheme.background)
-      .onAreaChange((oldArea: Area, newArea: Area) => { this.windowWidth = Number(newArea.width); })
+      .onAreaChange((_old: Area, area: Area) => {
+        const width: number = Number(area.width);
+        // A temporarily hidden window must not tear down an active page/task.
+        if (width > 0 && width !== this.windowWidth) { this.windowWidth = width; }
+      })
   }
 }

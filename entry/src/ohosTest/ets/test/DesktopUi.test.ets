@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@ohos/hypium';
 import { abilityDelegatorRegistry } from '@kit.TestKit';
-import { display } from '@kit.ArkUI';
+import { display, window } from '@kit.ArkUI';
 import { socket } from '@kit.NetworkKit';
 import { Driver, ON, Component, UiWindow, ResizeDirection, Rect, MouseButton } from '@ohos.UiTest';
 
@@ -54,6 +54,9 @@ export default function desktopUiTest() {
       };
       await delegator.startAbility({ bundleName: 'com.muge.munet', moduleName: 'entry', abilityName: 'EntryAbility' });
       await find('app-shell');
+      await find('desktop-navigation');
+      const mainWindow: window.Window = await window.getLastWindow((await delegator.getCurrentTopAbility()).context);
+      expect(mainWindow.getWindowDecorVisible()).assertFalse();
       const app: UiWindow = await driver.findWindow({ bundleName: 'com.muge.munet' });
       if (app === null) { throw new Error('Desktop application window unavailable'); }
       const original: Rect = await app.getBounds();

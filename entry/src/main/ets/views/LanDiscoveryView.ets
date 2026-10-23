@@ -72,7 +72,7 @@ export struct LanDiscoveryView {
   }
   build() {
     Column() {
-      UiPageHeader({ title: '局域网', inset: this.inset() })
+      UiPageHeader({ contentWidth: this.contentWidth, title: '局域网', inset: this.inset() })
       Scroll() {
         Column({ space: 16 }) {
           Column({ space: 16 }) {

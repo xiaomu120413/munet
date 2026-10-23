@@ -8,7 +8,8 @@ import { UiPageHeader } from './UiPageHeader';
 @Component
 export struct PingView {
   @ObjectLink vm: PingViewModel;
-  @State contentWidth: number = 0;
+  // The shell supplies the width before the first content frame.
+  @Prop contentWidth: number = 0;
   private ports: number[] = [80, 443, 22, 3389, 8080];
   private counts: number[] = [1, 4, 10];
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
@@ -159,7 +160,7 @@ export struct PingView {
 
   build() {
     Column() {
-      UiPageHeader({ title: 'Ping', inset: this.inset() })
+      UiPageHeader({ contentWidth: this.contentWidth, title: 'Ping', inset: this.inset() })
       Scroll() {
         Column({ space: 16 }) {
           this.Parameters()
@@ -201,6 +202,5 @@ export struct PingView {
           .padding({ left: this.inset(), right: this.inset(), bottom: 24 })
       }.id('ping-content').width('100%').layoutWeight(1).align(Alignment.Top).scrollBar(BarState.Auto)
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
-      .onAreaChange((oldArea: Area, newArea: Area) => { this.contentWidth = Number(newArea.width); })
   }
 }

@@ -9,7 +9,8 @@ interface ToolEntry {
 
 @Component
 export struct ToolsView {
-  @State contentWidth: number = 0;
+  // The shell supplies the width before the first content frame.
+  @Prop contentWidth: number = 0;
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
   onSelect: (index: number) => void = () => {};
   private tools: ToolEntry[] = [
@@ -20,7 +21,7 @@ export struct ToolsView {
 
   build() {
     Column() {
-      UiPageHeader({ title: '工具', inset: this.inset() })
+      UiPageHeader({ contentWidth: this.contentWidth, title: '工具', inset: this.inset() })
       Scroll() {
         Column() {
           ForEach(this.tools, (tool: ToolEntry, index: number) => {
@@ -42,6 +43,5 @@ export struct ToolsView {
         }.width('100%').padding({ left: this.inset(), right: this.inset(), bottom: 24 })
       }.layoutWeight(1).width('100%').align(Alignment.Top)
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
-      .onAreaChange((_old: Area, area: Area) => { this.contentWidth = Number(area.width); })
   }
 }

@@ -8,7 +8,7 @@ export struct UiPageHeader {
   @Prop inset: number = 16;
   @Prop actionLabel: string = '';
   @Prop actionEnabled: boolean = true;
-  @State contentWidth: number = 0;
+  @Prop contentWidth: number = 0;
   onAction: () => void = () => {};
   private stacked(): boolean {
     return this.actionLabel.length > 0 && this.contentWidth <
@@ -37,6 +37,5 @@ export struct UiPageHeader {
     }
     .width('100%')
     .padding({ left: this.inset, right: this.inset, top: 16, bottom: 16 })
-    .onAreaChange((_old: Area, area: Area) => { this.contentWidth = Number(area.width); })
   }
 }

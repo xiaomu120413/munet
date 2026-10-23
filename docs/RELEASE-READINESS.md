@@ -1,15 +1,15 @@
 # 木络0.4.0发布准备
 
-最新包名与页面跳变修复见[本轮报告](release/2026-10-23-bundle-layout/README.md)：三端默认测试各17/17、UI综合运行各18/18。办理资料请用[新包名清单](release/2026-10-23-bundle-layout/USER-ACTIONS.md)。旧归档仍对应旧包名，不能用于新包签名或上架。**目前仍可准备资料，暂不能送审**，待正式签名、隐私配置、资质与正式包质量验证。
+最新检查见[全页面布局稳定性记录](release/2026-10-23-all-page-stability/README.md)。办理资料请用[新包名清单](release/2026-10-23-bundle-layout/USER-ACTIONS.md)。旧包名归档不能用于新包签名或上架。**目前仍可准备资料，暂不能送审**，待正式签名、隐私配置、资质与正式包质量验证。
 
 2026-10-23 更新。当前准备的是可复核的代码提交与Release候选产物，未创建市场发布单、上传或送审。包名现为`com.muge.munet`（由`com.mu.nettools`更换）、版本`0.4.0`／`1000004`，正式送审前仍需与AGC核对，不假设此前已经发布。旧包手机／平板模拟器验收见[阶段9](ui-verification/phase9/README.md)，旧包PC实机验收见[阶段10](ui-verification/phase10/README.md)，权限申请见[清单](PERMISSIONS.md)。
 
 ## 候选产物
 
-- `artifacts/release/0.4.0/munet-0.4.0-20261023-muge-unsigned.app`：更换MuGe包名并修复页面布局跳变后的最新未签名Release应用包。
-- `artifacts/release/0.4.0/munet-0.4.0-20261023-muge-unsigned.hap`：最新未签名Release主模块；此前PC及触屏候选保留，不覆盖历史产物。
+- `artifacts/release/0.4.0/munet-0.4.0-20261023-all-pages-unsigned.app`：全页面稳定性修复后的最新未签名Release应用包。
+- `artifacts/release/0.4.0/munet-0.4.0-20261023-all-pages-unsigned.hap`：最新未签名Release主模块；此前PC及触屏候选保留，不覆盖历史产物。
 - PC本地签名的Release HAP仅用于已连接设备验收，使用设备绑定调试签名，不能当作正式市场签名。
-- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；最新检查结果及SHA-256见[产物清单](release/2026-10-23-bundle-layout/release-manifest.json)。
+- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；最新检查结果及SHA-256见[产物清单](release/2026-10-23-all-page-stability/release-manifest.json)。
 
 Release构建命令（DevEco Studio运行环境）：
 
