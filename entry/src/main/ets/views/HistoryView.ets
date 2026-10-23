@@ -10,7 +10,8 @@ import { ErrorBanner } from './ErrorBanner';
 export struct HistoryView {
   @ObjectLink vm: HistoryViewModel;
   onRescan: (kind: ScanKind, target: string) => void = () => {};
-  @State contentWidth: number = 0;
+  // Use the shell width on the first frame, before any area-change callback.
+  @Prop contentWidth: number = 0;
   @State contentHeight: number = 0;
   @State actionsOpen: boolean = false;
   private pendingAction: () => void = () => {};
@@ -237,7 +238,7 @@ export struct HistoryView {
       }
       Scroll(this.scroller) {
         Column() {
-          if (this.vm.isLoading) {
+          if (this.vm.isLoading && !this.vm.hasLoaded) {
             Text('正在读取记录…').fontSize(16).fontColor(UiTheme.secondary).padding(32)
           } else if (this.vm.showHosts) {
             if (this.wide() && this.vm.hosts.length > 0) {
@@ -280,7 +281,6 @@ export struct HistoryView {
         })
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
       .onAreaChange((_old: Area, area: Area) => {
-        this.contentWidth = Number(area.width);
         this.contentHeight = Number(area.height);
       })
   }

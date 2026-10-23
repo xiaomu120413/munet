@@ -30,6 +30,14 @@ class MemoryHistory extends HistoryRepository {
   }
   async clearAll(): Promise<void> { this.cleared = true; }
 }
+class RefreshHistory extends MemoryHistory {
+  defer: boolean = false;
+  finish: (records: ScanRecord[]) => void = () => {};
+  async queryScanRecords(): Promise<ScanRecord[]> {
+    if (!this.defer) { return super.queryScanRecords(); }
+    return new Promise<ScanRecord[]>((resolve: (records: ScanRecord[]) => void) => { this.finish = resolve; });
+  }
+}
 class DeferredScan extends ScanRepository {
   calls: number = 0;
   finish: (results: PortResult[]) => void = () => {};
@@ -56,6 +64,28 @@ class LoopbackNet extends LocalNetRepository {
 }
 export default function uiMigrationTest() {
   describe('UiMigration', () => {
+    it('historyRefreshKeepsLoadedRowsAndFilterUntilReplacementArrives', 0, async () => {
+      const repo: RefreshHistory = new RefreshHistory();
+      const vm: HistoryViewModel = new HistoryViewModel(repo);
+      expect(vm.hasLoaded).assertFalse();
+      await vm.load();
+      vm.selectFilter(ScanKind.PING);
+      vm.recordOffset = 120;
+      expect(vm.hasLoaded).assertTrue();
+      repo.defer = true;
+      const refresh: Promise<void> = vm.load();
+      expect(vm.isLoading).assertTrue();
+      expect(vm.hasLoaded).assertTrue();
+      expect(vm.records.length).assertEqual(1);
+      expect(vm.records[0].id).assertEqual(1);
+      expect(vm.recordOffset).assertEqual(120);
+      repo.finish([{ id: 3, ts: 3, kind: ScanKind.PING, target: 'localhost',
+        status: ScanStatus.DONE, summary: '{}' }]);
+      await refresh;
+      expect(vm.isLoading).assertFalse();
+      expect(vm.filterKind).assertEqual(ScanKind.PING);
+      expect(vm.records[0].id).assertEqual(3);
+    });
     it('portCorrectionClearsStaleValidationAndRevalidatesOnStart', 0, async () => {
       const repo: DeferredScan = new DeferredScan();
       const vm: PortScanViewModel = new PortScanViewModel(repo, new MemoryHistory());

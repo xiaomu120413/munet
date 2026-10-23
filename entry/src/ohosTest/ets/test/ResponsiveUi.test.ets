@@ -28,7 +28,7 @@ export default function responsiveUiTest() {
       throw new Error('Device did not reach requested screen shape');
     };
     const component = async (id: string): Promise<Component> => {
-      const found: Component = await driver.waitForComponent(ON.id(id).inWindow('com.mu.nettools'), 5000);
+      const found: Component = await driver.waitForComponent(ON.id(id).inWindow('com.muge.munet'), 5000);
       if (found === null) { throw new Error('Missing application control: ' + id); }
       return found;
     };
@@ -39,12 +39,12 @@ export default function responsiveUiTest() {
       expect(await driver.screenCap(cacheDir + '/munet-' + name + '.png')).assertTrue();
     };
     const navigate = async (index: number): Promise<void> => {
-      const nav: Component = await driver.findComponent(ON.id('nav-' + index).inWindow('com.mu.nettools'));
+      const nav: Component = await driver.findComponent(ON.id('nav-' + index).inWindow('com.muge.munet'));
       if (nav !== null) { await nav.click(); return; }
       await click('bottom-nav-' + (index === 4 ? 2 : index === 5 ? 3 : 1));
       if (index >= 1 && index <= 3) {
         await (await driver.waitForComponent(ON.text(index === 1 ? 'Ping' : index === 2 ? '端口扫描' : '局域网')
-          .inWindow('com.mu.nettools'), 4000)).click();
+          .inWindow('com.muge.munet'), 4000)).click();
       }
     };
     beforeAll(async () => {
@@ -56,7 +56,7 @@ export default function responsiveUiTest() {
       await server.listen({ address: '127.0.0.1', port: 8080, family: 1 });
       listening = true;
       await abilityDelegatorRegistry.getAbilityDelegator().startAbility({
-        bundleName: 'com.mu.nettools', moduleName: 'entry', abilityName: 'EntryAbility'
+        bundleName: 'com.muge.munet', moduleName: 'entry', abilityName: 'EntryAbility'
       });
       await driver.delayMs(800);
       await component('app-shell');
@@ -68,7 +68,7 @@ export default function responsiveUiTest() {
       if (listening) { await server.close(); }
     });
     afterEach(async () => {
-      const start: Component = await driver.findComponent(ON.id('ping-start').inWindow('com.mu.nettools'));
+      const start: Component = await driver.findComponent(ON.id('ping-start').inWindow('com.muge.munet'));
       if (start !== null && await start.getText() === '停止') {
         await start.click();
         await driver.waitForComponent(ON.id('ping-start').text('开始'), 6000);
@@ -93,7 +93,7 @@ export default function responsiveUiTest() {
       expect(Number(after.split(/\s+/)[1]) >= Number(before.split(/\s+/)[1])).assertTrue();
       await capture('tablet-portrait-ping-running');
       await click('ping-start');
-      await driver.waitForComponent(ON.id('ping-start').text('开始').inWindow('com.mu.nettools'), 6000);
+      await driver.waitForComponent(ON.id('ping-start').text('开始').inWindow('com.muge.munet'), 6000);
       await shape(true);
       expect(await (await component('ping-target')).getText()).assertEqual('127.0.0.1');
     });
@@ -103,15 +103,15 @@ export default function responsiveUiTest() {
       await (await component('port-target')).inputText('127.0.0.1');
       await driver.pressBack();
       await click('port-start');
-      await driver.waitForComponent(ON.id('port-start').text('开始扫描').inWindow('com.mu.nettools'), 10000);
-      await driver.assertComponentExist(ON.text('8080').inWindow('com.mu.nettools'));
+      await driver.waitForComponent(ON.id('port-start').text('开始扫描').inWindow('com.muge.munet'), 10000);
+      await driver.assertComponentExist(ON.text('8080').inWindow('com.muge.munet'));
       await capture('tablet-landscape-port-results');
       await navigate(3);
       await (await component('lan-cidr')).inputText('127.0.0.1/32');
       await driver.pressBack();
       await click('lan-start');
-      await driver.waitForComponent(ON.id('lan-start').text('开始发现').inWindow('com.mu.nettools'), 10000);
-      await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.mu.nettools'));
+      await driver.waitForComponent(ON.id('lan-start').text('开始发现').inWindow('com.muge.munet'), 10000);
+      await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.muge.munet'));
       await capture('tablet-landscape-lan-results');
     });
     it('historyMenusAndArchiveKeepDataOnCancel', 0, async () => {
@@ -124,7 +124,7 @@ export default function responsiveUiTest() {
       await capture('tablet-export-menu');
       await driver.pressBack();
       await click('history-hosts');
-      await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.mu.nettools'));
+      await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.muge.munet'));
       expect(await driver.findComponent(ON.id('history-export')) === null).assertTrue();
       expect(await driver.findComponent(ON.id('history-filter')) === null).assertTrue();
       await capture('tablet-landscape-hosts');
@@ -133,7 +133,7 @@ export default function responsiveUiTest() {
       await driver.assertComponentExist(ON.text('清空全部记录与档案？'));
       await capture('tablet-clear-confirm');
       await (await driver.waitForComponent(ON.text('取消'), 3000)).click();
-      await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.mu.nettools'));
+      await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.muge.munet'));
       await shape(false);
       expect(await driver.findComponent(ON.id('history-filter')) === null).assertTrue();
       await capture('tablet-portrait-hosts');

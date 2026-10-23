@@ -44,6 +44,9 @@ struct Index {
     { title: '更多', icon: $r('sys.symbol.ellipsis_circle') }
   ];
   private sideNavigation(): boolean { return this.desktop || this.windowWidth >= 840; }
+  private contentWidth(): number {
+    return Math.max(0, this.windowWidth - (this.sideNavigation() ? (this.compactNavigation() ? 72 : 192) : 0));
+  }
   private compactNavigation(): boolean { return this.desktop && this.windowWidth < 840; }
   private narrowNavigation(): boolean { return !this.desktop && this.windowWidth < 840; }
   private isTool(): boolean { return this.current >= 1 && this.current <= 3; }
@@ -97,10 +100,10 @@ struct Index {
   Content() {
     if (this.current === 0) { LocalNetView({ vm: this.localVm }) }
     else if (this.current === 1) { PingView({ vm: this.pingVm }) }
-    else if (this.current === 2) { PortScanView({ vm: this.portVm }) }
-    else if (this.current === 3) { LanDiscoveryView({ vm: this.lanVm }) }
+    else if (this.current === 2) { PortScanView({ contentWidth: this.contentWidth(), vm: this.portVm }) }
+    else if (this.current === 3) { LanDiscoveryView({ contentWidth: this.contentWidth(), vm: this.lanVm }) }
     else if (this.current === 4) {
-      HistoryView({ vm: this.historyVm, onRescan: (kind: ScanKind, target: string): void => {
+      HistoryView({ contentWidth: this.contentWidth(), vm: this.historyVm, onRescan: (kind: ScanKind, target: string): void => {
         this.onRescan(kind, target);
       } })
     } else if (this.current === 5) { AboutView({ title: this.narrowNavigation() ? '更多' : '关于' }) }

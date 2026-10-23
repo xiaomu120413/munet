@@ -1,5 +1,7 @@
 # 木络 · MuNet
 
+当前包名 `com.muge.munet`（MuGe 系列），显示名“木络”。包名变更及布局跳变修复见[记录](docs/release/2026-10-23-bundle-layout/README.md)；旧包名 `com.mu.nettools` 的数据保留，暂未提供跨包迁移。
+
 原项目名NetTools。应用图标与名称已切换为木络；设计与改造进度见[品牌资源](docs/brand-2026-10-22/README.md)和[UI改造计划](docs/UI-MIGRATION.md)。
 
 HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口扫描 / 局域网
@@ -51,7 +53,7 @@ HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口�
 
 ```
 nettools/
-├── AppScope/                     # bundle: com.mu.nettools
+├── AppScope/                     # bundle: com.muge.munet
 ├── entry/src/main/
 │   ├── ets/pages/Index.ets       # 路由壳（导航 + View 装配）
 │   ├── ets/views/                # View 层（纯渲染）
@@ -80,19 +82,19 @@ export DEVECO_SDK_HOME="C:\Program Files\Huawei\DevEco Studio\sdk"
 
 # 2) 签名（每个设备 UDID 单独签一次；脚本与材料在同级 thirty 工作区，不入本仓库）
 bash ../thirty/tools/sign-local.sh entry/build/default/outputs/default/entry-default-unsigned.hap \
-    entry-default-signed.hap <UDID> com.mu.nettools
+    entry-default-signed.hap <UDID> com.muge.munet
 
 # 3) 安装 + 启动
 MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-default-signed.hap
-MSYS_NO_PATHCONV=1 hdc -t <UDID> shell "aa start -a EntryAbility -b com.mu.nettools -m entry"
+MSYS_NO_PATHCONV=1 hdc -t <UDID> shell "aa start -a EntryAbility -b com.muge.munet -m entry"
 
 # 4) 单元测试（ohosTest / hypium）
 ./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
 bash ../thirty/tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
-    entry-ohosTest-signed.hap <UDID> com.mu.nettools
+    entry-ohosTest-signed.hap <UDID> com.muge.munet
 MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-ohosTest-signed.hap
 MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
-    "aa test -b com.mu.nettools -m entry_test -s unittest OpenHarmonyTestRunner -s timeout 60000"
+    "aa test -b com.muge.munet -m entry_test -s unittest OpenHarmonyTestRunner -s timeout 60000"
 ```
 
 ## 注意事项（踩过的坑）

@@ -648,7 +648,7 @@ CREATE TABLE discovered_host (
   | 探针盒子 | ProbeBox | 工具感 |
   | 鲨眼 | SharkEye | 与 OhShark 品牌呼应 |
 
-- bundle：`com.mu.nettools`（可改；若改名，包名不必跟随，但备案/软著需一致
+- bundle：`com.muge.munet`（可改；若改名，包名不必跟随，但备案/软著需一致
   的是应用名，不是包名）。
 - DevEco 标准工程，单 entry 模块（规模不需要 HAR 拆分）。
 - compatibleSdkVersion `6.0.2(22)`，targetSdkVersion `26.0.0`（实测 API 22
@@ -669,11 +669,11 @@ CREATE TABLE discovered_host (
    先 `rm -rf entry/build .hvigor` 再构建，并 `unzip -l` 确认包含
    `ets/modules.abc`。
 4. **签名**：`bash ../thirty/tools/sign-local.sh <unsigned.hap> <out.hap> <UDID>
-   com.mu.nettools`（脚本与材料位于同级 thirty 工作区，不入本仓库；profile
+   com.muge.munet`（脚本与材料位于同级 thirty 工作区，不入本仓库；profile
    按 UDID + bundleName 动态生成；开发期也可用 AGC 自动签名）。
    **每个设备 UDID 需单独签一次**。
 5. **部署**：`hdc -t <UDID> install -r <hap>` →
-   `aa start -a EntryAbility -b com.mu.nettools -m entry`。
+   `aa start -a EntryAbility -b com.muge.munet -m entry`。
 6. **无头冒烟（调试构建，仅 BuildProfile.DEBUG 生效）**：设备被其他窗口占用
    时不必抢前台，用 Want 参数直接跑原生核心并把结果打到 hilog：
    - 批量扫描：`aa start ... --ps netprobe.host <ip> --ps netprobe.ports 80,443,1000-2000`
@@ -687,9 +687,9 @@ CREATE TABLE discovered_host (
    ```bash
    ./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
    bash ../thirty/tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
-       entry-ohosTest-signed.hap <UDID> com.mu.nettools
+       entry-ohosTest-signed.hap <UDID> com.muge.munet
    hdc -t <UDID> install -r entry-ohosTest-signed.hap
-   hdc -t <UDID> shell "aa test -b com.mu.nettools -m entry_test \
+   hdc -t <UDID> shell "aa test -b com.muge.munet -m entry_test \
        -s unittest OpenHarmonyTestRunner -s timeout 60000"
    ```
 

@@ -9,7 +9,7 @@ import {
 
 /**
  * Unit tests for pure modules: subnet helpers and export serialization.
- * Run with: aa test -b com.mu.nettools -m entry_test -s unittest OpenHarmonyTestRunner
+ * Run with: aa test -b com.muge.munet -m entry_test -s unittest OpenHarmonyTestRunner
  */
 export default function netToolsUnitTest() {
   describe('Subnet', () => {

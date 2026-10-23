@@ -17,6 +17,7 @@ export class HistoryViewModel {
   records: ScanRecord[] = [];
   hosts: DiscoveredHost[] = [];
   isLoading: boolean = true;
+  hasLoaded: boolean = false;
   error: string = '';
   filterKind: ScanKind | undefined = undefined;
   showHosts: boolean = false;
@@ -44,6 +45,7 @@ export class HistoryViewModel {
       this.allRecords = records;
       this.hosts = hosts;
       this.applyFilter();
+      this.hasLoaded = true;
       if (!this.repo.isReady()) {
         this.error = '本地存储不可用，历史记录功能受限';
       }

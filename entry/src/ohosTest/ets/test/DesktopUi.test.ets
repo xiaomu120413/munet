@@ -18,7 +18,7 @@ export default function desktopUiTest() {
       const prefix: string = params['-s capturePrefix'] ?? params['capturePrefix'] ?? '';
       const visualOnly: boolean = (params['-s desktopVisualOnly'] ?? params['desktopVisualOnly']) === '1';
       const find = async (id: string): Promise<Component> => {
-        const node: Component = await driver.waitForComponent(ON.id(id).inWindow('com.mu.nettools'), 4000);
+        const node: Component = await driver.waitForComponent(ON.id(id).inWindow('com.muge.munet'), 4000);
         if (node === null) { throw new Error('Missing desktop control: ' + id); }
         return node;
       };
@@ -28,7 +28,7 @@ export default function desktopUiTest() {
       };
       const nav = async (page: number): Promise<void> => {
         const bar: Component = await find('desktop-navigation');
-        let item: Component = await driver.findComponent(ON.id('nav-' + page).inWindow('com.mu.nettools'));
+        let item: Component = await driver.findComponent(ON.id('nav-' + page).inWindow('com.muge.munet'));
         if (await bar.isScrollable()) {
           const b: Rect = await bar.getBounds();
           // A short window may require vertical scrolling in the left navigation.
@@ -38,7 +38,7 @@ export default function desktopUiTest() {
               if (bounds.bottom - bounds.top > 50 && bounds.top >= b.top && bounds.bottom <= b.bottom) { break; }
             }
             await driver.mouseScroll({ x: Math.round((b.left + b.right) / 2), y: Math.round((b.top + b.bottom) / 2) }, page > 1, 2);
-            item = await driver.findComponent(ON.id('nav-' + page).inWindow('com.mu.nettools'));
+            item = await driver.findComponent(ON.id('nav-' + page).inWindow('com.muge.munet'));
           }
         }
         await delegator.print('navigation page=' + page + ' scrollable=' + await bar.isScrollable());
@@ -52,9 +52,9 @@ export default function desktopUiTest() {
         expect(await node.isFocused()).assertTrue();
         return node;
       };
-      await delegator.startAbility({ bundleName: 'com.mu.nettools', moduleName: 'entry', abilityName: 'EntryAbility' });
+      await delegator.startAbility({ bundleName: 'com.muge.munet', moduleName: 'entry', abilityName: 'EntryAbility' });
       await find('app-shell');
-      const app: UiWindow = await driver.findWindow({ bundleName: 'com.mu.nettools' });
+      const app: UiWindow = await driver.findWindow({ bundleName: 'com.muge.munet' });
       if (app === null) { throw new Error('Desktop application window unavailable'); }
       const original: Rect = await app.getBounds();
       const density: number = display.getDefaultDisplaySync().densityPixels;
@@ -105,9 +105,9 @@ export default function desktopUiTest() {
               await (await find('ping-content')).scrollToTop();
             }
             if (page === 5) {
-              await driver.assertComponentExist(ON.text('可以做什么').inWindow('com.mu.nettools'));
+              await driver.assertComponentExist(ON.text('可以做什么').inWindow('com.muge.munet'));
               for (const label of ['木络 · MuNet', '应用版本', '应用标识', '核心版本', '诊断信息', '隐私说明']) {
-                expect(await driver.findComponent(ON.text(label).inWindow('com.mu.nettools')) === null).assertTrue();
+                expect(await driver.findComponent(ON.text(label).inWindow('com.muge.munet')) === null).assertTrue();
               }
             }
             await capture('pc-' + width + '-page-' + page);
@@ -171,14 +171,14 @@ export default function desktopUiTest() {
         await driver.triggerKey(2070);
         await mouse(await find('port-start'));
         await driver.waitForComponent(ON.id('port-start').text('开始扫描'), 10000);
-        await driver.assertComponentExist(ON.text('8080').inWindow('com.mu.nettools'));
+        await driver.assertComponentExist(ON.text('8080').inWindow('com.muge.munet'));
         await capture('pc-port-results');
         await nav(3);
         await (await find('lan-cidr')).inputText('127.0.0.1/32');
         await driver.triggerKey(2070);
         await mouse(await find('lan-start'));
         await driver.waitForComponent(ON.id('lan-start').text('开始发现'), 10000);
-        await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.mu.nettools'));
+        await driver.assertComponentExist(ON.text('127.0.0.1').inWindow('com.muge.munet'));
         await capture('pc-lan-results');
         await nav(4);
         stage = 'keyboard-menu';

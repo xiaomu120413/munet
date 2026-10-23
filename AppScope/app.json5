@@ -1,7 +1,7 @@
 {
   "app": {
-    "bundleName": "com.mu.nettools",
-    "vendor": "mu",
+    "bundleName": "com.muge.munet",
+    "vendor": "MuGe",
     "versionCode": 1000004,
     "versionName": "0.4.0",
     "icon": "$media:app_layered_image",

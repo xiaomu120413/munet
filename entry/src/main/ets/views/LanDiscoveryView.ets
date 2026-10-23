@@ -9,7 +9,8 @@ import { ErrorBanner } from './ErrorBanner';
 @Component
 export struct LanDiscoveryView {
   @ObjectLink vm: LanDiscoveryViewModel;
-  @State contentWidth: number = 0;
+  // Use the shell width on the first frame, before any area-change callback.
+  @Prop contentWidth: number = 0;
   private confirming: boolean = false;
   private wide(): boolean { return UiTheme.supportsWide(this.contentWidth, this.getUIContext().getHostContext() as common.Context); }
   private inset(): number { return this.contentWidth >= 600 ? 24 : 16; }
@@ -115,6 +116,5 @@ export struct LanDiscoveryView {
         }.width('100%').alignItems(HorizontalAlign.Start).padding({ left: this.inset(), right: this.inset(), bottom: 24 })
       }.width('100%').layoutWeight(1).align(Alignment.Top)
     }.width('100%').height('100%').backgroundColor(UiTheme.background)
-      .onAreaChange((oldArea: Area, newArea: Area) => { this.contentWidth = Number(newArea.width); })
   }
 }
