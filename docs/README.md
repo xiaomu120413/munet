@@ -7,7 +7,7 @@
 | 文档 | 内容 |
 |---|---|
 | [README](../README.md) | 产品简介、功能状态、构建与部署 |
-| [DESIGN](../DESIGN.md) | 架构、分层、接口契约、数据模型与合规边界 |
+| [DESIGN](DESIGN.md) | 架构、分层、接口契约、数据模型与合规边界 |
 | [发布准备](RELEASE-READINESS.md) | 当前版本、候选产物与送审前待办 |
 | [权限清单](PERMISSIONS.md) | 已声明权限与可扩展权限的申请边界 |
 | [验证记录](verification/README.md) | UI、真机与自动化验证的阶段索引 |

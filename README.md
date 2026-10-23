@@ -34,7 +34,7 @@ ArkUI MVVM（View → ViewModel → Repository → Model）+ C++ NAPI 原生核�
 - UI 与状态：`@ComponentV2` / `@Observed`，页面只做渲染与事件转发。
 - 原生核心 `libnettools.so`：非阻塞 connect + poll、线程池、TSFN 进度、代际取消、CIDR 展开。
 - 持久化：`relationalStore`；导出：系统文件选择器。
-- 分层规则、接口契约和命名规范见 [DESIGN.md](DESIGN.md)。
+- 分层规则、接口契约和命名规范见 [DESIGN.md](docs/DESIGN.md)。
 
 原生库和数据库沿用历史名 `libnettools.so`、`nettools.db`，避免破坏构建与已安装用户的数据；产品对外名称统一为木络／MuNet。
 
@@ -94,7 +94,7 @@ MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
 ## 文档
 
 - [文档索引](docs/README.md)
-- [整体设计](DESIGN.md)
+- [整体设计](docs/DESIGN.md)
 - [验证记录](docs/verification/README.md)
 - [发布与上架资料](docs/release/README.md)
 - [权限清单](docs/PERMISSIONS.md)
