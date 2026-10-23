@@ -670,10 +670,9 @@ CREATE TABLE discovered_host (
    failed`、`null jsAbilityObj`、永久卡启动图）。改过 ets 或首次失败后，
    先 `rm -rf entry/build .hvigor` 再构建，并 `unzip -l` 确认包含
    `ets/modules.abc`。
-4. **签名**：`bash ../thirty/tools/sign-local.sh <unsigned.hap> <out.hap> <UDID>
-   com.munet.app`（脚本与材料位于同级 thirty 工作区，不入本仓库；profile
-   按 UDID + bundleName 动态生成；开发期也可用 AGC 自动签名）。
-   **每个设备 UDID 需单独签一次**。
+4. **签名**：正式发布执行`python scripts/package_release.py`，读取本项目
+   `sign_tools`中的密钥、证书、Profile及加密配置，输出到`dist`。
+   调试和ohosTest使用本项目DevEco设备调试签名，不依赖其他项目脚本。
 5. **部署**：`hdc -t <UDID> install -r <hap>` →
    `aa start -a EntryAbility -b com.munet.app -m entry`。
 6. **无头冒烟（调试构建，仅 BuildProfile.DEBUG 生效）**：设备被其他窗口占用
@@ -688,9 +687,8 @@ CREATE TABLE discovered_host (
 
    ```bash
    ./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
-   bash ../thirty/tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
-       entry-ohosTest-signed.hap <UDID> com.munet.app
-   hdc -t <UDID> install -r entry-ohosTest-signed.hap
+   # 在 DevEco 为测试模块配置设备调试签名，再构建安装
+   hdc -t <UDID> install -r entry/build/default/outputs/ohosTest/entry-ohosTest-signed.hap
    hdc -t <UDID> shell "aa test -b com.munet.app -m entry_test \
        -s unittest OpenHarmonyTestRunner -s timeout 60000"
    ```

@@ -1,44 +1,62 @@
 """Build a signed release and export verified files to the repository's dist folder."""
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
+import tempfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
+@contextmanager
 def local_signing_project():
     """Keep encrypted signing config and private build inputs in ignored sign_tools."""
-    signing = ROOT / 'sign_tools/signing-config.json'
+    signing_root = ROOT / 'sign_tools'
+    signing = signing_root / 'signing-config.json'
     if not signing.is_file():
-        return ROOT
-    project = ROOT / 'sign_tools/build-project'
-    project.mkdir(exist_ok=True)
-    names = subprocess.check_output(['git', 'ls-files', '--cached', '--others', '--exclude-standard'],
-                                    cwd=ROOT, text=True).splitlines()
-    for name in names:
-        if name.startswith(('docs/', '.git')):
-            continue
-        source = ROOT / name
-        if source.is_file():
-            dest = project / name
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, dest)
-    modules = project / 'oh_modules'
-    if not modules.exists():
-        import _winapi
-        _winapi.CreateJunction(str(ROOT / 'oh_modules'), str(modules))
-    config = json.loads((ROOT / 'build-profile.json5').read_text(encoding='utf-8-sig'))
+        raise FileNotFoundError('Configure sign_tools/signing-config.json before packaging')
     sign = json.loads(signing.read_text(encoding='utf-8'))
-    config['app']['signingConfigs'] = [sign]
-    for product in config['app']['products']:
-        product['signingConfig'] = sign['name']
-    (project / 'build-profile.json5').write_text(json.dumps(config, indent=2), encoding='utf-8')
-    return project
+    for key in ('storeFile', 'certpath', 'profile'):
+        path = Path(sign['material'][key])
+        resolved = (signing_root / path).resolve()
+        if not resolved.is_relative_to(signing_root.resolve()) or not resolved.is_file():
+            raise ValueError('Signing material must exist inside sign_tools: ' + key)
+        sign['material'][key] = str(resolved)
+    if not (signing_root / 'material').is_dir():
+        raise FileNotFoundError('Missing sign_tools/material for the encrypted signing configuration')
+    # Every build starts with current inputs, so renamed/deleted sources cannot linger.
+    project = Path(tempfile.mkdtemp(prefix='build-', dir=signing_root))
+    try:
+        names = subprocess.check_output(['git', 'ls-files', '-z', '--cached', '--others', '--exclude-standard'],
+                                        cwd=ROOT).decode('utf-8').split('\0')
+        for name in names:
+            if not name or name.startswith(('docs/', '.git')):
+                continue
+            source = ROOT / name
+            if source.is_file():
+                dest = project / name
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, dest)
+        import _winapi
+        _winapi.CreateJunction(str(ROOT / 'oh_modules'), str(project / 'oh_modules'))
+        config = json.loads((ROOT / 'build-profile.json5').read_text(encoding='utf-8-sig'))
+        config['app']['signingConfigs'] = [sign]
+        for product in config['app']['products']:
+            product['signingConfig'] = sign['name']
+        (project / 'build-profile.json5').write_text(json.dumps(config, indent=2), encoding='utf-8')
+        yield project
+    finally:
+        if project.resolve().parent != signing_root.resolve() or not project.name.startswith('build-'):
+            raise ValueError('Unexpected build cleanup path')
+        modules = project / 'oh_modules'
+        if modules.is_junction():
+            modules.rmdir()  # Remove only the junction; preserve the real dependency directory.
+        shutil.rmtree(project)
 
 
 def main():
@@ -47,11 +65,19 @@ def main():
                         help='Project with local release signing configured; defaults to this project')
     parser.add_argument('--skip-build', action='store_true', help='Export an already built release')
     args = parser.parse_args()
-    project = args.project.resolve()
-    if project == ROOT:
-        project = local_signing_project()
-    studio = Path(os.environ.get('DEVECO_STUDIO_HOME', 'C:/Program Files/Huawei/DevEco Studio'))
-    if not args.skip_build:
+    if args.project.resolve() == ROOT:
+        if args.skip_build:
+            parser.error('--skip-build requires --project pointing to an existing signed build')
+        with local_signing_project() as project:
+            package(project, False)
+    else:
+        package(args.project.resolve(), args.skip_build)
+
+
+def package(project, skip_build):
+    studio = Path(os.environ.get('DEVECO_STUDIO_HOME') or os.environ.get('DEVECO_STUDIO_PATH')
+                  or 'C:/Program Files/Huawei/DevEco Studio')
+    if not skip_build:
         env = os.environ.copy()
         env['JAVA_HOME'] = str(studio / 'jbr')
         env['PATH'] = str(studio / 'tools/node') + os.pathsep + str(studio / 'jbr/bin') + os.pathsep + env.get('PATH', '')

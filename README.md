@@ -76,19 +76,17 @@ ohpm install --all
 export DEVECO_SDK_HOME="C:\Program Files\Huawei\DevEco Studio\sdk"
 ./hvigorw assembleHap --mode module -p product=default -p buildMode=debug
 
-# 2) 签名（每个设备 UDID 单独签一次；脚本与材料在仓库外）
-bash ../thirty/tools/sign-local.sh entry/build/default/outputs/default/entry-default-unsigned.hap \
-    entry-default-signed.hap <UDID> com.munet.app
+# 2) 调试签名：在 DevEco Studio 中为本项目配置设备调试签名后重新构建
+# 发布签名独立使用 sign_tools 中的本机材料：python scripts/package_release.py
 
 # 3) 安装 + 启动
-MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-default-signed.hap
+MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry/build/default/outputs/default/entry-default-signed.hap
 MSYS_NO_PATHCONV=1 hdc -t <UDID> shell "aa start -a EntryAbility -b com.munet.app -m entry"
 
 # 4) 单元测试（ohosTest / hypium）
 ./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
-bash ../thirty/tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
-    entry-ohosTest-signed.hap <UDID> com.munet.app
-MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-ohosTest-signed.hap
+# 测试模块同样使用本项目 DevEco 设备调试签名
+MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry/build/default/outputs/ohosTest/entry-ohosTest-signed.hap
 MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
     "aa test -b com.munet.app -m entry_test -s unittest OpenHarmonyTestRunner -s timeout 60000"
 ```
