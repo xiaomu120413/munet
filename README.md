@@ -11,6 +11,8 @@ HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口�
 
 ## 当前状态（v0.4.0）
 
+上架准备：输入纠错及CSV文本防护补丁已验证，三端单元测试各16/16；当前待正式发布签名、隐私／主体／资质资料及正式包质量检查。见[产品化检查](docs/release/2026-10-23/README.md)与[开发者资料清单](docs/release/2026-10-23/USER-ACTIONS.md)。
+
 - ✅ DevEco 工程 + C++ 交叉编译 + NAPI 打通
 - ✅ **M1 本机网络页**：NetManager 网络卡（IP/前缀/网关/DNS/MTU/bearer）+
   WiFi 详情 + 原生 `getifaddrs` 全部网卡 + 点击复制（真机与 `ifconfig`

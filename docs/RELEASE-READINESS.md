@@ -1,13 +1,15 @@
 # 木络0.4.0发布准备
 
+最新产品化检查：**可以准备资料，暂不能送审**。输入纠错及CSV文本防护已修复，三端单元测试各16/16；仍待正式签名、隐私配置、资质与正式包质量验证。[本轮报告](release/2026-10-23/README.md)／[需要开发者办理的清单](release/2026-10-23/USER-ACTIONS.md)。
+
 2026-10-23 更新。当前准备的是可复核的代码提交与Release候选产物，未创建市场发布单、上传或送审。保留包名`com.mu.nettools`、版本`0.4.0`／`1000004`，正式送审前仍需与AGC已有版本核对，不假设此前已经发布。手机／平板模拟器验收见[阶段9](ui-verification/phase9/README.md)，最新PC实机验收见[阶段10](ui-verification/phase10/README.md)，权限申请见[清单](PERMISSIONS.md)。
 
 ## 候选产物
 
-- `artifacts/release/0.4.0/munet-0.4.0-20261023-pc-final-unsigned.app`：修正PC窄窗菜单后的最新未签名Release应用包。
-- `artifacts/release/0.4.0/munet-0.4.0-20261023-pc-final-unsigned.hap`：最新未签名Release主模块；此前10月22日及23日手机／平板候选保留，不覆盖历史产物。
+- `artifacts/release/0.4.0/munet-0.4.0-20261023-store-prep-unsigned.app`：完成输入纠错及CSV文本防护后的最新未签名Release应用包。
+- `artifacts/release/0.4.0/munet-0.4.0-20261023-store-prep-unsigned.hap`：最新未签名Release主模块；此前PC及触屏候选保留，不覆盖历史产物。
 - PC本地签名的Release HAP仅用于已连接设备验收，使用设备绑定调试签名，不能当作正式市场签名。
-- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；最新检查结果及SHA-256见[产物清单](ui-verification/phase10/release-manifest.json)。
+- 二进制放在忽略目录，不把签名材料、设备绑定配置或构建产物提交Git；最新检查结果及SHA-256见[产物清单](release/2026-10-23/release-manifest.json)。
 
 Release构建命令（DevEco Studio运行环境）：
 

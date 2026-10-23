@@ -45,6 +45,7 @@ export class PortScanViewModel {
 
   setTarget(value: string): void {
     this.target = value;
+    if (!this.isRunning) { this.error = ''; }
   }
 
   setScanLocalHost(value: boolean): void {
@@ -59,6 +60,7 @@ export class PortScanViewModel {
 
   setCustomExpr(value: string): void {
     this.customExpr = value;
+    if (!this.isRunning) { this.error = ''; }
   }
 
   setConcurrency(value: number): void {

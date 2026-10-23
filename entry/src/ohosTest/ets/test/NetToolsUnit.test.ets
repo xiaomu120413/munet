@@ -63,6 +63,21 @@ export default function netToolsUnitTest() {
       expect(json).assertContain('cancelled');
     });
 
+    it('csv_treatsFormulaLikeTargetsAsTextAndJsonPreservesOriginal', 0, () => {
+      for (const target of ['=1+1', '+SUM(1,2)', '-1+2', '@SUM(1,2)', '  =1+1', '\tformula', '\rformula', '\nformula',
+        '＝1+1', '＋1+1', '－1+1', '＠SUM(1,2)']) {
+        const record: ScanRecord = { id: 1, ts: 0, kind: ScanKind.PING, target: target,
+          status: ScanStatus.ERROR, summary: '{}' };
+        const csv: string = recordsToCsv([record]);
+        expect(csv).assertContain('"\'' + target + '"');
+        const parsed: ScanRecord[] = JSON.parse(recordsToJson([record])) as ScanRecord[];
+        expect(parsed[0].target).assertEqual(target);
+      }
+      const ordinary: ScanRecord = { id: 1, ts: 0, kind: ScanKind.PING, target: '木络.example',
+        status: ScanStatus.DONE, summary: '{}' };
+      expect(recordsToCsv([ordinary])).assertContain('"木络.example"');
+    });
+
     it('fileName_hasExpectedSuffix', 0, () => {
       expect(buildExportFileName(ExportFormat.CSV)).assertContain('.csv');
       expect(buildExportFileName(ExportFormat.JSON)).assertContain('.json');

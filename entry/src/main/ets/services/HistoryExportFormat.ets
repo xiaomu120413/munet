@@ -25,7 +25,9 @@ export function buildExportFileName(format: ExportFormat): string {
 }
 
 function csvEscape(value: string): string {
-  return '"' + value.replace(/"/g, '""') + '"';
+  // CSV quoting alone does not prevent spreadsheet formula evaluation.
+  const text: string = /^[\t\r\n]|^\s*[=+@＝＋＠－-]/.test(value) ? "'" + value : value;
+  return '"' + text.replace(/"/g, '""') + '"';
 }
 
 export function recordsToCsv(records: ScanRecord[]): string {

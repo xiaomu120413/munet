@@ -8,7 +8,7 @@ import { PortScanViewModel } from '../../../main/ets/viewmodel/PortScanViewModel
 import { LanDiscoveryViewModel } from '../../../main/ets/viewmodel/LanDiscoveryViewModel';
 import { HistoryViewModel } from '../../../main/ets/viewmodel/HistoryViewModel';
 import { PingViewModel } from '../../../main/ets/viewmodel/PingViewModel';
-import { HostResult, PortResult } from '../../../main/ets/model/ScanInfo';
+import { HostResult, PortResult, PortScanMode } from '../../../main/ets/model/ScanInfo';
 import { DiscoveredHost, ExportFormat, ScanKind, ScanRecord, ScanStatus } from '../../../main/ets/model/HistoryInfo';
 
 class MemoryHistory extends HistoryRepository {
@@ -56,6 +56,28 @@ class LoopbackNet extends LocalNetRepository {
 }
 export default function uiMigrationTest() {
   describe('UiMigration', () => {
+    it('portCorrectionClearsStaleValidationAndRevalidatesOnStart', 0, async () => {
+      const repo: DeferredScan = new DeferredScan();
+      const vm: PortScanViewModel = new PortScanViewModel(repo, new MemoryHistory());
+      vm.selectMode(PortScanMode.CUSTOM);
+      vm.setTarget('127.0.0.1');
+      vm.setCustomExpr('70000');
+      await vm.start();
+      expect(vm.error.length > 0).assertTrue();
+      expect(repo.calls).assertEqual(0);
+      vm.setCustomExpr('8080');
+      expect(vm.error).assertEqual('');
+      expect(vm.portCount()).assertEqual(1);
+      vm.setTarget('');
+      await vm.start();
+      expect(vm.error).assertEqual('请输入目标地址');
+      vm.setTarget('127.0.0.1');
+      expect(vm.error).assertEqual('');
+      const scan: Promise<void> = vm.start();
+      expect(repo.calls).assertEqual(1);
+      repo.finish([]);
+      await scan;
+    });
     it('pingStopWaitsForNativeCompletionBeforeRestart', 0, async () => {
       const repo: DeferredScan = new DeferredScan();
       const vm: PingViewModel = new PingViewModel(repo, new LoopbackNet(), new MemoryHistory());
