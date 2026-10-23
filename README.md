@@ -1,6 +1,6 @@
 # 木络 · MuNet
 
-当前包名 `com.muge.munet`（MuGe 系列），显示名“木络”。最新检查见[全页面布局稳定性记录](docs/release/2026-10-23-all-page-stability/README.md)；[包名变更记录](docs/release/2026-10-23-bundle-layout/README.md)保留。旧包名 `com.mu.nettools` 的数据保留，暂未提供跨包迁移。
+当前包名 `com.munet.app`（MuGe 系列），显示名“木络”。最新检查见[更名与重新安装验收](docs/release/2026-10-23-munet-app/README.md)；此前[包名变更记录](docs/release/2026-10-23-bundle-layout/README.md)保留。旧包 `com.muge.munet`、`com.mu.nettools` 的数据保留，暂未提供跨包迁移。
 
 新包名上架资料、权限范围及开发者回填清单统一见[上架资料入口](docs/release/2026-10-23-submission/README.md)。当前资料和未签名候选已准备，仍待真实后台资料、发布签名及正式包质量验证后送审。
 
@@ -55,7 +55,7 @@ HarmonyOS 本地网络诊断工具箱：本机网络信息 / TCP Ping / 端口�
 
 ```
 nettools/
-├── AppScope/                     # bundle: com.muge.munet
+├── AppScope/                     # bundle: com.munet.app
 ├── entry/src/main/
 │   ├── ets/pages/Index.ets       # 路由壳（导航 + View 装配）
 │   ├── ets/views/                # View 层（纯渲染）
@@ -84,19 +84,19 @@ export DEVECO_SDK_HOME="C:\Program Files\Huawei\DevEco Studio\sdk"
 
 # 2) 签名（每个设备 UDID 单独签一次；脚本与材料在同级 thirty 工作区，不入本仓库）
 bash ../thirty/tools/sign-local.sh entry/build/default/outputs/default/entry-default-unsigned.hap \
-    entry-default-signed.hap <UDID> com.muge.munet
+    entry-default-signed.hap <UDID> com.munet.app
 
 # 3) 安装 + 启动
 MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-default-signed.hap
-MSYS_NO_PATHCONV=1 hdc -t <UDID> shell "aa start -a EntryAbility -b com.muge.munet -m entry"
+MSYS_NO_PATHCONV=1 hdc -t <UDID> shell "aa start -a EntryAbility -b com.munet.app -m entry"
 
 # 4) 单元测试（ohosTest / hypium）
 ./hvigorw --mode module -p module=entry@ohosTest -p product=default assembleHap
 bash ../thirty/tools/sign-local.sh entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap \
-    entry-ohosTest-signed.hap <UDID> com.muge.munet
+    entry-ohosTest-signed.hap <UDID> com.munet.app
 MSYS_NO_PATHCONV=1 hdc -t <UDID> install -r entry-ohosTest-signed.hap
 MSYS_NO_PATHCONV=1 hdc -t <UDID> shell \
-    "aa test -b com.muge.munet -m entry_test -s unittest OpenHarmonyTestRunner -s timeout 60000"
+    "aa test -b com.munet.app -m entry_test -s unittest OpenHarmonyTestRunner -s timeout 60000"
 ```
 
 ## 注意事项（踩过的坑）

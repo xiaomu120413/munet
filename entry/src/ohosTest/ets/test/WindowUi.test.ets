@@ -12,10 +12,10 @@ export default function windowUiTest() {
       const delegator: abilityDelegatorRegistry.AbilityDelegator = abilityDelegatorRegistry.getAbilityDelegator();
       const driver: Driver = Driver.create();
       const originalRotation: DisplayRotation = await driver.getDisplayRotation();
-      await delegator.startAbility({ bundleName: 'com.muge.munet', abilityName: 'EntryAbility', moduleName: 'entry' });
+      await delegator.startAbility({ bundleName: 'com.munet.app', abilityName: 'EntryAbility', moduleName: 'entry' });
       await driver.delayMs(1200);
-      await driver.waitForComponent(ON.id('app-shell').inWindow('com.muge.munet'), 5000);
-      let app: UiWindow = await driver.findWindow({ bundleName: 'com.muge.munet' });
+      await driver.waitForComponent(ON.id('app-shell').inWindow('com.munet.app'), 5000);
+      let app: UiWindow = await driver.findWindow({ bundleName: 'com.munet.app' });
       if (app === null) { throw new Error('Application window unavailable after launch'); }
       const density: number = display.getDefaultDisplaySync().densityPixels;
       const originalMode: WindowMode = await app.getWindowMode();
@@ -24,17 +24,17 @@ export default function windowUiTest() {
         await driver.click(Math.round((full.left + full.right) / 2), full.top + Math.round(27 * density));
         await (await driver.waitForComponent(ON.text('切换悬浮窗'), 4000)).click();
         await driver.delayMs(800);
-        app = await driver.findWindow({ bundleName: 'com.muge.munet' });
+        app = await driver.findWindow({ bundleName: 'com.munet.app' });
         if (app === null) { throw new Error('Floating application window unavailable'); }
       }
       expect(await app.getWindowMode()).assertEqual(WindowMode.FLOATING);
       const original: Rect = await app.getBounds();
       const cacheDir: string = delegator.getAppContext().cacheDir;
-      const nav: Component = await driver.findComponent(ON.id('nav-1').inWindow('com.muge.munet'));
+      const nav: Component = await driver.findComponent(ON.id('nav-1').inWindow('com.munet.app'));
       if (nav !== null) { await nav.click(); }
       else {
-        await (await driver.findComponent(ON.id('bottom-nav-1').inWindow('com.muge.munet'))).click();
-        await (await driver.waitForComponent(ON.text('Ping').inWindow('com.muge.munet'), 3000)).click();
+        await (await driver.findComponent(ON.id('bottom-nav-1').inWindow('com.munet.app'))).click();
+        await (await driver.waitForComponent(ON.text('Ping').inWindow('com.munet.app'), 3000)).click();
       }
       await (await driver.waitForComponent(ON.id('ping-target'), 3000)).inputText('127.0.0.1');
       try {
@@ -45,11 +45,11 @@ export default function windowUiTest() {
           const size = await driver.getDisplaySize();
           if (size.x > size.y) { break; }
         }
-        app = await driver.findWindow({ bundleName: 'com.muge.munet' });
+        app = await driver.findWindow({ bundleName: 'com.munet.app' });
         if (app === null) { throw new Error('Application window unavailable after rotation'); }
         await app.moveTo(0, 100);
         for (const width of [320, 390, 600, 834, 1194, 1440]) {
-          app = await driver.findWindow({ bundleName: 'com.muge.munet' });
+          app = await driver.findWindow({ bundleName: 'com.munet.app' });
           if (app === null) { throw new Error('Application window unavailable before resize'); }
           await app.resize(Math.round(width * density), Math.round(620 * density), ResizeDirection.RIGHT_DOWN);
           await driver.delayMs(900);
@@ -74,7 +74,7 @@ export default function windowUiTest() {
           await scroll.scrollToTop();
         }
       } finally {
-        const current: UiWindow = await driver.findWindow({ bundleName: 'com.muge.munet' });
+        const current: UiWindow = await driver.findWindow({ bundleName: 'com.munet.app' });
         if (current !== null) {
           if (originalMode === WindowMode.FULLSCREEN) { await current.maximize(); }
           else {

@@ -1,0 +1,20 @@
+{
+  "matebook": {
+    "queried_bundle": "com.munet.app",
+    "bundle_name": "com.munet.app",
+    "versionName": "0.4.0",
+    "versionCode": 1000004
+  },
+  "phone": {
+    "queried_bundle": "com.munet.app",
+    "bundle_name": "com.munet.app",
+    "versionName": "0.4.0",
+    "versionCode": 1000004
+  },
+  "tablet": {
+    "queried_bundle": "com.munet.app",
+    "bundle_name": "com.munet.app",
+    "versionName": "0.4.0",
+    "versionCode": 1000004
+  }
+}

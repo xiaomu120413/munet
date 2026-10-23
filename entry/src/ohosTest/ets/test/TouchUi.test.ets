@@ -21,12 +21,12 @@ export default function touchUiTest() {
       const capturePrefix: string = params['-s capturePrefix'] ?? params['capturePrefix'] ?? '';
       const visualOnly: boolean = (params['-s touchVisualOnly'] ?? params['touchVisualOnly']) === '1';
       const find = async (id: string): Promise<Component> => {
-        const node: Component = await driver.waitForComponent(ON.id(id).inWindow('com.muge.munet'), 5000);
+        const node: Component = await driver.waitForComponent(ON.id(id).inWindow('com.munet.app'), 5000);
         if (node === null) { throw new Error('Missing touch control: ' + id + ' stage=' + stage); }
         return node;
       };
       const text = async (value: string): Promise<Component> => {
-        const node: Component = await driver.waitForComponent(ON.text(value).inWindow('com.muge.munet'), 5000);
+        const node: Component = await driver.waitForComponent(ON.text(value).inWindow('com.munet.app'), 5000);
         if (node === null) { throw new Error('Missing touch text: ' + value); }
         return node;
       };
@@ -47,7 +47,7 @@ export default function touchUiTest() {
         throw new Error('Requested screen shape unavailable');
       };
       const nav = async (page: number): Promise<void> => {
-        const side: Component = await driver.findComponent(ON.id('nav-' + page).inWindow('com.muge.munet'));
+        const side: Component = await driver.findComponent(ON.id('nav-' + page).inWindow('com.munet.app'));
         if (side !== null && page !== 6) { await side.click(); }
         else {
           await (await find('bottom-nav-' + (page === 0 ? 0 : page === 4 ? 2 : page === 5 ? 3 : 1))).click();
@@ -58,14 +58,14 @@ export default function touchUiTest() {
         await driver.delayMs(400);
       };
       const contentScroll = async (): Promise<Component> => {
-        const nodes: Component[] = await driver.findComponents(ON.type('Scroll').inWindow('com.muge.munet'));
+        const nodes: Component[] = await driver.findComponents(ON.type('Scroll').inWindow('com.munet.app'));
         if (nodes.length === 0) { throw new Error('Missing content scroll'); }
         return nodes[nodes.length - 1];
       };
       const reach = async (scrollId: string, id: string): Promise<Component> => {
         const scroll: Component = scrollId === 'ping-content' ? await find(scrollId) :
           await contentScroll();
-        const node: Component = await scroll.scrollSearch(ON.id(id).inWindow('com.muge.munet'));
+        const node: Component = await scroll.scrollSearch(ON.id(id).inWindow('com.munet.app'));
         if (node === null) { throw new Error('Unreachable touch control: ' + id); }
         return node;
       };
@@ -89,10 +89,10 @@ export default function touchUiTest() {
           }
         }
       };
-      await delegator.startAbility({ bundleName: 'com.muge.munet', moduleName: 'entry', abilityName: 'EntryAbility' });
+      await delegator.startAbility({ bundleName: 'com.munet.app', moduleName: 'entry', abilityName: 'EntryAbility' });
       await find('app-shell');
       if (tablet) {
-        const app: UiWindow = await driver.findWindow({ bundleName: 'com.muge.munet' });
+        const app: UiWindow = await driver.findWindow({ bundleName: 'com.munet.app' });
         if (app !== null && await app.getWindowMode() !== WindowMode.FULLSCREEN) {
           await app.maximize();
           await driver.delayMs(800);
@@ -177,7 +177,7 @@ export default function touchUiTest() {
         await (await reach('port-content', 'port-start')).click();
         await driver.waitForComponent(ON.id('port-start').text('开始扫描'), 15000);
         await (await contentScroll()).scrollToBottom();
-        expect(await driver.waitForComponent(ON.text('8080', MatchPattern.STARTS_WITH).inWindow('com.muge.munet'), 5000) !== null).assertTrue();
+        expect(await driver.waitForComponent(ON.text('8080', MatchPattern.STARTS_WITH).inWindow('com.munet.app'), 5000) !== null).assertTrue();
         await capture('port-results');
         await nav(3);
         await input('lan-cidr', '127.0.0.1/32');

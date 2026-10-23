@@ -1,10 +1,11 @@
 {
   "date": "2026-10-23",
-  "baseline_commit": "f80c019",
-  "bundle": "com.muge.munet",
+  "baseline_commit": "dcf9e01",
+  "bundle": "com.munet.app",
+  "previous_bundle": "com.muge.munet",
   "version": "0.4.0",
   "versionCode": 1000004,
-  "runtime_source_unchanged_from_accepted_candidate": true,
+  "runtime_only_bundle_configuration_changed": true,
   "runtime_sources_verified": 63,
   "test_sources_verified": 12,
   "permissions": [
@@ -13,39 +14,39 @@
     "ohos.permission.INTERNET"
   ],
   "artifacts": {
-    "munet-0.4.0-20261023-all-pages-unsigned.hap": {
-      "bytes": 5502218,
-      "sha256": "99ba79582361534fd33e0573a548a24c3eb04de8b5ae58b4ed91fe6fcf27f540"
+    "munet-0.4.0-20261023-munet-app-unsigned.hap": {
+      "bytes": 5502132,
+      "sha256": "18a5173f1d58cc7e091a796d23ae7dcacd298e3bdf80c5698610060571e3bd44"
     },
-    "munet-0.4.0-20261023-all-pages-unsigned.app": {
-      "bytes": 3051778,
-      "sha256": "1397afa843cc806484544dfe9b6b5ef5c342629cd96a930d4b9650e5306ce45a"
+    "munet-0.4.0-20261023-munet-app-unsigned.app": {
+      "bytes": 3051809,
+      "sha256": "5d2c4ac48377c9bfb1001c05a4d6a8f3ffc8a3fc2164bd0c6184a14353d33da2"
     }
   },
   "tests": {
-    "docs/release/2026-10-23-all-page-stability/matebook-unit-tests.txt": {
+    "docs/release/2026-10-23-munet-app/matebook-unit-tests.txt": {
       "passed": 18,
-      "sha256": "2b5516ee27d032adee812fba8cc2331934fb02e5e2ab41af864b97df65744dd6"
+      "sha256": "b5725f11d7c939ffaa44eff8f86cb95afc9da8c1f92eca978b2000e144d57fd7"
     },
-    "docs/release/2026-10-23-all-page-stability/matebook-ui-tests.txt": {
+    "docs/release/2026-10-23-munet-app/matebook-ui-tests.txt": {
       "passed": 19,
-      "sha256": "b531ee6f15f70d58aa51c845d3ce7be7e1a12cf3818e8cc13d6343b30217ce80"
+      "sha256": "55868dc615b96cba3fde21559e7996ad2d6cea8a7294e04a742f2e3173fd56e2"
     },
-    "docs/release/2026-10-23-all-page-stability/phone-unit-tests.txt": {
+    "docs/release/2026-10-23-munet-app/phone-unit-tests.txt": {
       "passed": 18,
-      "sha256": "77b7690319c7f801cf56754381f0108b612fab809e1da330e3eb3ae4c8df8a55"
+      "sha256": "9d2a7edd14f100c86b2e2dd9b4ff64e57ee0993a3488f071627a65e395b73ca1"
     },
-    "docs/release/2026-10-23-all-page-stability/phone-ui-tests.txt": {
+    "docs/release/2026-10-23-munet-app/phone-ui-tests.txt": {
       "passed": 19,
-      "sha256": "48187e317c6a8e72d33c75665e7ca917ef0115b17ac2840ba48d90fa4477c650"
+      "sha256": "5ea93a0c071c862fb3264b24ea52b76e7c67533240b046237a1028a96870f6fb"
     },
-    "docs/release/2026-10-23-all-page-stability/tablet-unit-tests.txt": {
+    "docs/release/2026-10-23-munet-app/tablet-unit-tests.txt": {
       "passed": 18,
-      "sha256": "d74a0725ad1770bc67f6d3f44f64bd716709b412db3d3c452573c35ea4e6f64d"
+      "sha256": "1a07ff7a925b87928d62f4991033abdc51a952df11c157ca0bb71d5d956e78d6"
     },
-    "docs/release/2026-10-23-all-page-stability/tablet-ui-tests.txt": {
+    "docs/release/2026-10-23-munet-app/tablet-ui-tests.txt": {
       "passed": 19,
-      "sha256": "e05219faccde990cb05b13924688de936d88017cd0bf71caa967f311537c1899"
+      "sha256": "74579e200468e161eccb8268f29ea2d3458919a7099cd25209c122119ac1cd47"
     }
   },
   "icon_sources": {
@@ -80,16 +81,16 @@
     "final_signed_package_quality_and_store_visuals"
   ],
   "sources": {
-    "runtime_manifest": "docs/release/2026-10-23-all-page-stability/release-manifest.json",
-    "test_manifest": "docs/release/2026-10-23-all-page-stability/verification-manifest.json"
+    "runtime_manifest": "docs/release/2026-10-23-munet-app/release-manifest.json",
+    "test_manifest": "docs/release/2026-10-23-munet-app/verification-manifest.json"
   },
   "material_sha256": {
-    "DATA-MAP.md": "0528dcfebcf14fa93ae55e9101f7f909ef8e8382d1e849671d68b2df78adc404",
-    "OWNER-CHECKLIST.md": "3e989d9ab08ddf83b5dfd25376e9d6aaf2efc3ce403f46b87f21dfb99b868cc7",
-    "PERMISSIONS.md": "1c98b09666fcbdd0db2191391626b4d44f4af0fc493c7beaf8540a0471a09e18",
-    "README.md": "2b5d5361a80b0efd67511a17a378ae75dd4bce9b261e137222b77752eddac552",
-    "SCREENSHOTS.md": "fccf3118e91408fc4e70428b83f4b81bc53834c75cee07ebff818c797e62212d",
-    "SOURCES.md": "32780d96dbc4494a279d66f5adeaeab5a6cd4ee449550b6ebd36efe8f88e8d57",
-    "STORE-LISTING.md": "6886abe23770c2d6282714c56dddd8d2e08e07961a4e9f487cb58f02438ac26c"
+    "DATA-MAP.md": "eb33bf9ed66e2dc2c36741031be6c895c8f863b5bc10caa251fff250feef20b4",
+    "OWNER-CHECKLIST.md": "6ca7686cf6e1df1c4662ecbfa54b77e51c4b212c518d0760a4fca90471a08a10",
+    "PERMISSIONS.md": "162cb69ac69e1307d8a275b87877ee0d0d169506334be7417a7b1250a5a11b5b",
+    "README.md": "3235ee32e20eb4e028e7dcb765fb43ce0aaa3ec23dfcf486bf69c5617865dbbf",
+    "SCREENSHOTS.md": "4ae3c02ef7164bdadfaa4c1112e89ed794db5a71af50ab594fb92d33585ab83a",
+    "SOURCES.md": "cda526d8871a12eead4df6128517bb3686408120ca1a7f557ee79592ae9cb5ae",
+    "STORE-LISTING.md": "b54cd046ba8c61ba2a80cafd3d31901d0b42f9a5e5c6f5bcb2540199b0aa213e"
   }
 }

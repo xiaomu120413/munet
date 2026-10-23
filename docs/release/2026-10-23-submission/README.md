@@ -1,6 +1,6 @@
-# 木络上架资料：com.muge.munet
+# 木络上架资料：com.munet.app
 
-整理及官网核对日期：2026-10-23。代码基线 f80c019；显示名木络，英文名 MuNet，系列标识 MuGe。当前候选0.4.0／1000004，最低API22、目标API26，声明手机、平板、PC／2in1。
+整理及官网核对日期：2026-10-23。本轮在代码基线dcf9e01上将包名改为com.munet.app，并重新构建、签名安装和验收；官网资料沿用同日核对结果。显示名木络，英文名MuNet，系列标识MuGe。当前候选0.4.0／1000004，最低API22、目标API26，声明手机、平板、PC／2in1。
 
 **资料与未签名候选已准备；暂不能正式送审。** 未登录开发者中心、创建发布单、上传或提交审核。包名可注册性、APP ID关联和后台资质状态尚未核实。
 
@@ -15,10 +15,10 @@
 
 | 项目 | 当前结果 | 上架前处理 |
 |---|---|---|
-| 应用身份及权限声明 | com.muge.munet；仅INTERNET、GET_NETWORK_INFO、GET_WIFI_INFO | 后台APP ID、包名、Profile及备案信息保持一致 |
+| 应用身份及权限声明 | com.munet.app；仅INTERNET、GET_NETWORK_INFO、GET_WIFI_INFO | 后台APP ID、包名、Profile及备案信息保持一致 |
 | Release候选 | debug=false；双ABI；APP／HAP一致；无测试模块 | 使用正式发布签名，不上传unsigned或local文件 |
 | 本地功能验收 | PC实机、手机／平板模拟器最终UI运行各19/19，含18项单元测试 | 最终正式签名包补验证；三端重复执行不累计成57项独立测试 |
-| 界面稳定性 | 全页、六档PC宽度、短窗口、键鼠、平板旋转及任务结果已验收 | 详见[最终记录](../2026-10-23-all-page-stability/README.md)；本轮未重复完整深色／最大字体矩阵 |
+| 界面稳定性 | 全页、六档PC宽度、短窗口、键鼠、平板旋转及任务结果已验收 | 详见[最终记录](../2026-10-23-munet-app/README.md)；本轮未重复完整深色／最大字体矩阵 |
 | 正式签名 | 工程signingConfigs为空；设备验收为调试Profile | 待开发者配置发布证书、发布Profile及对应密钥 |
 | 隐私与联系资料 | 无真实政策URL、主体或客服信息 | 待确认并完成后台声明／标签；送审前落实所需可访问入口和授权时机 |
 | 主体／地区／资质 | 尚未获得后台信息 | 实名、APP备案及类目要求按实际主体和分发范围办理 |
@@ -28,13 +28,13 @@
 
 ## 候选与归档
 
-本轮继续使用已验收候选，不因整理文档重新改动运行代码或重复构建：
+本轮使用按com.munet.app重新构建的候选；旧包的构建、签名及测试记录不作为新包验收证据：
 
-- artifacts/release/0.4.0/munet-0.4.0-20261023-all-pages-unsigned.app
-- artifacts/release/0.4.0/munet-0.4.0-20261023-all-pages-unsigned.hap
-- [复核清单](submission-inventory.json)：当前源码、产物、验收日志和品牌源图SHA；重跑发布产物检查并比对上次冻结的运行源码哈希。
-- 整理包：artifacts/release/0.4.0/munet-com.muge.munet-store-materials-20261023.zip。包含本目录文案、权限／材料清单、品牌源文件、最新验收证据和unsigned候选；不含任何证书、Profile、私钥或设备签名安装包，不能直接当正式上传包。
+- artifacts/release/0.4.0/munet-0.4.0-20261023-munet-app-unsigned.app
+- artifacts/release/0.4.0/munet-0.4.0-20261023-munet-app-unsigned.hap
+- [复核清单](submission-inventory.json)：当前源码、产物、新包验收日志和品牌源图SHA；重新执行发布产物检查，确认运行源码仅应用包名配置发生变化。
+- 整理包：artifacts/release/0.4.0/munet-com.munet.app-store-materials-20261023.zip。包含本目录文案、权限／材料清单、品牌源文件、最新验收证据和unsigned候选；不含任何证书、Profile、私钥或设备签名安装包，不能直接当正式上传包。
 
-旧包com.mu.nettools的历史归档不修改，也不能作为新包签名依据。新旧包是独立安装身份，现无跨包数据导入／自动迁移功能。
+旧包com.muge.munet、com.mu.nettools的历史归档不修改，也不能作为新包签名依据。新旧包是独立安装身份，现无跨包数据导入／自动迁移功能。
 
 官网依据和抓取边界见[来源记录](SOURCES.md)。上架阶段按上述缺项推进，不将本地验收通过等同于审核一定通过。

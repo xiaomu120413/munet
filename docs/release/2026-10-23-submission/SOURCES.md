@@ -12,11 +12,11 @@
 
 ## 本地证据
 
-- AppScope/app.json5：com.muge.munet、MuGe、0.4.0／1000004。
+- AppScope/app.json5：com.munet.app、MuGe、0.4.0／1000004。
 - entry/src/main/module.json5：手机／平板／2in1，只有三项普通网络权限。
 - build-profile.json5：最低API22、目标API26，正式签名配置为空；不能把本地调试Profile当正式发布材料。
 - [SDK权限定义](../../ui-verification/phase9/sdk-permissions.json)和[接口位置](../../ui-verification/phase9/sdk-network-api.json)：等级、授权方式及版本依据；这些是API定义证据，不把旧包权限实测套用于新包授权。
-- [最新验收](../2026-10-23-all-page-stability/README.md)：默认18项测试及平台UI综合用例的真实运行结果，来源为PC实机及手机／平板模拟器。
+- [最新验收](../2026-10-23-munet-app/README.md)：默认18项测试及平台UI综合用例的真实运行结果，来源为PC实机及手机／平板模拟器。
 - scripts/check_release.py及[发布产物复核](submission-inventory.json)：unsigned APP／HAP、运行源码和测试证据哈希。
 
 没有取得运营主体、后台APP ID、正式证书／Profile、政策URL或备案结果，不制作虚构值。正式包上架前仍需补最终质量与素材；该资料包的状态始终是准备完成、等待开发者资料，不是已经上传或审核通过。

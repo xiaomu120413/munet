@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.muge.munet",
+    "bundleName": "com.munet.app",
     "vendor": "MuGe",
     "versionCode": 1000004,
     "versionName": "0.4.0",
